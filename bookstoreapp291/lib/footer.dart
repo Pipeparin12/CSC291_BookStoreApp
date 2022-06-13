@@ -4,31 +4,24 @@ import 'package:flutter/src/widgets/framework.dart';
 
 int _selectedIndex = 0;
 
-class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+class footer extends StatefulWidget {
+  const footer({Key? key}) : super(key: key);
 
   @override
-  State<MainScreen> createState() => _MyWidgetState();
+  State<footer> createState() => _footerState();
 }
 
-class _MyWidgetState extends State<MainScreen> {
+class _footerState extends State<footer> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Seller centre'),
-        centerTitle: true,
-        backgroundColor: Colors.grey,
-        leading: Icon(Icons.add_shopping_cart_rounded),
-      ),
-      body: Center(),
-      bottomNavigationBar: BottomNavigationBar(
+    return Container(
+      child: BottomNavigationBar(
         type: BottomNavigationBarType.shifting,
         selectedFontSize: 15,
         selectedIconTheme: IconThemeData(color: Colors.grey[850]),
         selectedItemColor: Colors.grey[850],
-        selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
-        unselectedIconTheme: IconThemeData(color: Colors.grey),
+        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
+        unselectedIconTheme: const IconThemeData(color: Colors.grey),
         unselectedItemColor: Colors.grey,
         backgroundColor: Colors.grey,
         items: const <BottomNavigationBarItem>[

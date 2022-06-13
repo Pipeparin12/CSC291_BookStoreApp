@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:bookstoreapp291/Sellerpage.dart';
+import 'package:bookstoreapp291/seller_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,7 +11,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: MainScreen(),
+      initialRoute: '/',
+      routes: {'/sellercentre': (context) => SellerCentre()},
     );
   }
 }

@@ -16,10 +16,10 @@ class _MyWidgetState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Book Store'),
+        title: Text('Seller centre'),
         centerTitle: true,
         backgroundColor: Colors.grey,
-        leading: Icon(Icons.sell),
+        leading: Icon(Icons.add_shopping_cart_rounded),
       ),
       body: Center(),
       bottomNavigationBar: BottomNavigationBar(
@@ -33,12 +33,12 @@ class _MyWidgetState extends State<MainScreen> {
         backgroundColor: Colors.grey,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.bookmark_border),
-            label: 'Bookmark',
+            icon: Icon(Icons.home),
+            label: 'SellerCentre',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Homepage',
+            icon: Icon(Icons.add_circle_outline),
+            label: 'AddBook',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_outlined),

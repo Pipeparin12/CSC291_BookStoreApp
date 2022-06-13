@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:bookstoreapp291/cart.dart';
 
 int _selectedIndex = 0;
 
@@ -20,8 +21,20 @@ class _MyWidgetState extends State<MainScreen> {
         centerTitle: true,
         backgroundColor: Colors.grey,
         leading: Icon(Icons.sell),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.shopping_cart),
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return CartPage();
+              }));
+            },
+          )
+        ],
       ),
-      body: Center(),
+      body: Center(
+        
+      ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.shifting,
         selectedFontSize: 15,

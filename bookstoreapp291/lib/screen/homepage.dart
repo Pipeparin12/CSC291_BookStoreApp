@@ -35,9 +35,10 @@ class _MyWidgetState extends State<MainScreen> {
         ],
       ),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[_search()],
+        children: <Widget>[
+          Padding(padding: EdgeInsets.only(top: 30)),
+          _search()
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.shifting,
@@ -93,7 +94,7 @@ Widget _search() {
                 hintText: "Search",
                 hintStyle: TextStyle(fontSize: 12),
                 contentPadding:
-                    EdgeInsets.only(left: 10, right: 10, bottom: 0, top: 5),
+                    EdgeInsets.only(left: 5, right: 5, bottom: 0, top: 5),
                 prefixIcon: Icon(Icons.search, color: Colors.black54)),
           ),
         ))

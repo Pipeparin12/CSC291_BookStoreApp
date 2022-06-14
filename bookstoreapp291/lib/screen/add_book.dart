@@ -1,6 +1,27 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
+class AddBook extends StatefulWidget {
+  const AddBook({Key? key}) : super(key: key);
+
+  @override
+  State<AddBook> createState() => _AddBookState();
+}
+
+class _AddBookState extends State<AddBook> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Add book for sale'),
+        centerTitle: true,
+        backgroundColor: Colors.grey,
+        leading: const Icon(Icons.arrow_back),
+      ),
+    );
+  }
+}
 
 int _selectedIndex = 0;
 

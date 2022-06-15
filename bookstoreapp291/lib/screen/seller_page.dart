@@ -157,12 +157,6 @@ class _BoxState extends State<Box> {
   }
 }
 
-int _selectedIndex = 0;
-final List<Widget> _children = [
-  SellerCentre(),
-  AddBook(),
-];
-
 class footer extends StatefulWidget {
   const footer({Key? key}) : super(key: key);
 
@@ -171,6 +165,18 @@ class footer extends StatefulWidget {
 }
 
 class _footerState extends State<footer> {
+  int _selectedIndex = 0;
+  final widgetOptions = [
+    new SellerCentre(),
+    new AddBook(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -201,11 +207,5 @@ class _footerState extends State<footer> {
         ],
       ),
     );
-  }
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
   }
 }

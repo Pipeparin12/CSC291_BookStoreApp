@@ -19,22 +19,22 @@ class Body extends StatelessWidget {
           ),
           ProfileMenu(
             text: "Payment",
-            icon: "assets/icons/.svg",
+            icon: "assets/icons/Bill Icon.svg",
             press: () {},
           ),
           ProfileMenu(
             text: "Email",
-            icon: "assets/icons/.svg",
+            icon: "assets/icons/Mail.svg",
             press: () {},
           ),
           ProfileMenu(
             text: "Phone Number",
-            icon: "assets/icons/Address.svg",
+            icon: "assets/icons/Phone.svg",
             press: () {},
           ),
           ProfileMenu(
             text: "Address",
-            icon: "assets/icons/.svg",
+            icon: "assets/icons/Discover.svg",
             press: () {},
           ),
         ],

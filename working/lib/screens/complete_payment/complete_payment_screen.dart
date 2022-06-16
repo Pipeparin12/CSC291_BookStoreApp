@@ -10,7 +10,7 @@ class CompletePaymentScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Fill the info'),
       ),
-      body: Sody(),
+      body: Body(),
     );
   }
 }

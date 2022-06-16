@@ -1,11 +1,12 @@
+import 'package:bookstoreapp291/screen/bookmark.dart';
+import 'package:bookstoreapp291/screen/profile.dart';
 import 'package:bookstoreapp291/theme/light_color.dart';
 import 'package:bookstoreapp291/theme/theme.dart';
+import 'package:bookstoreapp291/widget/extentions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:bookstoreapp291/screen/cart.dart';
-
-int _selectedIndex = 0;
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -38,41 +39,10 @@ class _MyWidgetState extends State<MainScreen> {
         children: <Widget>[
           Padding(padding: EdgeInsets.only(top: 30)),
           _search()
+          
         ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.shifting,
-        selectedFontSize: 15,
-        selectedIconTheme: IconThemeData(color: Colors.grey[850]),
-        selectedItemColor: Colors.grey[850],
-        selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
-        unselectedIconTheme: IconThemeData(color: Colors.grey),
-        unselectedItemColor: Colors.grey,
-        backgroundColor: Colors.grey,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bookmark_border),
-            label: 'Bookmark',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Homepage',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle_outlined),
-            label: 'Profile',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
       ),
     );
-  }
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
   }
 }
 

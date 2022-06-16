@@ -27,7 +27,7 @@ List<Product> demoProducts = [
   Product(
     id: 1,
     images: [
-      "assets/images/ps4_console_white_1.png",
+      "assets/images/Book2.jpeg",
       "assets/images/ps4_console_white_2.png",
       "assets/images/ps4_console_white_3.png",
       "assets/images/ps4_console_white_4.png",
@@ -38,7 +38,7 @@ List<Product> demoProducts = [
       Color(0xFFDECB9C),
       Colors.white,
     ],
-    title: "Wireless Controller for PS4™",
+    title: "Book of night™",
     price: 64.99,
     description: description,
     rating: 4.8,
@@ -48,7 +48,7 @@ List<Product> demoProducts = [
   Product(
     id: 2,
     images: [
-      "assets/images/Image Popular Product 2.png",
+      "assets/images/Book1.jpg",
     ],
     colors: [
       Color(0xFFF6625E),
@@ -56,7 +56,7 @@ List<Product> demoProducts = [
       Color(0xFFDECB9C),
       Colors.white,
     ],
-    title: "Nike Sport White - Man Pant",
+    title: "Book of god",
     price: 50.5,
     description: description,
     rating: 4.1,
@@ -65,7 +65,7 @@ List<Product> demoProducts = [
   Product(
     id: 3,
     images: [
-      "assets/images/glap.png",
+      "assets/images/Book2.jpg",
     ],
     colors: [
       Color(0xFFF6625E),
@@ -83,7 +83,7 @@ List<Product> demoProducts = [
   Product(
     id: 4,
     images: [
-      "assets/images/wireless headset.png",
+      "assets/images/Book3.jpg",
     ],
     colors: [
       Color(0xFFF6625E),
@@ -91,7 +91,7 @@ List<Product> demoProducts = [
       Color(0xFFDECB9C),
       Colors.white,
     ],
-    title: "Logitech Head",
+    title: "Tonight and always",
     price: 20.20,
     description: description,
     rating: 4.1,

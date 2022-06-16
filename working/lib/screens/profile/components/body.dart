@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/screens/complete_payment/complete_payment_screen.dart';
-import 'package:shop_app/screens/complete_payment/components/complete_payment_form.dart';
 import 'package:shop_app/screens/complete_profile/complete_profile_screen.dart';
 
 import 'profile_menu.dart';

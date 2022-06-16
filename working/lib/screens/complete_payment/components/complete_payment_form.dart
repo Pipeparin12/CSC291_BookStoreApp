@@ -77,7 +77,7 @@ class _CompletePaymentFormState extends State<CompletePaymentForm> {
     return TextFormField(
       onSaved: (newValue) => Cvc = newValue,
       decoration: InputDecoration(
-        labelText: "Cvc",
+        labelText: "CVC",
         hintText: "Enter your card cvc",
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
@@ -91,7 +91,7 @@ class _CompletePaymentFormState extends State<CompletePaymentForm> {
     return TextFormField(
       onSaved: (newValue) => Exp = newValue,
       decoration: InputDecoration(
-        labelText: "Exp",
+        labelText: "EXP",
         hintText: "Enter your card exp",
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly

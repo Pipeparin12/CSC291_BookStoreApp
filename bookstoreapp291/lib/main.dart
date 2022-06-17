@@ -1,4 +1,5 @@
 import 'package:bookstoreapp291/screen/add_book.dart';
+import 'package:bookstoreapp291/widget/sellerNavbar.dart';
 import 'package:flutter/material.dart';
 import 'package:bookstoreapp291/screen/seller_page.dart';
 
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: AddBook(),
+      home: SellerCentre(),
     );
   }
 }

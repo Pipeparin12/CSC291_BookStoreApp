@@ -17,31 +17,16 @@ class _SellerCentreState extends State<SellerCentre> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Seller Centre'),
+        title: Text('Seller Centre'),
         centerTitle: true,
         backgroundColor: Colors.grey,
-        leading: const Icon(Icons.add_shopping_cart_rounded),
+        leading: Icon(Icons.add_shopping_cart),
       ),
-      body: Column(
-        children: <Widget>[
-          Padding(padding: EdgeInsets.all(10)),
-          const Text(
-            'Your sell book list',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Expanded(
-              child: Column(
-            children: [
-              Box(amount: 1, price: 200, name: "Book01"),
-              Box(amount: 2, price: 400, name: "Book02")
-            ],
-          )),
-          const SellerNavBar()
-        ],
-      ),
+      body: Column(children: <Widget>[
+        Padding(padding: EdgeInsets.all(10)),
+        Box(amount: 1, price: 400, name: 'Book1'),
+        Box(amount: 2, price: 1000, name: 'Book2'),
+      ]),
     );
   }
 }

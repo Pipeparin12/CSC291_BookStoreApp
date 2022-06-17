@@ -36,7 +36,6 @@ class _AddBookState extends State<AddBook> {
                 Expanded(child: _allEntryFieldWidget()),
               ],
             )),
-            SellerNavBar()
           ],
         ),
       ),

@@ -39,7 +39,6 @@ class _MyWidgetState extends State<MainScreen> {
         children: <Widget>[
           Padding(padding: EdgeInsets.only(top: 30)),
           _search()
-          
         ],
       ),
     );
@@ -72,3 +71,7 @@ Widget _search() {
     ),
   );
 }
+
+// Widget _productShow() {
+//   return SafeArea(child: child)
+// }

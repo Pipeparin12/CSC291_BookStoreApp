@@ -13,6 +13,7 @@ class CartPage extends StatelessWidget {
         title: Text('Cart'),
         centerTitle: true,
       ),
+      
     );
   }
 }

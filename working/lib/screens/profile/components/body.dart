@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/screens/complete_email/complete_email_screen.dart';
 import 'package:shop_app/screens/complete_payment/complete_payment_screen.dart';
 import 'package:shop_app/screens/complete_profile/complete_profile_screen.dart';
 
@@ -29,7 +30,8 @@ class Body extends StatelessWidget {
           ProfileMenu(
             text: "Email",
             icon: "assets/icons/Mail.svg",
-            press: () {},
+            press: () =>
+                Navigator.pushNamed(context, CompleteEmailScreen.routeName),
           ),
           ProfileMenu(
             text: "Phone Number",

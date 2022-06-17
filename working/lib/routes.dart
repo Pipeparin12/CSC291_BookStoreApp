@@ -37,5 +37,5 @@ final Map<String, WidgetBuilder> routes = {
   CompletePaymentScreen.routeName: (context) => CompletePaymentScreen(),
   CompleteEmailScreen.routeName: (context) => CompleteEmailScreen(),
   CompletePhoneScreen.routeName: (context) => CompletePhoneScreen(),
-  CompleteAddressScreen.routeName: (context) => CompleteProfileScreen(),
+  CompleteAddressScreen.routeName: (context) => CompleteAddressScreen(),
 };

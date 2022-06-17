@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/components/default_button.dart';
+import 'package:shop_app/screens/profile/profile_screen.dart';
 import 'package:shop_app/size_config.dart';
 
 import '../../../constants.dart';
@@ -108,9 +109,9 @@ class _OtpFormState extends State<OtpForm> {
           ),
           SizedBox(height: SizeConfig.screenHeight * 0.15),
           DefaultButton(
-            text: "Continue",
-            press: () {},
-          )
+            text: "Comfirm",
+            press: () => Navigator.pushNamed(context, ProfileScreen.routeName),
+          ),
         ],
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/components/default_button.dart';
+import 'package:shop_app/screens/otp_phone/otp_screen.dart';
 import 'package:shop_app/screens/profile/profile_screen.dart';
 
 import '../../../size_config.dart';
@@ -44,7 +45,7 @@ class _CompletePhoneFormState extends State<CompletePhoneForm> {
             text: "CONTINUE",
             press: () {
               if (_formKey.currentState!.validate()) {
-                Navigator.pushNamed(context, ProfileScreen.routeName);
+                Navigator.pushNamed(context, OtpPhoneScreen.routeName);
               }
             },
           ),

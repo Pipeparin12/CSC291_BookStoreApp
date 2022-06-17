@@ -72,8 +72,8 @@ class _CompletePhoneFormState extends State<CompletePhoneForm> {
     return TextFormField(
       onSaved: (newValue) => ReEnterPhoneNum = newValue,
       decoration: InputDecoration(
-        labelText: "ReEnterPhoneNum",
-        hintText: "Enter your Phone Number Agian",
+        labelText: "ReEnterPhoneNumber",
+        hintText: "Comfirm Phone Number",
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,

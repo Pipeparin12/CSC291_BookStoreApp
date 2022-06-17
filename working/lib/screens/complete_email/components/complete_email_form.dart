@@ -4,6 +4,7 @@ import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/screens/otp/otp_screen.dart';
 import 'package:shop_app/screens/profile/profile_screen.dart';
 
+import '../../../constants.dart';
 import '../../../size_config.dart';
 
 class CompleteEmailForm extends StatefulWidget {
@@ -59,10 +60,29 @@ class _CompleteEmailFormState extends State<CompleteEmailForm> {
 
   TextFormField buildEmailFormField() {
     return TextFormField(
+      keyboardType: TextInputType.emailAddress,
       onSaved: (newValue) => Email = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: kEmailNullError);
+        } else if (emailValidatorRegExp.hasMatch(value)) {
+          removeError(error: kInvalidEmailError);
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value!.isEmpty) {
+          addError(error: kEmailNullError);
+          return "";
+        } else if (!emailValidatorRegExp.hasMatch(value)) {
+          addError(error: kInvalidEmailError);
+          return "";
+        }
+        return null;
+      },
       decoration: InputDecoration(
         labelText: "Email",
-        hintText: "Enter your Email",
+        hintText: "Enter your email",
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -73,10 +93,29 @@ class _CompleteEmailFormState extends State<CompleteEmailForm> {
 
   TextFormField buildReEnterEmailFormField() {
     return TextFormField(
+      keyboardType: TextInputType.emailAddress,
       onSaved: (newValue) => ReEnterEmail = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: kEmailNullError);
+        } else if (emailValidatorRegExp.hasMatch(value)) {
+          removeError(error: kInvalidEmailError);
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value!.isEmpty) {
+          addError(error: kEmailNullError);
+          return "";
+        } else if (!emailValidatorRegExp.hasMatch(value)) {
+          addError(error: kInvalidEmailError);
+          return "";
+        }
+        return null;
+      },
       decoration: InputDecoration(
         labelText: "Comfirm Email",
-        hintText: "Enter your Email Again",
+        hintText: "Enter your email Agian",
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,

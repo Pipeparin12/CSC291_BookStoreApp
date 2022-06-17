@@ -17,29 +17,40 @@ class _AddBookState extends State<AddBook> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Add book for sale'),
-        centerTitle: true,
-        backgroundColor: Colors.grey,
-        leading: IconButton(
-            onPressed: (() {
-              Navigator.of(context).pop();
-            }),
-            icon: Icon(Icons.arrow_back)),
-      ),
-      body: Container(
-        child: Column(
-          children: [
-            Expanded(
-                child: Column(
-              children: [
-                Expanded(child: _allEntryFieldWidget()),
-              ],
-            )),
-          ],
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          title: const Text('Add book for sale'),
+          centerTitle: true,
+          backgroundColor: Colors.grey,
+          leading: IconButton(
+              onPressed: (() {
+                Navigator.of(context).pop();
+              }),
+              icon: Icon(Icons.arrow_back)),
         ),
-      ),
-    );
+        body: CustomScrollView(
+          slivers: [
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Column(
+                children: [
+                  Expanded(
+                      child: SizedBox(
+                    child: Column(
+                      children: [
+                        Expanded(child: _allEntryFieldWidget()),
+                        ElevatedButton(
+                          onPressed: () {},
+                          child: const Text('Confirm'),
+                        )
+                      ],
+                    ),
+                  )),
+                ],
+              ),
+            )
+          ],
+        ));
   }
 }
 
@@ -73,7 +84,7 @@ Widget _allEntryFieldWidget() {
 
 Widget _entryField(String title) {
   return Container(
-    margin: EdgeInsets.symmetric(vertical: 10),
+    margin: EdgeInsets.only(left: 30, right: 30, top: 15),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[

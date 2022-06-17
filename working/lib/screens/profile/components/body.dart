@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/screens/complete_email/complete_email_screen.dart';
 import 'package:shop_app/screens/complete_payment/complete_payment_screen.dart';
+import 'package:shop_app/screens/complete_phone/complete_phone_screen.dart';
 import 'package:shop_app/screens/complete_profile/complete_profile_screen.dart';
 
 import 'profile_menu.dart';
@@ -36,7 +37,8 @@ class Body extends StatelessWidget {
           ProfileMenu(
             text: "Phone Number",
             icon: "assets/icons/Phone.svg",
-            press: () {},
+            press: () =>
+                Navigator.pushNamed(context, CompletePhoneScreen.routeName),
           ),
           ProfileMenu(
             text: "Address",

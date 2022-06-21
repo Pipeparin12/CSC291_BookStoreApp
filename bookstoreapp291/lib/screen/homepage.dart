@@ -2,6 +2,7 @@ import 'package:bookstoreapp291/screen/bookmark.dart';
 import 'package:bookstoreapp291/screen/profile.dart';
 import 'package:bookstoreapp291/theme/light_color.dart';
 import 'package:bookstoreapp291/theme/theme.dart';
+import 'package:bookstoreapp291/widget/bookCard.dart';
 import 'package:bookstoreapp291/widget/extentions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -38,7 +39,8 @@ class _MyWidgetState extends State<MainScreen> {
       body: Column(
         children: <Widget>[
           Padding(padding: EdgeInsets.only(top: 30)),
-          _search()
+          _search(),
+          bookCard(name: 'Sapiens Homosapiens', price: 400, image: ''),
         ],
       ),
     );

@@ -22,12 +22,66 @@ class _SellerCentreState extends State<SellerCentre> {
         backgroundColor: Colors.grey,
         leading: Icon(Icons.add_shopping_cart),
       ),
-      body: Column(children: <Widget>[
-        Padding(padding: EdgeInsets.all(10)),
-        Text('Your sell book list'),
-        ProductBox(name: 'Book1', amount: '1', price: 400, image: ''),
-        ProductBox(name: 'Book1', amount: '1', price: 400, image: ''),
-      ]),
+      body: SingleChildScrollView(
+        child: Column(children: <Widget>[
+          Padding(padding: EdgeInsets.all(10)),
+          Padding(
+            padding: EdgeInsets.only(top: 8.0, bottom: 15.0),
+            child: const Text(
+              'Your sell book list',
+              style: TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          ProductBox(
+              name: 'Book1',
+              amount: '1',
+              price: 400,
+              image: 'images/arleneFink.jpg'),
+          ProductBox(
+              name: 'Book1',
+              amount: '1',
+              price: 400,
+              image: 'images/blueBook.jpg'),
+          ProductBox(
+              name: 'Book1',
+              amount: '1',
+              price: 400,
+              image: 'images/arleneFink.jpg'),
+          ProductBox(
+              name: 'Book1',
+              amount: '1',
+              price: 400,
+              image: 'images/arleneFink.jpg'),
+          ProductBox(
+              name: 'Book1',
+              amount: '1',
+              price: 400,
+              image: 'images/arleneFink.jpg'),
+          ProductBox(
+              name: 'Book1',
+              amount: '1',
+              price: 400,
+              image: 'images/arleneFink.jpg'),
+          ProductBox(
+              name: 'Book1',
+              amount: '1',
+              price: 400,
+              image: 'images/arleneFink.jpg'),
+          ProductBox(
+              name: 'Book1',
+              amount: '1',
+              price: 400,
+              image: 'images/arleneFink.jpg'),
+          ProductBox(
+              name: 'Book1',
+              amount: '1',
+              price: 400,
+              image: 'images/arleneFink.jpg'),
+        ]),
+      ),
     );
   }
 }
@@ -52,20 +106,89 @@ class ProductBox extends StatelessWidget {
         child: Card(
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-              Image.asset("assets/appimages/" + image),
+              Padding(
+                padding: EdgeInsets.all(5.0),
+                child: Image.asset(
+                  image,
+                  fit: BoxFit.contain,
+                ),
+              ),
               Expanded(
-                  child: Container(
-                      padding: EdgeInsets.all(5),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          Text(this.name,
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          Text("Amount: " + this.amount),
-                          Text("Price: " + this.price.toString()),
-                        ],
-                      )))
+                child: Container(
+                  padding: EdgeInsets.all(5),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Text(this.name,
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text("Amount: " + this.amount),
+                      Text("Price: " + this.price.toString()),
+                    ],
+                  ),
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          scrollable: true,
+                          title: Text('Edit'),
+                          content: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Form(
+                              child: Column(
+                                children: <Widget>[
+                                  _entryField("Name"),
+                                  _entryField("Description"),
+                                  _entryField("Price"),
+                                  _entryField("Amount"),
+                                ],
+                              ),
+                            ),
+                          ),
+                          actions: [
+                            Padding(
+                              padding: EdgeInsets.all(15.0),
+                              child: ElevatedButton(
+                                onPressed: () {},
+                                child: Text('Save'),
+                              ),
+                            )
+                          ],
+                        );
+                      });
+                },
+                icon: Icon(Icons.create_rounded),
+              ),
+              IconButton(onPressed: () {}, icon: Icon(Icons.delete))
             ])));
   }
+}
+
+Widget _entryField(String title) {
+  return Container(
+    margin: EdgeInsets.only(left: 30, right: 30, top: 15),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          title,
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        TextField(
+            autofocus: true,
+            decoration: InputDecoration(
+                border: InputBorder.none,
+                fillColor: Color(0xfff3f3f4),
+                filled: true))
+      ],
+    ),
+  );
 }

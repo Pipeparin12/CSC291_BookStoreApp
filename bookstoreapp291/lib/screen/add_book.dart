@@ -39,9 +39,16 @@ class _AddBookState extends State<AddBook> {
                     child: Column(
                       children: [
                         Expanded(child: _allEntryFieldWidget()),
-                        ElevatedButton(
-                          onPressed: () {},
-                          child: const Text('Confirm'),
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 30.0),
+                          child: ElevatedButton(
+                            style: ButtonStyle(
+                              padding: MaterialStateProperty.all(
+                                  const EdgeInsets.all(20.0)),
+                            ),
+                            onPressed: () {},
+                            child: const Text('Confirm'),
+                          ),
                         )
                       ],
                     ),
@@ -96,6 +103,7 @@ Widget _entryField(String title) {
           height: 10,
         ),
         TextField(
+            autofocus: true,
             decoration: InputDecoration(
                 border: InputBorder.none,
                 fillColor: Color(0xfff3f3f4),

@@ -25,10 +25,15 @@ class ProfilePic extends StatelessWidget {
               height: 46,
               width: 46,
               child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: ((Builder) => BottomSheet()),
+                    );
+                  },
                   child: Icon(
                     Icons.camera_alt,
-                    color: Colors.teal,
+                    color: Colors.orange,
                     size: 28.0,
                   )),
             ),
@@ -37,4 +42,39 @@ class ProfilePic extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget BottomSheet() {
+  return Container(
+    height: 100.0,
+    margin: EdgeInsets.symmetric(
+      horizontal: 20,
+      vertical: 20,
+    ),
+    child: Column(
+      children: <Widget>[
+        Text(
+          "Choose Profile photo",
+          style: TextStyle(
+            fontSize: 20.0,
+          ),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+          FlatButton.icon(
+            icon: Icon(Icons.camera),
+            onPressed: () {},
+            label: Text("Camera"),
+          ),
+          FlatButton.icon(
+            icon: Icon(Icons.image),
+            onPressed: () {},
+            label: Text("Gallery"),
+          ),
+        ])
+      ],
+    ),
+  );
 }

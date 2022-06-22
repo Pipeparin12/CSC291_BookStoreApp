@@ -17,7 +17,7 @@ class Body extends StatelessWidget {
             child: Column(
               children: [
                 SizedBox(height: SizeConfig.screenHeight * 0.03),
-                Text("Complete Email", style: headingStyle),
+                Text("Email", style: headingStyle),
                 Text(
                   "Complete your details",
                   textAlign: TextAlign.center,

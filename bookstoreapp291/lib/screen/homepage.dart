@@ -1,4 +1,6 @@
+import 'package:bookstoreapp291/model/product.dart';
 import 'package:bookstoreapp291/screen/bookmark.dart';
+import 'package:bookstoreapp291/screen/detail_book.dart';
 import 'package:bookstoreapp291/screen/profile.dart';
 import 'package:bookstoreapp291/theme/light_color.dart';
 import 'package:bookstoreapp291/theme/theme.dart';
@@ -8,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:bookstoreapp291/screen/cart.dart';
+import 'package:bookstoreapp291/widget/section_title.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -36,12 +39,65 @@ class _MyWidgetState extends State<MainScreen> {
           )
         ],
       ),
-      body: Column(
-        children: <Widget>[
-          Padding(padding: EdgeInsets.only(top: 30)),
-          _search(),
-          bookCard(name: 'Sapiens Homosapiens', price: 400, image: ''),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Padding(padding: EdgeInsets.only(top: 30)),
+            _search(),
+            Padding(
+                padding: EdgeInsets.only(
+              top: 30,
+            )),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 0.02),
+              child: SectionTitle(title: 'Best Seller', press: () {}),
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  ...List.generate(
+                      demoProducts.length,
+                      (index) => bookCard(
+                            product: demoProducts[index],
+                            press: () => Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return DetailPage(
+                                product: demoProducts[index],
+                              );
+                            })),
+                          ))
+                ],
+              ),
+            ),
+            Padding(
+                padding: EdgeInsets.only(
+              top: 30,
+            )),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 0.02),
+              child: SectionTitle(title: 'New Release', press: () {}),
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  ...List.generate(
+                      demoProducts.length,
+                      (index) => bookCard(
+                            product: demoProducts[index],
+                            press: () => Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return DetailPage(
+                                product: demoProducts[index],
+                              );
+                            })),
+                          ))
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

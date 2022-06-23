@@ -4,69 +4,66 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:bookstoreapp291/theme/light_color.dart';
+import 'package:bookstoreapp291/model/product.dart';
 
 class bookCard extends StatelessWidget {
-  const bookCard(
-      {Key? key, required this.name, required this.price, required this.image})
+  const bookCard({Key? key, required this.product, required this.press})
       : super(key: key);
-  final String name;
-  final int price;
-  final String image;
+  final Product product;
+  final GestureTapCallback press;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: SingleChildScrollView(
           child: Column(
         children: [
-          Padding(
-              padding: EdgeInsets.only(
-            top: 30,
-          )),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 0.02),
-            child: SectionTitle(title: 'Popular Book', press: () {}),
-          ),
           Padding(padding: EdgeInsets.only(top: 25)),
           Row(
             children: [
               Padding(
                 padding: const EdgeInsets.only(left: 20),
-                child: SizedBox(
-                    width: 140,
-                    child: Column(
-                      children: [
-                        AspectRatio(
-                          aspectRatio: 1.02,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: LightColor.lightGrey,
-                                borderRadius: BorderRadius.circular(15)),
-                            child: Image.asset(image),
-                          ),
-                        ),
-                        Padding(padding: EdgeInsets.only(top: 5)),
-                        Text(
-                          this.name,
-                          style: TextStyle(
-                              color: LightColor.titleTextColor, fontSize: 15),
-                          maxLines: 2,
-                        ),
-                        Padding(padding: EdgeInsets.only(top: 5)),
-                        Row(
-                          children: [
-                            Text(
-                              this.price.toString(),
-                              style: TextStyle(
-                                color: LightColor.orange,
-                                fontSize: 15,
+                child: GestureDetector(
+                  onTap: press,
+                  child: SizedBox(
+                      width: 140,
+                      child: Column(
+                        children: [
+                          AspectRatio(
+                            aspectRatio: 1.02,
+                            child: SizedBox(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: LightColor.lightGrey,
+                                    borderRadius: BorderRadius.circular(15)),
+                                child: Image.asset(product.images),
                               ),
-                              textAlign: TextAlign.justify,
                             ),
-                            Container()
-                          ],
-                        )
-                      ],
-                    )),
+                          ),
+                          Padding(padding: EdgeInsets.only(top: 5)),
+                          Text(
+                            product.name,
+                            style: TextStyle(
+                                color: LightColor.titleTextColor, fontSize: 15),
+                            maxLines: 2,
+                            textAlign: TextAlign.left,
+                          ),
+                          Padding(padding: EdgeInsets.only(top: 5)),
+                          Row(
+                            children: [
+                              Text(
+                                product.price.toString(),
+                                style: TextStyle(
+                                  color: LightColor.orange,
+                                  fontSize: 15,
+                                ),
+                                textAlign: TextAlign.justify,
+                              ),
+                              Container()
+                            ],
+                          )
+                        ],
+                      )),
+                ),
               ),
             ],
           ),

@@ -20,7 +20,10 @@ class _SellerCentreState extends State<SellerCentre> {
         title: Text('Seller Centre'),
         centerTitle: true,
         backgroundColor: Colors.grey,
-        leading: Icon(Icons.add_shopping_cart),
+        leading: IconButton(
+          onPressed: () {},
+          icon: Icon(Icons.add_shopping_cart),
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(children: <Widget>[
@@ -142,9 +145,15 @@ class ProductBox extends StatelessWidget {
                             child: Form(
                               child: Column(
                                 children: <Widget>[
-                                  _entryField("Name"),
-                                  _entryField("Description"),
-                                  _entryField("Price"),
+                                  _entryField(
+                                    "Name",
+                                  ),
+                                  _entryField(
+                                    "Description",
+                                  ),
+                                  _entryField(
+                                    "Price",
+                                  ),
                                   _entryField("Amount"),
                                 ],
                               ),
@@ -171,23 +180,22 @@ class ProductBox extends StatelessWidget {
 
 Widget _entryField(String title) {
   return Container(
-    margin: EdgeInsets.only(left: 30, right: 30, top: 15),
+    margin: EdgeInsets.only(left: 8.0, right: 8.0, top: 15),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
-          title,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        TextField(
+        Padding(
+          padding: EdgeInsets.all(2.0),
+          child: TextFormField(
             autofocus: true,
             decoration: InputDecoration(
-                border: InputBorder.none,
-                fillColor: Color(0xfff3f3f4),
-                filled: true))
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(30.0))),
+              labelText: title,
+              floatingLabelBehavior: FloatingLabelBehavior.always,
+            ),
+          ),
+        )
       ],
     ),
   );

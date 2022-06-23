@@ -1,10 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:bookstoreapp291/widget/sellerNavbar.dart';
 import 'package:flutter/material.dart';
-import 'package:bookstoreapp291/screen/profile.dart';
-import 'package:bookstoreapp291/screen/seller_page.dart';
 
 class AddBook extends StatefulWidget {
   const AddBook({Key? key}) : super(key: key);
@@ -22,11 +19,6 @@ class _AddBookState extends State<AddBook> {
           title: const Text('Add book for sale'),
           centerTitle: true,
           backgroundColor: Colors.grey,
-          leading: IconButton(
-              onPressed: (() {
-                Navigator.of(context).pop();
-              }),
-              icon: Icon(Icons.arrow_back)),
         ),
         body: CustomScrollView(
           slivers: [
@@ -38,11 +30,22 @@ class _AddBookState extends State<AddBook> {
                       child: SizedBox(
                     child: Column(
                       children: [
-                        Expanded(child: _allEntryFieldWidget()),
+                        Expanded(
+                          child: _allEntryFieldWidget(),
+                        ),
+                        Container(
+                          child: Expanded(
+                              child: IconButton(
+                                  onPressed: () {},
+                                  iconSize: 120,
+                                  icon: Icon(Icons.add_a_photo_outlined))),
+                        ),
                         Padding(
-                          padding: EdgeInsets.only(bottom: 30.0),
+                          padding: const EdgeInsets.only(bottom: 30.0),
                           child: ElevatedButton(
                             style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.grey),
                               padding: MaterialStateProperty.all(
                                   const EdgeInsets.all(20.0)),
                             ),
@@ -61,53 +64,39 @@ class _AddBookState extends State<AddBook> {
   }
 }
 
-// Widget textformfield({@required hintText}) {
-//   final InputDecoration textFormStyle = InputDecoration(
-//     hintText: hintText,
-//     border: const OutlineInputBorder(),
-//     hintStyle:
-//         const TextStyle(letterSpacing: 1, fontSize: 20, color: Colors.black),
-//   );
-//   return Material(
-//     elevation: 2,
-//     child: TextField(
-//       enabled: true,
-//       textAlign: TextAlign.center,
-//       decoration: textFormStyle,
-//     ),
-//   );
-// }
-
 Widget _allEntryFieldWidget() {
   return Column(
     children: <Widget>[
-      _entryField("Name"),
-      _entryField("Description"),
-      _entryField("Price"),
-      _entryField("Amount"),
+      _entryField("Name", "Enter Book name"),
+      _entryField("Description", "Enter Description"),
+      _entryField("Price", "Enter Price"),
+      _entryField("Amount", "Enter Price"),
     ],
   );
 }
 
-Widget _entryField(String title) {
+Widget _entryField(String title, String hintText) {
   return Container(
-    margin: EdgeInsets.only(left: 30, right: 30, top: 15),
+    margin: const EdgeInsets.only(left: 30, right: 30, top: 15),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
-          title,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        TextField(
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextFormField(
             autofocus: true,
             decoration: InputDecoration(
-                border: InputBorder.none,
-                fillColor: Color(0xfff3f3f4),
-                filled: true))
+              border: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(30.0),
+                ),
+              ),
+              labelText: title,
+              hintText: hintText,
+              floatingLabelBehavior: FloatingLabelBehavior.always,
+            ),
+          ),
+        )
       ],
     ),
   );

@@ -31,14 +31,18 @@ class _AddBookState extends State<AddBook> {
                     child: Column(
                       children: [
                         Expanded(
-                          child: _allEntryFieldWidget(),
-                        ),
-                        Container(
-                          child: Expanded(
-                              child: IconButton(
-                                  onPressed: () {},
-                                  iconSize: 120,
-                                  icon: Icon(Icons.add_a_photo_outlined))),
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 30),
+                            child: Column(
+                              children: [
+                                _allEntryFieldWidget(),
+                                IconButton(
+                                    onPressed: () {},
+                                    iconSize: 100,
+                                    icon: Icon(Icons.add_a_photo_outlined))
+                              ],
+                            ),
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 30.0),

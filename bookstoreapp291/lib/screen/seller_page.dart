@@ -1,9 +1,7 @@
 import 'dart:ui';
 
-import 'package:bookstoreapp291/screen/add_book.dart';
-import 'package:bookstoreapp291/screen/profile.dart';
-import 'package:bookstoreapp291/widget/sellerNavbar.dart';
 import 'package:flutter/material.dart';
+import 'package:bookstoreapp291/theme/light_color.dart';
 
 class SellerCentre extends StatefulWidget {
   const SellerCentre({Key? key}) : super(key: key);
@@ -104,77 +102,81 @@ class ProductBox extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.only(right: 20, left: 20),
+        padding: EdgeInsets.only(right: 20, left: 20, bottom: 10),
         height: 120,
-        child: Card(
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-              Padding(
-                padding: EdgeInsets.all(5.0),
-                child: Image.asset(
-                  image,
-                  fit: BoxFit.contain,
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.all(5),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Text(this.name,
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text("Amount: " + this.amount),
-                      Text("Price: " + this.price.toString()),
-                    ],
+        child: Container(
+          decoration: BoxDecoration(
+              color: LightColor.lightGrey,
+              borderRadius: BorderRadius.circular(10)),
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.all(5.0),
+                  child: Image.asset(
+                    image,
+                    fit: BoxFit.contain,
                   ),
                 ),
-              ),
-              IconButton(
-                onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          scrollable: true,
-                          title: Text('Edit'),
-                          content: Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Form(
-                              child: Column(
-                                children: <Widget>[
-                                  _entryField(
-                                    "Name",
-                                  ),
-                                  _entryField(
-                                    "Description",
-                                  ),
-                                  _entryField(
-                                    "Price",
-                                  ),
-                                  _entryField("Amount"),
-                                ],
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.all(5),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Text(this.name,
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        Text("Amount: " + this.amount),
+                        Text("Price: " + this.price.toString()),
+                      ],
+                    ),
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            scrollable: true,
+                            title: Text('Edit'),
+                            content: Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Form(
+                                child: Column(
+                                  children: <Widget>[
+                                    _entryField(
+                                      "Name",
+                                    ),
+                                    _entryField(
+                                      "Description",
+                                    ),
+                                    _entryField(
+                                      "Price",
+                                    ),
+                                    _entryField("Amount"),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                          actions: [
-                            Padding(
-                              padding: EdgeInsets.all(15.0),
-                              child: ElevatedButton(
-                                onPressed: () {},
-                                child: Text('Save'),
-                              ),
-                            )
-                          ],
-                        );
-                      });
-                },
-                icon: Icon(Icons.create_rounded),
-              ),
-              IconButton(onPressed: () {}, icon: Icon(Icons.delete))
-            ])));
+                            actions: [
+                              Padding(
+                                padding: EdgeInsets.all(15.0),
+                                child: ElevatedButton(
+                                  onPressed: () {},
+                                  child: Text('Save'),
+                                ),
+                              )
+                            ],
+                          );
+                        });
+                  },
+                  icon: Icon(Icons.create_rounded),
+                ),
+                IconButton(onPressed: () {}, icon: Icon(Icons.delete))
+              ]),
+        ));
   }
 }
 

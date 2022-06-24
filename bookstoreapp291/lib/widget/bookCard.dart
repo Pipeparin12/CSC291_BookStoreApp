@@ -40,23 +40,29 @@ class bookCard extends StatelessWidget {
                             ),
                           ),
                           Padding(padding: EdgeInsets.only(top: 5)),
-                          Text(
-                            product.name,
-                            style: TextStyle(
-                                color: LightColor.titleTextColor, fontSize: 15),
-                            maxLines: 2,
-                            textAlign: TextAlign.left,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                product.name,
+                                style: TextStyle(
+                                    color: LightColor.titleTextColor,
+                                    fontSize: 15),
+                                maxLines: 2,
+                              ),
+                            ],
                           ),
                           Padding(padding: EdgeInsets.only(top: 5)),
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
                                 product.price.toString(),
                                 style: TextStyle(
                                   color: LightColor.orange,
                                   fontSize: 15,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                textAlign: TextAlign.justify,
                               ),
                               Container()
                             ],

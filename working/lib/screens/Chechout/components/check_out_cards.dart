@@ -28,7 +28,7 @@ class CheckoutsCard extends StatelessWidget {
           BoxShadow(
             offset: Offset(0, -15),
             blurRadius: 20,
-            color: Color(0xFFDADADA).withOpacity(0.15),
+            color: Color.fromARGB(255, 112, 111, 111).withOpacity(0.15),
           )
         ],
       ),
@@ -38,6 +38,7 @@ class CheckoutsCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
                   padding: EdgeInsets.all(10),
@@ -49,22 +50,16 @@ class CheckoutsCard extends StatelessWidget {
                   ),
                   child: InkWell(
                     child: SvgPicture.asset("assets/icons/receipt.svg"),
+                  ),
+                ),
+                GestureDetector(
+                    child: Text("Select Payment"),
                     onTap: () {
                       showModalBottomSheet(
                         context: context,
                         builder: ((Builder) => BottomSheet()),
                       );
-                    },
-                  ),
-                ),
-                Spacer(),
-                Text("Select Payment"),
-                const SizedBox(width: 10),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  size: 12,
-                  color: kTextColor,
-                )
+                    })
               ],
             ),
             SizedBox(height: getProportionateScreenHeight(20)),

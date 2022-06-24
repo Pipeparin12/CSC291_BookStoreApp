@@ -6,6 +6,7 @@ import 'package:bookstoreapp291/theme/light_color.dart';
 import 'package:bookstoreapp291/theme/theme.dart';
 import 'package:bookstoreapp291/widget/bookCard.dart';
 import 'package:bookstoreapp291/widget/extentions.dart';
+import 'package:bookstoreapp291/widget/sellerNavbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -27,7 +28,13 @@ class _MyWidgetState extends State<MainScreen> {
         title: Text('Book Store'),
         centerTitle: true,
         backgroundColor: Colors.grey,
-        leading: Icon(Icons.sell),
+        leading: IconButton(
+            icon: Icon(Icons.sell),
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return SellerNavBar();
+              }));
+            }),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.shopping_cart),

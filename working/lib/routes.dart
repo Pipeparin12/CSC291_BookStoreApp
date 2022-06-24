@@ -1,6 +1,7 @@
 import 'dart:js';
 
 import 'package:flutter/widgets.dart';
+import 'package:shop_app/screens/Chechout/checkout_screen.dart';
 import 'package:shop_app/screens/cart/cart_screen.dart';
 import 'package:shop_app/screens/complete_address/complete_address_screen.dart';
 import 'package:shop_app/screens/complete_email/complete_email_screen.dart';
@@ -38,4 +39,5 @@ final Map<String, WidgetBuilder> routes = {
   CompleteEmailScreen.routeName: (context) => CompleteEmailScreen(),
   CompletePhoneScreen.routeName: (context) => CompletePhoneScreen(),
   CompleteAddressScreen.routeName: (context) => CompleteAddressScreen(),
+  CheckoutScreen.routeName: (context) => CheckoutScreen(),
 };

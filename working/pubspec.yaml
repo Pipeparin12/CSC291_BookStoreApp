@@ -31,7 +31,6 @@ dependencies:
   flutter_svg: ^0.22.0 # help us to use SVG in our app
   provider: ^6.0.0 # for State management
   image_picker: ^0.8.5+3
-  flutter_stripe: ^3.1.0
 
 dev_dependencies:
   flutter_test:

@@ -47,10 +47,17 @@ class CheckoutsCard extends StatelessWidget {
                     color: Color(0xFFF5F6F9),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: SvgPicture.asset("assets/icons/receipt.svg"),
+                  child: InkWell(
+                    onTap: () {
+                      showModalBottomSheet(
+                        context: context,
+                        builder: ((Builder) => BottomSheet()),
+                      );
+                    },
+                  ),
                 ),
                 Spacer(),
-                Text("Add voucher code"),
+                Text("Select Payment"),
                 const SizedBox(width: 10),
                 Icon(
                   Icons.arrow_forward_ios,
@@ -88,4 +95,39 @@ class CheckoutsCard extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget BottomSheet() {
+  return Container(
+    height: 100.0,
+    margin: EdgeInsets.symmetric(
+      horizontal: 20,
+      vertical: 20,
+    ),
+    child: Row(
+      children: <Widget>[
+        Text(
+          "Choose Payment Method",
+          style: TextStyle(
+            fontSize: 20.0,
+          ),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+          FlatButton.icon(
+            icon: Icon(Icons.balance),
+            onPressed: () {},
+            label: Text("Cash"),
+          ),
+          FlatButton.icon(
+            icon: Icon(Icons.credit_card),
+            onPressed: () {},
+            label: Text("Credit card"),
+          ),
+        ])
+      ],
+    ),
+  );
 }

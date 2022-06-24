@@ -48,6 +48,7 @@ class CheckoutsCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: InkWell(
+                    child: SvgPicture.asset("assets/icons/receipt.svg"),
                     onTap: () {
                       showModalBottomSheet(
                         context: context,
@@ -67,7 +68,7 @@ class CheckoutsCard extends StatelessWidget {
               ],
             ),
             SizedBox(height: getProportionateScreenHeight(20)),
-            Row(
+            Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text.rich(
@@ -99,12 +100,12 @@ class CheckoutsCard extends StatelessWidget {
 
 Widget BottomSheet() {
   return Container(
-    height: 100.0,
+    height: 140.0,
     margin: EdgeInsets.symmetric(
       horizontal: 20,
       vertical: 20,
     ),
-    child: Row(
+    child: Column(
       children: <Widget>[
         Text(
           "Choose Payment Method",
@@ -113,7 +114,7 @@ Widget BottomSheet() {
           ),
         ),
         SizedBox(
-          height: 20,
+          height: 50,
         ),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
           FlatButton.icon(

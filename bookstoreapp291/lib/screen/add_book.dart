@@ -36,10 +36,13 @@ class _AddBookState extends State<AddBook> {
                             child: Column(
                               children: [
                                 _allEntryFieldWidget(),
-                                IconButton(
-                                    onPressed: () {},
-                                    iconSize: 100,
-                                    icon: Icon(Icons.add_a_photo_outlined))
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 50),
+                                  child: IconButton(
+                                      onPressed: () {},
+                                      iconSize: 80,
+                                      icon: Icon(Icons.add_a_photo_outlined)),
+                                )
                               ],
                             ),
                           ),

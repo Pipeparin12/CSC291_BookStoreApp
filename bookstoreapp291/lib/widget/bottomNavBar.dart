@@ -1,23 +1,23 @@
-import 'package:bookstoreapp291/screen/add_book.dart';
-import 'package:bookstoreapp291/screen/seller_page.dart';
+import 'package:bookstoreapp291/screen/bookmark.dart';
+import 'package:bookstoreapp291/screen/homepage.dart';
 import 'package:bookstoreapp291/screen/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-class SellerNavBar extends StatefulWidget {
-  const SellerNavBar({Key? key}) : super(key: key);
+class BottomNavBar extends StatefulWidget {
+  const BottomNavBar({Key? key}) : super(key: key);
 
   @override
-  State<SellerNavBar> createState() => _SellerNavBar();
+  State<BottomNavBar> createState() => _BottomNavBarState();
 }
 
-class _SellerNavBar extends State<SellerNavBar> {
+class _BottomNavBarState extends State<BottomNavBar> {
   int _selectedIndex = 0;
   PageController pageController = PageController();
-  List<Widget> pageList = <Widget>[
-    SellerCentre(),
-    AddBook(),
+   List<Widget> pageList = <Widget>[
+    BookmarkPage(),
+    MainScreen(),
     ProfilePage(),
   ];
   @override
@@ -37,12 +37,12 @@ class _SellerNavBar extends State<SellerNavBar> {
         backgroundColor: Colors.grey,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Seller Centre',
+            icon: Icon(Icons.bookmark_border),
+            label: 'Bookmark',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.add_circle_outline),
-            label: 'Add Book',
+            icon: Icon(Icons.home),
+            label: 'Homepage',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_outlined),
@@ -54,7 +54,6 @@ class _SellerNavBar extends State<SellerNavBar> {
       ),
     );
   }
-
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -62,3 +61,4 @@ class _SellerNavBar extends State<SellerNavBar> {
     pageController.jumpToPage(index);
   }
 }
+

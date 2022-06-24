@@ -1,11 +1,17 @@
+import 'package:bookstoreapp291/model/product.dart';
+import 'package:bookstoreapp291/screen/bookmark.dart';
+import 'package:bookstoreapp291/screen/detail_book.dart';
+import 'package:bookstoreapp291/screen/profile.dart';
 import 'package:bookstoreapp291/theme/light_color.dart';
 import 'package:bookstoreapp291/theme/theme.dart';
+import 'package:bookstoreapp291/widget/bookCard.dart';
+import 'package:bookstoreapp291/widget/extentions.dart';
+import 'package:bookstoreapp291/widget/sellerNavbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:bookstoreapp291/screen/cart.dart';
-
-int _selectedIndex = 0;
+import 'package:bookstoreapp291/widget/section_title.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -22,7 +28,13 @@ class _MyWidgetState extends State<MainScreen> {
         title: Text('Book Store'),
         centerTitle: true,
         backgroundColor: Colors.grey,
-        leading: Icon(Icons.sell),
+        leading: IconButton(
+            icon: Icon(Icons.sell),
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return SellerNavBar();
+              }));
+            }),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.shopping_cart),
@@ -34,45 +46,67 @@ class _MyWidgetState extends State<MainScreen> {
           )
         ],
       ),
-      body: Column(
-        children: <Widget>[
-          Padding(padding: EdgeInsets.only(top: 30)),
-          _search()
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.shifting,
-        selectedFontSize: 15,
-        selectedIconTheme: IconThemeData(color: Colors.grey[850]),
-        selectedItemColor: Colors.grey[850],
-        selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
-        unselectedIconTheme: IconThemeData(color: Colors.grey),
-        unselectedItemColor: Colors.grey,
-        backgroundColor: Colors.grey,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bookmark_border),
-            label: 'Bookmark',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Homepage',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle_outlined),
-            label: 'Profile',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Padding(padding: EdgeInsets.only(top: 30)),
+            _search(),
+            Padding(
+                padding: EdgeInsets.only(
+              top: 30,
+            )),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 0.02),
+              child: SectionTitle(title: 'Best Seller', press: () {}),
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  ...List.generate(
+                      demoProducts.length,
+                      (index) => bookCard(
+                            product: demoProducts[index],
+                            press: () => Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return DetailPage(
+                                product: demoProducts[index],
+                              );
+                            })),
+                          ))
+                ],
+              ),
+            ),
+            Padding(
+                padding: EdgeInsets.only(
+              top: 30,
+            )),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 0.02),
+              child: SectionTitle(title: 'New Release', press: () {}),
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  ...List.generate(
+                      demoProducts.length,
+                      (index) => bookCard(
+                            product: demoProducts[index],
+                            press: () => Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return DetailPage(
+                                product: demoProducts[index],
+                              );
+                            })),
+                          ))
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
-  }
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
   }
 }
 
@@ -102,3 +136,7 @@ Widget _search() {
     ),
   );
 }
+
+// Widget _productShow() {
+//   return SafeArea(child: child)
+// }

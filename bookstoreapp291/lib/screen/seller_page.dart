@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:bookstoreapp291/model/product.dart';
 import 'package:flutter/material.dart';
 import 'package:bookstoreapp291/theme/light_color.dart';
 
@@ -36,51 +37,8 @@ class _SellerCentreState extends State<SellerCentre> {
               ),
             ),
           ),
-          ProductBox(
-              name: 'Book1',
-              amount: '1',
-              price: 400,
-              image: 'images/arleneFink.jpg'),
-          ProductBox(
-              name: 'Book1',
-              amount: '1',
-              price: 400,
-              image: 'images/blueBook.jpg'),
-          ProductBox(
-              name: 'Book1',
-              amount: '1',
-              price: 400,
-              image: 'images/arleneFink.jpg'),
-          ProductBox(
-              name: 'Book1',
-              amount: '1',
-              price: 400,
-              image: 'images/arleneFink.jpg'),
-          ProductBox(
-              name: 'Book1',
-              amount: '1',
-              price: 400,
-              image: 'images/arleneFink.jpg'),
-          ProductBox(
-              name: 'Book1',
-              amount: '1',
-              price: 400,
-              image: 'images/arleneFink.jpg'),
-          ProductBox(
-              name: 'Book1',
-              amount: '1',
-              price: 400,
-              image: 'images/arleneFink.jpg'),
-          ProductBox(
-              name: 'Book1',
-              amount: '1',
-              price: 400,
-              image: 'images/arleneFink.jpg'),
-          ProductBox(
-              name: 'Book1',
-              amount: '1',
-              price: 400,
-              image: 'images/arleneFink.jpg'),
+          ...List.generate(demoProducts.length,
+              (index) => ProductBox(product: demoProducts[index], amount: 1))
         ]),
       ),
     );
@@ -88,17 +46,10 @@ class _SellerCentreState extends State<SellerCentre> {
 }
 
 class ProductBox extends StatelessWidget {
-  ProductBox(
-      {Key? key,
-      required this.name,
-      required this.amount,
-      required this.price,
-      required this.image})
+  ProductBox({Key? key, required this.product, required this.amount})
       : super(key: key);
-  final String name;
-  final String amount;
-  final int price;
-  final String image;
+  final Product product;
+  final int amount;
 
   Widget build(BuildContext context) {
     return Container(
@@ -115,7 +66,7 @@ class ProductBox extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.all(5.0),
                   child: Image.asset(
-                    image,
+                    product.images,
                     fit: BoxFit.contain,
                   ),
                 ),
@@ -125,10 +76,10 @@ class ProductBox extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
-                        Text(this.name,
+                        Text(product.name,
                             style: TextStyle(fontWeight: FontWeight.bold)),
-                        Text("Amount: " + this.amount),
-                        Text("Price: " + this.price.toString()),
+                        Text("Amount: " + this.amount.toString()),
+                        Text("Price: " + product.price.toString()),
                       ],
                     ),
                   ),

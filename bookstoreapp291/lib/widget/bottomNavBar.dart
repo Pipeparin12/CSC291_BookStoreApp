@@ -15,9 +15,9 @@ class BottomNavBar extends StatefulWidget {
 class _BottomNavBarState extends State<BottomNavBar> {
   int _selectedIndex = 0;
   PageController pageController = PageController();
-   List<Widget> pageList = <Widget>[
-    BookmarkPage(),
+  List<Widget> pageList = <Widget>[
     MainScreen(),
+    BookmarkPage(),
     ProfilePage(),
   ];
   @override
@@ -37,12 +37,12 @@ class _BottomNavBarState extends State<BottomNavBar> {
         backgroundColor: Colors.grey,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.bookmark_border),
-            label: 'Bookmark',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Homepage',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.bookmark_border),
+            label: 'Bookmark',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_outlined),
@@ -54,6 +54,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       ),
     );
   }
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -61,4 +62,3 @@ class _BottomNavBarState extends State<BottomNavBar> {
     pageController.jumpToPage(index);
   }
 }
-

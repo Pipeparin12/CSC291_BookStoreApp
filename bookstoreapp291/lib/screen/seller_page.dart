@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:bookstoreapp291/model/product.dart';
+import 'package:bookstoreapp291/screen/homepage.dart';
+import 'package:bookstoreapp291/widget/bottomNavBar.dart';
 import 'package:flutter/material.dart';
 import 'package:bookstoreapp291/theme/light_color.dart';
 
@@ -20,9 +22,12 @@ class _SellerCentreState extends State<SellerCentre> {
         centerTitle: true,
         backgroundColor: Colors.grey,
         leading: IconButton(
-          onPressed: () {},
-          icon: Icon(Icons.add_shopping_cart),
-        ),
+            icon: Icon(Icons.add_shopping_cart),
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return BottomNavBar();
+              }));
+            }),
       ),
       body: SingleChildScrollView(
         child: Column(children: <Widget>[

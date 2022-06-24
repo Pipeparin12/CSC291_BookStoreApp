@@ -5,11 +5,15 @@ import 'package:shop_app/components/default_button.dart';
 import '../../../constants.dart';
 import '../../../size_config.dart';
 
-class CheckoutsCard extends StatelessWidget {
-  const CheckoutsCard({
-    Key? key,
-  }) : super(key: key);
+class CheckoutsCard extends StatefulWidget {
+  CheckoutsCard({Key? key}) : super(key: key);
 
+  @override
+  State<CheckoutsCard> createState() => CheckoutsCardState();
+}
+
+class CheckoutsCardState extends State<CheckoutsCard> {
+  String method = "None";
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -41,6 +45,7 @@ class CheckoutsCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
+                  child: SvgPicture.asset("assets/icons/receipt.svg"),
                   padding: EdgeInsets.all(10),
                   height: getProportionateScreenWidth(40),
                   width: getProportionateScreenWidth(40),
@@ -48,18 +53,33 @@ class CheckoutsCard extends StatelessWidget {
                     color: Color(0xFFF5F6F9),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: InkWell(
-                    child: SvgPicture.asset("assets/icons/receipt.svg"),
-                  ),
                 ),
-                GestureDetector(
-                    child: Text("Select Payment"),
-                    onTap: () {
-                      showModalBottomSheet(
-                        context: context,
-                        builder: ((Builder) => BottomSheet()),
-                      );
-                    })
+                (method == "Cash"
+                    ? GestureDetector(
+                        child: Text("Cash"),
+                        onTap: () {
+                          showModalBottomSheet(
+                            context: context,
+                            builder: ((Builder) => BottomSheet()),
+                          );
+                        })
+                    : method == "Credit Card"
+                        ? GestureDetector(
+                            child: Text("Credit Card"),
+                            onTap: () {
+                              showModalBottomSheet(
+                                context: context,
+                                builder: ((Builder) => BottomSheet()),
+                              );
+                            })
+                        : GestureDetector(
+                            child: Text("Select Payment"),
+                            onTap: () {
+                              showModalBottomSheet(
+                                context: context,
+                                builder: ((Builder) => BottomSheet()),
+                              );
+                            })),
               ],
             ),
             SizedBox(height: getProportionateScreenHeight(20)),
@@ -91,39 +111,47 @@ class CheckoutsCard extends StatelessWidget {
       ),
     );
   }
-}
 
-Widget BottomSheet() {
-  return Container(
-    height: 140.0,
-    margin: EdgeInsets.symmetric(
-      horizontal: 20,
-      vertical: 20,
-    ),
-    child: Column(
-      children: <Widget>[
-        Text(
-          "Choose Payment Method",
-          style: TextStyle(
-            fontSize: 20.0,
+  Widget BottomSheet() {
+    return Container(
+      height: 140.0,
+      margin: EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 20,
+      ),
+      child: Column(
+        children: <Widget>[
+          Text(
+            "Choose Payment Method",
+            style: TextStyle(
+              fontSize: 20.0,
+            ),
           ),
-        ),
-        SizedBox(
-          height: 50,
-        ),
-        Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-          FlatButton.icon(
-            icon: Icon(Icons.money),
-            onPressed: () {},
-            label: Text("Cash"),
+          SizedBox(
+            height: 50,
           ),
-          FlatButton.icon(
-            icon: Icon(Icons.credit_card),
-            onPressed: () {},
-            label: Text("Credit card"),
-          ),
-        ])
-      ],
-    ),
-  );
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+            FlatButton.icon(
+              icon: Icon(Icons.money),
+              onPressed: () {
+                setState(() {
+                  method = "Cash";
+                });
+              },
+              label: Text("Cash"),
+            ),
+            FlatButton.icon(
+              icon: Icon(Icons.credit_card),
+              onPressed: () {
+                setState(() {
+                  method = "Credit Card";
+                });
+              },
+              label: Text("Credit card"),
+            ),
+          ])
+        ],
+      ),
+    );
+  }
 }

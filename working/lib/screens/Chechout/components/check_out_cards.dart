@@ -80,7 +80,7 @@ class CheckoutsCard extends StatelessWidget {
                 SizedBox(
                   width: getProportionateScreenWidth(190),
                   child: DefaultButton(
-                    text: "comfirm payment",
+                    text: "Comfirm Payment",
                     press: () {},
                   ),
                 ),
@@ -113,7 +113,7 @@ Widget BottomSheet() {
         ),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
           FlatButton.icon(
-            icon: Icon(Icons.balance),
+            icon: Icon(Icons.money),
             onPressed: () {},
             label: Text("Cash"),
           ),

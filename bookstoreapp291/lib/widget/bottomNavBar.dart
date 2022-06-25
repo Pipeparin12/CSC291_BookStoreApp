@@ -1,6 +1,7 @@
 import 'package:bookstoreapp291/screen/bookmark.dart';
 import 'package:bookstoreapp291/screen/homepage.dart';
-import 'package:bookstoreapp291/screen/profile.dart';
+import 'package:bookstoreapp291/screen/profile/components/profile.dart';
+import 'package:bookstoreapp291/widget/extentions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';

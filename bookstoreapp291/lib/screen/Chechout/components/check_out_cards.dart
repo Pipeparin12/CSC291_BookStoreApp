@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shop_app/components/default_button.dart';
-import 'package:shop_app/screen/home/home_screen.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -98,14 +97,14 @@ class CheckoutsCardState extends State<CheckoutsCard> {
                     ],
                   ),
                 ),
-                SizedBox(
-                  width: getProportionateScreenWidth(190),
-                  child: DefaultButton(
-                    text: "Comfirm Payment",
-                    press: () =>
-                        Navigator.pushNamed(context, HomeScreen.routeName),
-                  ),
-                ),
+                //    SizedBox(
+                //    width: getProportionateScreenWidth(190),
+                //     child: DefaultButton(
+                //       text: "Comfirm Payment",
+                //       press: () =>
+                //         Navigator.pushNamed(context, HomeScreen.routeName),
+                //    ),
+                //      ),
               ],
             ),
           ],

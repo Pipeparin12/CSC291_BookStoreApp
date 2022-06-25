@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/components/default_button.dart';
-import 'package:shop_app/screens/otp_phone/otp_screen.dart';
-import 'package:shop_app/screens/profile/profile_screen.dart';
+import 'package:shop_app/screen/otp_phone/otp_screen.dart';
+import 'package:shop_app/screen/profile/profile_screen.dart';
 
 import '../../../size_config.dart';
 
-class CompleteAddressForm extends StatefulWidget {
+class CompletePhoneForm extends StatefulWidget {
   @override
-  _CompleteAddressFormState createState() => _CompleteAddressFormState();
+  _CompletePhoneFormState createState() => _CompletePhoneFormState();
 }
 
-class _CompleteAddressFormState extends State<CompleteAddressForm> {
+class _CompletePhoneFormState extends State<CompletePhoneForm> {
   final _formKey = GlobalKey<FormState>();
   final List<String?> errors = [];
-  String? Address;
-  String? PostalCode;
+  String? PhoneNum;
+  String? ReEnterPhoneNum;
 
   void addError({String? error}) {
     if (!errors.contains(error))
@@ -37,15 +37,15 @@ class _CompleteAddressFormState extends State<CompleteAddressForm> {
       key: _formKey,
       child: Column(
         children: [
-          buildAddressFormField(),
+          buildPhoneNumFormField(),
           SizedBox(height: getProportionateScreenHeight(30)),
-          buildPostalCodeFormField(),
+          buildReEnterPhoneNumFormField(),
           SizedBox(height: getProportionateScreenHeight(30)),
           DefaultButton(
-            text: "SAVE",
+            text: "CONTINUE",
             press: () {
               if (_formKey.currentState!.validate()) {
-                Navigator.pushNamed(context, ProfileScreen.routeName);
+                Navigator.pushNamed(context, OtpPhoneScreen.routeName);
               }
             },
           ),
@@ -54,32 +54,30 @@ class _CompleteAddressFormState extends State<CompleteAddressForm> {
     );
   }
 
-  TextFormField buildAddressFormField() {
+  TextFormField buildPhoneNumFormField() {
     return TextFormField(
-      onSaved: (newValue) => Address = newValue,
+      onSaved: (newValue) => PhoneNum = newValue,
       decoration: InputDecoration(
-        labelText: "Address",
-        hintText: "Enter your Address",
+        labelText: "PhoneNumber",
+        hintText: "Enter your Phone Number",
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon:
-            CustomSurffixIcon(svgIcon: "assets/icons/Location Point.svg"),
+        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Phone.svg"),
       ),
     );
   }
 
-  TextFormField buildPostalCodeFormField() {
+  TextFormField buildReEnterPhoneNumFormField() {
     return TextFormField(
-      onSaved: (newValue) => PostalCode = newValue,
+      onSaved: (newValue) => ReEnterPhoneNum = newValue,
       decoration: InputDecoration(
-        labelText: "PostalCode",
-        hintText: "Enter Postal Code",
+        labelText: "ReEnterPhoneNumber",
+        hintText: "Comfirm Phone Number",
         // If  you are using latest version of flutter then lable text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon:
-            CustomSurffixIcon(svgIcon: "assets/icons/Location Point.svg"),
+        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Phone.svg"),
       ),
     );
   }

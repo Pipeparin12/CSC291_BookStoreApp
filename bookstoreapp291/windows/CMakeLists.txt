@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
-project(bookstoreapp291 LANGUAGES CXX)
+project(working LANGUAGES CXX)
 
-set(BINARY_NAME "bookstoreapp291")
+set(BINARY_NAME "working")
 
 cmake_policy(SET CMP0063 NEW)
 

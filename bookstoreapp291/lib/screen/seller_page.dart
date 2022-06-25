@@ -22,12 +22,13 @@ class _SellerCentreState extends State<SellerCentre> {
         centerTitle: true,
         backgroundColor: Colors.grey,
         leading: IconButton(
-            icon: Icon(Icons.add_shopping_cart),
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return BottomNavBar();
-              }));
-            }),
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return BottomNavBar();
+            }));
+          },
+          icon: Icon(Icons.add_shopping_cart),
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(children: <Widget>[
@@ -42,8 +43,11 @@ class _SellerCentreState extends State<SellerCentre> {
               ),
             ),
           ),
-          ...List.generate(demoProducts.length,
-              (index) => ProductBox(product: demoProducts[index], amount: 1))
+          ...List.generate(
+              demoProducts.length,
+              (index) => ProductBox(
+                    product: demoProducts[index],
+                  ))
         ]),
       ),
     );
@@ -51,10 +55,8 @@ class _SellerCentreState extends State<SellerCentre> {
 }
 
 class ProductBox extends StatelessWidget {
-  ProductBox({Key? key, required this.product, required this.amount})
-      : super(key: key);
+  ProductBox({Key? key, required this.product}) : super(key: key);
   final Product product;
-  final int amount;
 
   Widget build(BuildContext context) {
     return Container(
@@ -83,7 +85,7 @@ class ProductBox extends StatelessWidget {
                       children: <Widget>[
                         Text(product.name,
                             style: TextStyle(fontWeight: FontWeight.bold)),
-                        Text("Amount: " + this.amount.toString()),
+                        Text("Amount: " + product.amount.toString()),
                         Text("Price: " + product.price.toString()),
                       ],
                     ),
@@ -95,6 +97,7 @@ class ProductBox extends StatelessWidget {
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
+                            backgroundColor: LightColor.lightGrey,
                             scrollable: true,
                             title: Text('Edit'),
                             content: Padding(

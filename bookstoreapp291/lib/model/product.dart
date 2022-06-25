@@ -6,6 +6,7 @@ class Product {
   final String images;
   final double rating, price;
   final bool isBookmark;
+  final int amount;
 
   Product({
     required this.id,
@@ -15,6 +16,7 @@ class Product {
     required this.name,
     required this.price,
     required this.description,
+    required this.amount,
   });
 }
 
@@ -27,6 +29,7 @@ List<Product> demoProducts = [
     description: description,
     rating: 4.8,
     isBookmark: true,
+    amount: 3,
   ),
   Product(
     id: 2,
@@ -35,6 +38,7 @@ List<Product> demoProducts = [
     price: 245,
     description: description,
     rating: 4.1,
+    amount: 2,
   ),
   Product(
     id: 3,
@@ -43,6 +47,7 @@ List<Product> demoProducts = [
     price: 150,
     description: description,
     rating: 4.1,
+    amount: 1,
   ),
   Product(
     id: 4,
@@ -52,6 +57,7 @@ List<Product> demoProducts = [
     description: description,
     rating: 4.1,
     isBookmark: true,
+    amount: 4,
   ),
 ];
 

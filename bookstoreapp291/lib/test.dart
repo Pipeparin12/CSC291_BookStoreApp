@@ -3,14 +3,14 @@ import 'package:bookstoreapp291/theme/light_color.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-class AddBook extends StatefulWidget {
-  AddBook({Key? key}) : super(key: key);
+class TestFirebase extends StatefulWidget {
+  TestFirebase({Key? key}) : super(key: key);
 
   @override
-  State<AddBook> createState() => _AddBookState();
+  State<TestFirebase> createState() => _TestFirebaseState();
 }
 
-class _AddBookState extends State<AddBook> {
+class _TestFirebaseState extends State<TestFirebase> {
   final formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
   final desController = TextEditingController();
@@ -125,7 +125,7 @@ class _AddBookState extends State<AddBook> {
                                             MaterialStateProperty.all(
                                                 Colors.grey),
                                         padding: MaterialStateProperty.all(
-                                            const EdgeInsets.all(10.0)),
+                                            const EdgeInsets.all(20.0)),
                                       ),
                                       onPressed: () {
                                         String name = nameController.text;

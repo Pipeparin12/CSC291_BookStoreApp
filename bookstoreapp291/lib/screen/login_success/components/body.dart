@@ -1,3 +1,4 @@
+import 'package:bookstoreapp291/widget/bottomNavBar.dart';
 import 'package:flutter/material.dart';
 import 'package:bookstoreapp291/components/default_button.dart';
 
@@ -28,7 +29,11 @@ class Body extends StatelessWidget {
           child: DefaultButton(
             text: "Back to home",
             press: () {
-              //     Navigator.pushNamed(context, HomeScreen.routeName);
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) {
+                  return BottomNavBar();
+                },
+              ));
             },
           ),
         ),

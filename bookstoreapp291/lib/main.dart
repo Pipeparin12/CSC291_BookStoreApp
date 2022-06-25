@@ -1,3 +1,4 @@
+import 'package:bookstoreapp291/screen/sign_in/sign_in_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:bookstoreapp291/routes.dart';
 import 'package:bookstoreapp291/screen/profile/profile_screen.dart';
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: BottomNavBar(),
+      home: SignInScreen(),
     );
   }
 }

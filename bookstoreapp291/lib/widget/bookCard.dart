@@ -1,10 +1,10 @@
-import 'package:bookstoreapp291/widget/section_title.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:bookstoreapp291/theme/light_color.dart';
-import 'package:bookstoreapp291/model/product.dart';
+
+import '../model/Product.dart';
+import '../theme/light_color.dart';
 
 class bookCard extends StatelessWidget {
   const bookCard({Key? key, required this.product, required this.press})

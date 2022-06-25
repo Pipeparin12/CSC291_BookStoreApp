@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/screens/complete_address/complete_address_screen.dart';
-import 'package:shop_app/screens/complete_email/complete_email_screen.dart';
-import 'package:shop_app/screens/complete_payment/complete_payment_screen.dart';
-import 'package:shop_app/screens/complete_phone/complete_phone_screen.dart';
-import 'package:shop_app/screens/complete_profile/complete_profile_screen.dart';
+import 'package:shop_app/screen/complete_address/complete_address_screen.dart';
+import 'package:shop_app/screen/complete_email/complete_email_screen.dart';
+import 'package:shop_app/screen/complete_payment/complete_payment_screen.dart';
+import 'package:shop_app/screen/complete_phone/complete_phone_screen.dart';
+import 'package:shop_app/screen/complete_profile/complete_profile_screen.dart';
 
 import 'profile_menu.dart';
 import 'profile_pic.dart';

@@ -1,4 +1,4 @@
-import 'package:bookstoreapp291/size_config.dart';
+import 'package:bookstoreapp291/sizedConfig.dart';
 import 'package:bookstoreapp291/theme/light_color.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';

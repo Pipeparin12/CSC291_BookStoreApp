@@ -20,32 +20,38 @@ class Body extends StatelessWidget {
           ProfileMenu(
             text: "My Account",
             icon: "assets/icons/User Icon.svg",
-            press: () =>
-                Navigator.pushNamed(context, CompleteProfileScreen.routeName),
+            press: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CompleteProfileScreen())),
           ),
           ProfileMenu(
             text: "Payment",
             icon: "assets/icons/Bill Icon.svg",
-            press: () =>
-                Navigator.pushNamed(context, CompletePaymentScreen.routeName),
+            press: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CompletePaymentScreen())),
           ),
           ProfileMenu(
             text: "Email",
             icon: "assets/icons/Mail.svg",
-            press: () =>
-                Navigator.pushNamed(context, CompleteEmailScreen.routeName),
+            press: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => CompleteEmailScreen())),
           ),
           ProfileMenu(
             text: "Phone Number",
             icon: "assets/icons/Phone.svg",
-            press: () =>
-                Navigator.pushNamed(context, CompletePhoneScreen.routeName),
+            press: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => CompletePhoneScreen())),
           ),
           ProfileMenu(
             text: "Address",
             icon: "assets/icons/Discover.svg",
-            press: () =>
-                Navigator.pushNamed(context, CompleteAddressScreen.routeName),
+            press: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CompleteAddressScreen())),
           ),
         ],
       ),

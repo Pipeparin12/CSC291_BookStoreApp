@@ -1,6 +1,6 @@
 import 'package:bookstoreapp291/screen/bookmark.dart';
 import 'package:bookstoreapp291/screen/homepage.dart';
-import 'package:bookstoreapp291/screen/profile/components/profile.dart';
+import 'package:bookstoreapp291/screen/profile/profile_screen.dart';
 import 'package:bookstoreapp291/widget/extentions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -19,7 +19,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   List<Widget> pageList = <Widget>[
     BookmarkPage(),
     MainScreen(),
-    ProfilePage(),
+    ProfileScreen(),
   ];
   @override
   Widget build(BuildContext context) {

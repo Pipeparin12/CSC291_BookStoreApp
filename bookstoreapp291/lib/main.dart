@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/routes.dart';
-import 'package:shop_app/screen/profile/profile_screen.dart';
-import 'package:shop_app/screen/splash/splash_screen.dart';
-import 'package:shop_app/size_config.dart';
-import 'package:shop_app/theme.dart';
+import 'package:bookstoreapp291/routes.dart';
+import 'package:bookstoreapp291/screen/profile/profile_screen.dart';
+import 'package:bookstoreapp291/screen/splash/splash_screen.dart';
+import 'package:bookstoreapp291/size_config.dart';
+import 'package:bookstoreapp291/theme.dart';
+import 'package:bookstoreapp291/widget/bottomNavBar.dart';
 
 void main() {
   runApp(MyApp());

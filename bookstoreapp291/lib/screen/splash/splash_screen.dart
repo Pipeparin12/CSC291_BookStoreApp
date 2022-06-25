@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/screen/splash/components/body.dart';
-import 'package:shop_app/size_config.dart';
+import 'package:bookstoreapp291/screen/splash/components/body.dart';
+import 'package:bookstoreapp291/size_config.dart';
 
 class SplashScreen extends StatelessWidget {
   static String routeName = "/splash";

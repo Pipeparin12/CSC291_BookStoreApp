@@ -1,20 +1,20 @@
 import 'dart:js';
 
 import 'package:flutter/widgets.dart';
-import 'package:shop_app/screen/Chechout/checkout_screen.dart';
-import 'package:shop_app/screen/cart/cart_screen.dart';
-import 'package:shop_app/screen/complete_address/complete_address_screen.dart';
-import 'package:shop_app/screen/complete_email/complete_email_screen.dart';
-import 'package:shop_app/screen/complete_payment/complete_payment_screen.dart';
-import 'package:shop_app/screen/complete_phone/complete_phone_screen.dart';
-import 'package:shop_app/screen/complete_profile/complete_profile_screen.dart';
-import 'package:shop_app/screen/forgot_password/forgot_password_screen.dart';
-import 'package:shop_app/screen/login_success/login_success_screen.dart';
-import 'package:shop_app/screen/otp/otp_screen.dart';
-import 'package:shop_app/screen/otp_phone/otp_screen.dart';
-import 'package:shop_app/screen/profile/profile_screen.dart';
-import 'package:shop_app/screen/sign_in/sign_in_screen.dart';
-import 'package:shop_app/screen/splash/splash_screen.dart';
+import 'package:bookstoreapp291/screen/Chechout/checkout_screen.dart';
+import 'package:bookstoreapp291/screen/cart/cart_screen.dart';
+import 'package:bookstoreapp291/screen/complete_address/complete_address_screen.dart';
+import 'package:bookstoreapp291/screen/complete_email/complete_email_screen.dart';
+import 'package:bookstoreapp291/screen/complete_payment/complete_payment_screen.dart';
+import 'package:bookstoreapp291/screen/complete_phone/complete_phone_screen.dart';
+import 'package:bookstoreapp291/screen/complete_profile/complete_profile_screen.dart';
+import 'package:bookstoreapp291/screen/forgot_password/forgot_password_screen.dart';
+import 'package:bookstoreapp291/screen/login_success/login_success_screen.dart';
+import 'package:bookstoreapp291/screen/otp/otp_screen.dart';
+import 'package:bookstoreapp291/screen/otp_phone/otp_screen.dart';
+import 'package:bookstoreapp291/screen/profile/profile_screen.dart';
+import 'package:bookstoreapp291/screen/sign_in/sign_in_screen.dart';
+import 'package:bookstoreapp291/screen/splash/splash_screen.dart';
 
 import 'screen/sign_up/sign_up_screen.dart';
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/components/custom_surfix_icon.dart';
-import 'package:shop_app/components/default_button.dart';
-import 'package:shop_app/components/form_error.dart';
-import 'package:shop_app/screen/complete_profile/complete_profile_screen.dart';
+import 'package:bookstoreapp291/components/custom_surfix_icon.dart';
+import 'package:bookstoreapp291/components/default_button.dart';
+import 'package:bookstoreapp291/components/form_error.dart';
+import 'package:bookstoreapp291/screen/complete_profile/complete_profile_screen.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';

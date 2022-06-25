@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-import '../model/Product.dart';
+import '../model/product.dart';
 import '../theme/light_color.dart';
 
 class bookCard extends StatelessWidget {

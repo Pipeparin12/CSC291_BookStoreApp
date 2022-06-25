@@ -15,7 +15,7 @@ class BottomNavBar extends StatefulWidget {
 class _BottomNavBarState extends State<BottomNavBar> {
   int _selectedIndex = 0;
   PageController pageController = PageController();
-   List<Widget> pageList = <Widget>[
+  List<Widget> pageList = <Widget>[
     BookmarkPage(),
     MainScreen(),
     ProfilePage(),
@@ -54,6 +54,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       ),
     );
   }
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -61,4 +62,3 @@ class _BottomNavBarState extends State<BottomNavBar> {
     pageController.jumpToPage(index);
   }
 }
-

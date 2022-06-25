@@ -1,3 +1,4 @@
+import 'package:bookstoreapp291/widget/bottomNavBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:bookstoreapp291/components/default_button.dart';
@@ -97,14 +98,16 @@ class CheckoutsCardState extends State<CheckoutsCard> {
                     ],
                   ),
                 ),
-                //    SizedBox(
-                //    width: getProportionateScreenWidth(190),
-                //     child: DefaultButton(
-                //       text: "Comfirm Payment",
-                //       press: () =>
-                //         Navigator.pushNamed(context, HomeScreen.routeName),
-                //    ),
-                //      ),
+                SizedBox(
+                  width: getProportionateScreenWidth(190),
+                  child: DefaultButton(
+                    text: "Comfirm Payment",
+                    press: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => BottomNavBar())),
+                  ),
+                ),
               ],
             ),
           ],

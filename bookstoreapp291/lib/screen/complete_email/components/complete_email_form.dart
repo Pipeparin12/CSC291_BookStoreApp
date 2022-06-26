@@ -126,7 +126,20 @@ class _CompleteEmailFormState extends State<CompleteEmailForm> {
 
   TextFormField buildPasswordFormField() {
     return TextFormField(
-      onSaved: (newValue) => Password = newValue,
+      onSaved: (newValue) => Password = newValue!,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: kPassNullError);
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value!.isEmpty) {
+          addError(error: kPassNullError);
+          return "";
+        }
+        return null;
+      },
       decoration: InputDecoration(
         labelText: "Password",
         hintText: "Enter your current password",

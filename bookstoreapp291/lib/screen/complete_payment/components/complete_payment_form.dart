@@ -1,3 +1,4 @@
+import 'package:bookstoreapp291/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:bookstoreapp291/components/custom_surfix_icon.dart';
 import 'package:bookstoreapp291/components/default_button.dart';
@@ -62,7 +63,20 @@ class _CompletePaymentFormState extends State<CompletePaymentForm> {
 
   TextFormField buildCardNumFormField() {
     return TextFormField(
-      onSaved: (newValue) => CardNum = newValue,
+      onSaved: (newValue) => CardNum = newValue!,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: kPassNullError);
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value!.isEmpty) {
+          addError(error: kPassNullError);
+          return "";
+        }
+        return null;
+      },
       decoration: InputDecoration(
         labelText: "Card Number",
         hintText: "Enter your card number",
@@ -76,7 +90,20 @@ class _CompletePaymentFormState extends State<CompletePaymentForm> {
 
   TextFormField buildCvcFormField() {
     return TextFormField(
-      onSaved: (newValue) => Cvc = newValue,
+      onSaved: (newValue) => Cvc = newValue!,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: kPassNullError);
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value!.isEmpty) {
+          addError(error: kPassNullError);
+          return "";
+        }
+        return null;
+      },
       decoration: InputDecoration(
         labelText: "CVC",
         hintText: "Enter your card cvc",
@@ -90,7 +117,20 @@ class _CompletePaymentFormState extends State<CompletePaymentForm> {
 
   TextFormField buildExpFormField() {
     return TextFormField(
-      onSaved: (newValue) => Exp = newValue,
+      onSaved: (newValue) => Exp = newValue!,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: kPassNullError);
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value!.isEmpty) {
+          addError(error: kPassNullError);
+          return "";
+        }
+        return null;
+      },
       decoration: InputDecoration(
         labelText: "EXP",
         hintText: "Enter your card exp",
@@ -104,7 +144,20 @@ class _CompletePaymentFormState extends State<CompletePaymentForm> {
 
   TextFormField buildCardOwnerFormField() {
     return TextFormField(
-      onSaved: (newValue) => CardOwner = newValue,
+      onSaved: (newValue) => CardOwner = newValue!,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: kNamelNullError);
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value!.isEmpty) {
+          addError(error: kNamelNullError);
+          return "";
+        }
+        return null;
+      },
       decoration: InputDecoration(
         labelText: "Card Owner",
         hintText: "Enter your card owner name",

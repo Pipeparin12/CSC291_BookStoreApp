@@ -1,3 +1,4 @@
+import 'package:bookstoreapp291/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:bookstoreapp291/components/custom_surfix_icon.dart';
 import 'package:bookstoreapp291/components/default_button.dart';
@@ -57,7 +58,26 @@ class _CompletePhoneFormState extends State<CompletePhoneForm> {
 
   TextFormField buildPhoneNumFormField() {
     return TextFormField(
+      obscureText: true,
       onSaved: (newValue) => PhoneNum = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: kPassNullError);
+        } else if (value.length >= 8) {
+          removeError(error: kShortPassError);
+        }
+        PhoneNum = value;
+      },
+      validator: (value) {
+        if (value!.isEmpty) {
+          addError(error: kPassNullError);
+          return "";
+        } else if (value.length < 8) {
+          addError(error: kShortPassError);
+          return "";
+        }
+        return null;
+      },
       decoration: InputDecoration(
         labelText: "PhoneNumber",
         hintText: "Enter your Phone Number",
@@ -71,7 +91,26 @@ class _CompletePhoneFormState extends State<CompletePhoneForm> {
 
   TextFormField buildReEnterPhoneNumFormField() {
     return TextFormField(
+      obscureText: true,
       onSaved: (newValue) => ReEnterPhoneNum = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: kPassNullError);
+        } else if (value.isNotEmpty && PhoneNum == ReEnterPhoneNum) {
+          removeError(error: kMatchPassError);
+        }
+        ReEnterPhoneNum = value;
+      },
+      validator: (value) {
+        if (value!.isEmpty) {
+          addError(error: kPassNullError);
+          return "";
+        } else if ((PhoneNum != value)) {
+          addError(error: kMatchPassError);
+          return "";
+        }
+        return null;
+      },
       decoration: InputDecoration(
         labelText: "ReEnterPhoneNumber",
         hintText: "Comfirm Phone Number",

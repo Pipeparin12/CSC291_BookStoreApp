@@ -1,3 +1,4 @@
+import 'package:bookstoreapp291/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:bookstoreapp291/components/custom_surfix_icon.dart';
 import 'package:bookstoreapp291/components/default_button.dart';
@@ -57,7 +58,20 @@ class _CompleteAddressFormState extends State<CompleteAddressForm> {
 
   TextFormField buildAddressFormField() {
     return TextFormField(
-      onSaved: (newValue) => Address = newValue,
+      onSaved: (newValue) => Address = newValue!,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: kAddressNullError);
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value!.isEmpty) {
+          addError(error: kAddressNullError);
+          return "";
+        }
+        return null;
+      },
       decoration: InputDecoration(
         labelText: "Address",
         hintText: "Enter your Address",
@@ -72,7 +86,20 @@ class _CompleteAddressFormState extends State<CompleteAddressForm> {
 
   TextFormField buildPostalCodeFormField() {
     return TextFormField(
-      onSaved: (newValue) => PostalCode = newValue,
+      onSaved: (newValue) => PostalCode = newValue!,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: kAddressNullError);
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value!.isEmpty) {
+          addError(error: kAddressNullError);
+          return "";
+        }
+        return null;
+      },
       decoration: InputDecoration(
         labelText: "PostalCode",
         hintText: "Enter Postal Code",

@@ -33,7 +33,7 @@ class ProfilePic extends StatelessWidget {
                   },
                   child: Icon(
                     Icons.camera_alt,
-                    color: Colors.orange,
+                    color: Colors.grey,
                     size: 28.0,
                   )),
             ),

@@ -110,7 +110,8 @@ class _OtpFormState extends State<OtpForm> {
           SizedBox(height: SizeConfig.screenHeight * 0.15),
           DefaultButton(
             text: "Comfirm",
-            press: () => Navigator.pushNamed(context, ProfileScreen.routeName),
+            press: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ProfileScreen())),
           ),
         ],
       ),

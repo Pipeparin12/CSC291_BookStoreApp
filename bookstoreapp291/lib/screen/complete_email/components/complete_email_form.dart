@@ -48,7 +48,8 @@ class _CompleteEmailFormState extends State<CompleteEmailForm> {
             text: "CONTINUE",
             press: () {
               if (_formKey.currentState!.validate()) {
-                Navigator.pushNamed(context, OtpScreen.routeName);
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => OtpScreen()));
               }
             },
           ),

@@ -45,7 +45,8 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
             text: "SAVE",
             press: () {
               if (_formKey.currentState!.validate()) {
-                Navigator.pushNamed(context, ProfileScreen.routeName);
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ProfileScreen()));
               }
             },
           ),

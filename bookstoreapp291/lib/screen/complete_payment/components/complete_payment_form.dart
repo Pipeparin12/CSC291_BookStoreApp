@@ -50,7 +50,8 @@ class _CompletePaymentFormState extends State<CompletePaymentForm> {
             text: "SAVE",
             press: () {
               if (_formKey.currentState!.validate()) {
-                Navigator.pushNamed(context, ProfileScreen.routeName);
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ProfileScreen()));
               }
             },
           ),

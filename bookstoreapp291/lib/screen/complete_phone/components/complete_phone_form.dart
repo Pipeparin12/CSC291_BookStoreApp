@@ -45,7 +45,8 @@ class _CompletePhoneFormState extends State<CompletePhoneForm> {
             text: "CONTINUE",
             press: () {
               if (_formKey.currentState!.validate()) {
-                Navigator.pushNamed(context, OtpPhoneScreen.routeName);
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => OtpPhoneScreen()));
               }
             },
           ),

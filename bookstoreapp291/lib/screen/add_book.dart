@@ -1,9 +1,11 @@
+import 'package:bookstoreapp291/model/product.dart';
 import 'package:bookstoreapp291/sizedConfig.dart';
 import 'package:bookstoreapp291/theme/light_color.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 
 class AddBook extends StatefulWidget {
   AddBook({Key? key}) : super(key: key);
@@ -142,6 +144,7 @@ class _AddBookState extends State<AddBook> {
                                             int.parse(priceController.text);
                                         int amount =
                                             int.parse(amountController.text);
+
                                       },
                                       child: const Text('Confirm'),
                                     ),
@@ -177,7 +180,7 @@ Widget _entryField(
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: TextField(
+          child: TextFormField(
             decoration: InputDecoration(
               border: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(
@@ -188,6 +191,7 @@ Widget _entryField(
               hintText: hintText,
               floatingLabelBehavior: FloatingLabelBehavior.always,
             ),
+            validator: RequiredValidator(errorText: "No input"),
           ),
         )
       ],

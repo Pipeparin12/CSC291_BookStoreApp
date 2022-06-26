@@ -22,21 +22,20 @@ class ProfilePic extends StatelessWidget {
             right: -16,
             bottom: 0,
             child: SizedBox(
-              height: 46,
-              width: 46,
-              child: InkWell(
-                  onTap: () {
-                    showModalBottomSheet(
-                      context: context,
-                      builder: ((Builder) => BottomSheet()),
-                    );
-                  },
-                  child: Icon(
-                    Icons.camera_alt,
-                    color: Colors.grey,
-                    size: 28.0,
-                  )),
-            ),
+                height: 46,
+                width: 46,
+                child: InkWell(
+                    onTap: () {
+                      showModalBottomSheet(
+                        context: context,
+                        builder: ((Builder) => BottomSheet()),
+                      );
+                    },
+                    child: Icon(
+                      Icons.camera_alt,
+                      color: Colors.grey,
+                      size: 28.0,
+                    ))),
           )
         ],
       ),

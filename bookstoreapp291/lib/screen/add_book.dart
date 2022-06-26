@@ -1,7 +1,9 @@
 import 'package:bookstoreapp291/sizedConfig.dart';
 import 'package:bookstoreapp291/theme/light_color.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddBook extends StatefulWidget {
   AddBook({Key? key}) : super(key: key);
@@ -17,8 +19,14 @@ class _AddBookState extends State<AddBook> {
   final priceController = TextEditingController();
   final amountController = TextEditingController();
   final Future<FirebaseApp> firebase = Firebase.initializeApp();
+  CollectionReference _bookCollection =
+      FirebaseFirestore.instance.collection("books");
 
   int _counter = 0;
+
+  Future pickImage() async {
+    await ImagePicker().pickImage(source: ImageSource.gallery);
+  }
 
   void _incrementCounter() {
     setState(() {
@@ -105,9 +113,9 @@ class _AddBookState extends State<AddBook> {
                                           )),
                                           Padding(
                                             padding:
-                                                const EdgeInsets.only(top: 50),
+                                                const EdgeInsets.only(top: 40),
                                             child: IconButton(
-                                                onPressed: () {},
+                                                onPressed: () => pickImage(),
                                                 iconSize: 80,
                                                 icon: Icon(Icons
                                                     .add_a_photo_outlined)),

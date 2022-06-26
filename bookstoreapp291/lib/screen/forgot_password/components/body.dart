@@ -1,3 +1,4 @@
+import 'package:bookstoreapp291/screen/otp/otp_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:bookstoreapp291/components/custom_surfix_icon.dart';
 import 'package:bookstoreapp291/components/default_button.dart';
@@ -102,6 +103,8 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
             press: () {
               if (_formKey.currentState!.validate()) {
                 // Do what you want to do
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => OtpScreen()));
               }
             },
           ),

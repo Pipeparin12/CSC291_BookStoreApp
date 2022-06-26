@@ -1,3 +1,4 @@
+import 'package:bookstoreapp291/screen/otp_phone/otp_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:bookstoreapp291/constants.dart';
 import 'package:bookstoreapp291/size_config.dart';
@@ -26,7 +27,12 @@ class Body extends StatelessWidget {
               SizedBox(height: SizeConfig.screenHeight * 0.1),
               GestureDetector(
                 onTap: () {
-                  // OTP code resend
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => OtpPhoneScreen(),
+                    ),
+                  );
                 },
                 child: Text(
                   "Resend OTP Code",

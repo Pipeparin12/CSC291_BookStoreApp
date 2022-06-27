@@ -1,6 +1,7 @@
 import 'package:bookstoreapp291/widget/bottomNavBar.dart';
 import 'package:flutter/material.dart';
 import 'package:bookstoreapp291/components/default_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:bookstoreapp291/size_config.dart';
 

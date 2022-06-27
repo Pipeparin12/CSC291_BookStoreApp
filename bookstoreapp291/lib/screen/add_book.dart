@@ -23,14 +23,22 @@ class _AddBookState extends State<AddBook> {
   final priceController = TextEditingController();
   final amountController = TextEditingController();
   final Future<FirebaseApp> firebase = Firebase.initializeApp();
-  CollectionReference _bookCollection =
-      FirebaseFirestore.instance.collection("books");
-  Book myBook = Book();
+  CollectionReference books = FirebaseFirestore.instance.collection("books");
+  // Book myBook = Book();
 
   int _counter = 0;
 
   Future pickImage() async {
     final result = await ImagePicker().pickImage(source: ImageSource.gallery);
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    desController.dispose();
+    priceController.dispose();
+    amountController.dispose();
+    super.dispose();
   }
 
   void _incrementCounter() {
@@ -86,38 +94,26 @@ class _AddBookState extends State<AddBook> {
                                           const EdgeInsets.only(bottom: 30),
                                       child: Column(
                                         children: [
-                                          _entryField('Name', 'Enter Book Name',
-                                              nameController, (String name) {
-                                            myBook.name = name;
-                                          },
-                                              RequiredValidator(
-                                                  errorText:
-                                                      "Please enter name")),
                                           _entryField(
-                                              'Description',
-                                              'Enter Description',
-                                              nameController,
-                                              (String description) {
-                                            myBook.description = description;
-                                          },
-                                              RequiredValidator(
-                                                  errorText:
-                                                      "Please enter description")),
-                                          _entryField('Price', 'Enter Price',
-                                              nameController, (String price) {
-                                            myBook.price = price;
-                                          },
-                                              RequiredValidator(
-                                                  errorText:
-                                                      "Please enter price")),
-                                          _entryField('Amount', 'Enter Amount',
-                                              nameController, (int amount) {
-                                            myBook.amount =
-                                                int.parse(amount.toString());
-                                          },
-                                              RequiredValidator(
-                                                  errorText:
-                                                      "Please enter amount")),
+                                            'Name',
+                                            'Enter Book Name',
+                                            nameController,
+                                          ),
+                                          _entryField(
+                                            'Description',
+                                            'Enter Description',
+                                            nameController,
+                                          ),
+                                          _entryField(
+                                            'Price',
+                                            'Enter Price',
+                                            nameController,
+                                          ),
+                                          _entryField(
+                                            'Amount',
+                                            'Enter Amount',
+                                            amountController,
+                                          ),
                                           // Expanded(
                                           //     child: Row(
                                           //   mainAxisAlignment:
@@ -165,17 +161,14 @@ class _AddBookState extends State<AddBook> {
                                             const EdgeInsets.all(10.0)),
                                       ),
                                       onPressed: () async {
-                                        if (formKey.currentState!.validate()) {
-                                          formKey.currentState!.save();
-                                          await _bookCollection.add({
-                                            "name": myBook.name,
-                                            "description": myBook.description,
-                                            "price": myBook.price,
-                                            "amount": myBook.amount,
-                                            "image": myBook.image
-                                          });
-                                          formKey.currentState!.reset();
-                                        }
+                                        await books.add({
+                                          'name': nameController.text,
+                                          'description': desController.text,
+                                          'price':
+                                              int.parse(priceController.text),
+                                          'amount':
+                                              int.parse(amountController.text),
+                                        });
                                       },
                                       child: const Text('Confirm'),
                                     ),
@@ -199,8 +192,8 @@ class _AddBookState extends State<AddBook> {
   }
 }
 
-Widget _entryField(String title, String hintText,
-    TextEditingController controller, Function onSaved, Function validator) {
+Widget _entryField(
+    String title, String hintText, TextEditingController controller) {
   return Container(
     margin: const EdgeInsets.only(left: 30, right: 30, top: 15),
     child: Column(

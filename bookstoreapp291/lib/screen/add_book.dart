@@ -78,9 +78,9 @@ class _AddBookState extends State<AddBook> {
                                           _entryField(
                                               'Description',
                                               'Enter Description',
-                                              nameController),
+                                              desController),
                                           _entryField('Price', 'Enter Price',
-                                              nameController),
+                                              priceController),
                                           Expanded(
                                               child: Row(
                                             mainAxisAlignment:

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:bookstoreapp291/components/custom_surfix_icon.dart';
 import 'package:bookstoreapp291/components/default_button.dart';
 import 'package:bookstoreapp291/components/form_error.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:bookstoreapp291/screen/complete_profile/complete_profile_screen.dart';
 
 import '../../../constants.dart';
@@ -15,8 +16,8 @@ class SignUpForm extends StatefulWidget {
 
 class _SignUpFormState extends State<SignUpForm> {
   final _formKey = GlobalKey<FormState>();
-  String? email;
-  String? password;
+  late String email;
+  late String password;
   String? conform_password;
   bool remember = false;
   final List<String?> errors = [];
@@ -50,9 +51,15 @@ class _SignUpFormState extends State<SignUpForm> {
           SizedBox(height: getProportionateScreenHeight(40)),
           DefaultButton(
             text: "Continue",
-            press: () {
+            press: () async {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
+                try {
+                  FirebaseAuth.instance.createUserWithEmailAndPassword(
+                      email: email, password: password);
+                } on FirebaseAuthException catch (e) {
+                  print(e.message);
+                }
                 // if all are valid then go to success screen
                 Navigator.push(
                     context,
@@ -102,7 +109,7 @@ class _SignUpFormState extends State<SignUpForm> {
   TextFormField buildPasswordFormField() {
     return TextFormField(
       obscureText: true,
-      onSaved: (newValue) => password = newValue,
+      onSaved: (newValue) => password = newValue!,
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: kPassNullError);
@@ -135,7 +142,7 @@ class _SignUpFormState extends State<SignUpForm> {
   TextFormField buildEmailFormField() {
     return TextFormField(
       keyboardType: TextInputType.emailAddress,
-      onSaved: (newValue) => email = newValue,
+      onSaved: (newValue) => email = newValue!,
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: kEmailNullError);

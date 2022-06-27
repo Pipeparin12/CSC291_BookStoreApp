@@ -22,12 +22,13 @@ class _SellerCentreState extends State<SellerCentre> {
         centerTitle: true,
         backgroundColor: Colors.grey,
         leading: IconButton(
-            icon: Icon(Icons.add_shopping_cart),
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return BottomNavBar();
-              }));
-            }),
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return BottomNavBar();
+            }));
+          },
+          icon: Icon(Icons.add_shopping_cart),
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(children: <Widget>[

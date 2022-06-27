@@ -1,3 +1,4 @@
+import 'package:bookstoreapp291/model/book.dart';
 import 'package:bookstoreapp291/model/product.dart';
 import 'package:bookstoreapp291/sizedConfig.dart';
 import 'package:bookstoreapp291/theme/light_color.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:path/path.dart';
 
 class AddBook extends StatefulWidget {
   AddBook({Key? key}) : super(key: key);
@@ -23,11 +25,12 @@ class _AddBookState extends State<AddBook> {
   final Future<FirebaseApp> firebase = Firebase.initializeApp();
   CollectionReference _bookCollection =
       FirebaseFirestore.instance.collection("books");
+  Book myBook = Book();
 
   int _counter = 0;
 
   Future pickImage() async {
-    await ImagePicker().pickImage(source: ImageSource.gallery);
+    final result = await ImagePicker().pickImage(source: ImageSource.gallery);
   }
 
   void _incrementCounter() {
@@ -84,35 +87,59 @@ class _AddBookState extends State<AddBook> {
                                       child: Column(
                                         children: [
                                           _entryField('Name', 'Enter Book Name',
-                                              nameController),
+                                              nameController, (String name) {
+                                            myBook.name = name;
+                                          },
+                                              RequiredValidator(
+                                                  errorText:
+                                                      "Please enter name")),
                                           _entryField(
                                               'Description',
                                               'Enter Description',
-                                              desController),
+                                              nameController,
+                                              (String description) {
+                                            myBook.description = description;
+                                          },
+                                              RequiredValidator(
+                                                  errorText:
+                                                      "Please enter description")),
                                           _entryField('Price', 'Enter Price',
-                                              priceController),
-                                          Expanded(
-                                              child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text('Amount'),
-                                              RoundedIconBtn(
-                                                icon: Icons.remove,
-                                                press: () {
-                                                  _decrementCounter();
-                                                },
-                                              ),
-                                              Text('$_counter'),
-                                              RoundedIconBtn(
-                                                icon: Icons.add,
-                                                showShadow: true,
-                                                press: () {
-                                                  _incrementCounter();
-                                                },
-                                              ),
-                                            ],
-                                          )),
+                                              nameController, (String price) {
+                                            myBook.price = price;
+                                          },
+                                              RequiredValidator(
+                                                  errorText:
+                                                      "Please enter price")),
+                                          _entryField('Amount', 'Enter Amount',
+                                              nameController, (int amount) {
+                                            myBook.amount =
+                                                int.parse(amount.toString());
+                                          },
+                                              RequiredValidator(
+                                                  errorText:
+                                                      "Please enter amount")),
+                                          // Expanded(
+                                          //     child: Row(
+                                          //   mainAxisAlignment:
+                                          //       MainAxisAlignment.center,
+                                          //   children: [
+                                          //     Text('Amount'),
+                                          //     RoundedIconBtn(
+                                          //       icon: Icons.remove,
+                                          //       press: () {
+                                          //         _decrementCounter();
+                                          //       },
+                                          //     ),
+                                          //     Text('$_counter'),
+                                          //     RoundedIconBtn(
+                                          //       icon: Icons.add,
+                                          //       showShadow: true,
+                                          //       press: () {
+                                          //         _incrementCounter();
+                                          //       },
+                                          //     ),
+                                          //   ],
+                                          // )),
                                           Padding(
                                             padding:
                                                 const EdgeInsets.only(top: 40),
@@ -137,14 +164,18 @@ class _AddBookState extends State<AddBook> {
                                         padding: MaterialStateProperty.all(
                                             const EdgeInsets.all(10.0)),
                                       ),
-                                      onPressed: () {
-                                        String name = nameController.text;
-                                        String description = desController.text;
-                                        int price =
-                                            int.parse(priceController.text);
-                                        int amount =
-                                            int.parse(amountController.text);
-
+                                      onPressed: () async {
+                                        if (formKey.currentState!.validate()) {
+                                          formKey.currentState!.save();
+                                          await _bookCollection.add({
+                                            "name": myBook.name,
+                                            "description": myBook.description,
+                                            "price": myBook.price,
+                                            "amount": myBook.amount,
+                                            "image": myBook.image
+                                          });
+                                          formKey.currentState!.reset();
+                                        }
                                       },
                                       child: const Text('Confirm'),
                                     ),
@@ -168,11 +199,8 @@ class _AddBookState extends State<AddBook> {
   }
 }
 
-Widget _entryField(
-  String title,
-  String hintText,
-  TextEditingController controller,
-) {
+Widget _entryField(String title, String hintText,
+    TextEditingController controller, Function onSaved, Function validator) {
   return Container(
     margin: const EdgeInsets.only(left: 30, right: 30, top: 15),
     child: Column(
@@ -191,7 +219,6 @@ Widget _entryField(
               hintText: hintText,
               floatingLabelBehavior: FloatingLabelBehavior.always,
             ),
-            validator: RequiredValidator(errorText: "No input"),
           ),
         )
       ],

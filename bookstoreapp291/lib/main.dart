@@ -1,5 +1,7 @@
 import 'package:bookstoreapp291/screen/sign_in/sign_in_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+
 import 'package:bookstoreapp291/routes.dart';
 import 'package:bookstoreapp291/screen/profile/profile_screen.dart';
 import 'package:bookstoreapp291/screen/splash/splash_screen.dart';

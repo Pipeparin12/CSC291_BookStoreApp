@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:bookstoreapp291/components/custom_surfix_icon.dart';
 import 'package:bookstoreapp291/components/form_error.dart';
@@ -19,6 +20,7 @@ class _SignFormState extends State<SignForm> {
   final _formKey = GlobalKey<FormState>();
   late String email;
   late String password;
+  final Future<FirebaseApp> firebase = Firebase.initializeApp();
   bool? remember = false;
   final List<String?> errors = [];
 
@@ -75,10 +77,17 @@ class _SignFormState extends State<SignForm> {
           SizedBox(height: getProportionateScreenHeight(20)),
           DefaultButton(
             text: "Continue",
-            press: () {
+            press: () async {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
-
+                try {
+                  await FirebaseAuth.instance
+                      .signInWithEmailAndPassword(
+                          email: email, password: password)
+                      .then((value) {});
+                } on FirebaseAuthException catch (e) {
+                  print(e.message);
+                }
                 // if all are valid then go to success screen
                 Navigator.push(
                     context,

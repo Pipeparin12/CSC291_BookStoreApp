@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class Product {
   final int id;
-  final String name, description;
+  final String name, description,  price;
   final String images;
-  final double rating, price;
+  final double rating;
   final bool isBookmark;
   final int amount;
 
@@ -25,7 +25,7 @@ List<Product> demoProducts = [
     id: 1,
     images: 'images/the_help_book.png',
     name: "The Help",
-    price: 200,
+    price: '200',
     description: description,
     rating: 4.8,
     isBookmark: true,
@@ -35,7 +35,7 @@ List<Product> demoProducts = [
     id: 2,
     images: "images/the_kite_runner_book.png",
     name: "The Kite Runner",
-    price: 245,
+    price: '245',
     description: description,
     rating: 4.1,
     amount: 2,
@@ -44,7 +44,7 @@ List<Product> demoProducts = [
     id: 3,
     images: "images/water_for_elephant_book.png",
     name: "Water for Elephants",
-    price: 150,
+    price: '150',
     description: description,
     rating: 4.1,
     amount: 1,
@@ -53,7 +53,7 @@ List<Product> demoProducts = [
     id: 4,
     images: "images/the_book_thief.png",
     name: "The Book Thief",
-    price: 299,
+    price: '299',
     description: description,
     rating: 4.1,
     isBookmark: true,

@@ -17,14 +17,55 @@ class AddBook extends StatefulWidget {
 }
 
 class _AddBookState extends State<AddBook> {
-  final formKey = GlobalKey<FormState>();
-  final nameController = TextEditingController();
-  final desController = TextEditingController();
-  final priceController = TextEditingController();
-  final amountController = TextEditingController();
+  GlobalKey<FormState> formState = new GlobalKey<FormState>();
+  // var nameController = TextEditingController();
+  // var desController = TextEditingController();
+  // var priceController = TextEditingController();
+  // var amountController = TextEditingController();
   final Future<FirebaseApp> firebase = Firebase.initializeApp();
   CollectionReference books = FirebaseFirestore.instance.collection("books");
-  // Book myBook = Book();
+  late String bookName;
+  late String bookDes;
+  late int bookPrice;
+  late int bookAmount;
+
+  getBookName(name) {
+    bookName = name;
+  }
+
+  getBookDes(des) {
+    bookDes = des;
+  }
+
+  getPrice(price) {
+    bookPrice = price;
+  }
+
+  getAmount(amount) {
+    bookAmount = amount;
+  }
+
+  createBookData() {
+    DocumentReference documentReference =
+        FirebaseFirestore.instance.collection('books').doc(bookName);
+
+    // create Map to send data in key:value pair form
+    Map<String, dynamic> books = ({
+      "bookName": bookName,
+      "bookDes": bookDes,
+      "bookPrice": bookPrice,
+      "bookAmount": bookAmount
+    });
+
+    // send data to Firebase
+    if (books != null) {
+      documentReference
+          .set(books)
+          .whenComplete(() => print('$bookName created'));
+    } else {
+      print('error');
+    }
+  }
 
   int _counter = 0;
 
@@ -32,26 +73,26 @@ class _AddBookState extends State<AddBook> {
     final result = await ImagePicker().pickImage(source: ImageSource.gallery);
   }
 
-  @override
-  void dispose() {
-    nameController.dispose();
-    desController.dispose();
-    priceController.dispose();
-    amountController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   nameController.dispose();
+  //   desController.dispose();
+  //   priceController.dispose();
+  //   amountController.dispose();
+  //   super.dispose();
+  // }
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  // void _incrementCounter() {
+  //   setState(() {
+  //     _counter++;
+  //   });
+  // }
 
-  void _decrementCounter() {
-    setState(() {
-      _counter--;
-    });
-  }
+  // void _decrementCounter() {
+  //   setState(() {
+  //     _counter--;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +118,7 @@ class _AddBookState extends State<AddBook> {
                   backgroundColor: Colors.grey,
                 ),
                 body: Form(
-                  key: formKey,
+                  key: formState,
                   child: CustomScrollView(
                     slivers: [
                       SliverFillRemaining(
@@ -94,26 +135,23 @@ class _AddBookState extends State<AddBook> {
                                           const EdgeInsets.only(bottom: 30),
                                       child: Column(
                                         children: [
-                                          _entryField(
-                                            'Name',
-                                            'Enter Book Name',
-                                            nameController,
-                                          ),
-                                          _entryField(
-                                            'Description',
-                                            'Enter Description',
-                                            nameController,
-                                          ),
-                                          _entryField(
-                                            'Price',
-                                            'Enter Price',
-                                            nameController,
-                                          ),
-                                          _entryField(
-                                            'Amount',
-                                            'Enter Amount',
-                                            amountController,
-                                          ),
+                                          _entryField('Name', 'Enter Book Name',
+                                              (String name) {
+                                            getBookName(name);
+                                          }),
+                                          _entryField('Description',
+                                              'Enter Description',
+                                              (String des) {
+                                            getBookDes(des);
+                                          }),
+                                          _entryField('Price', 'Enter Price',
+                                              (int price) {
+                                            getPrice(price);
+                                          }),
+                                          _entryField('Amount', 'Enter Amount',
+                                              (int amount) {
+                                            getAmount(amount);
+                                          }),
                                           // Expanded(
                                           //     child: Row(
                                           //   mainAxisAlignment:
@@ -160,16 +198,7 @@ class _AddBookState extends State<AddBook> {
                                         padding: MaterialStateProperty.all(
                                             const EdgeInsets.all(10.0)),
                                       ),
-                                      onPressed: () async {
-                                        await books.add({
-                                          'name': nameController.text,
-                                          'description': desController.text,
-                                          'price':
-                                              int.parse(priceController.text),
-                                          'amount':
-                                              int.parse(amountController.text),
-                                        });
-                                      },
+                                      onPressed: () => createBookData(),
                                       child: const Text('Confirm'),
                                     ),
                                   )
@@ -192,8 +221,7 @@ class _AddBookState extends State<AddBook> {
   }
 }
 
-Widget _entryField(
-    String title, String hintText, TextEditingController controller) {
+Widget _entryField(String title, String hintText, Function onChanged) {
   return Container(
     margin: const EdgeInsets.only(left: 30, right: 30, top: 15),
     child: Column(
@@ -201,7 +229,7 @@ Widget _entryField(
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: TextFormField(
+          child: TextField(
             decoration: InputDecoration(
               border: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(
@@ -219,37 +247,37 @@ Widget _entryField(
   );
 }
 
-class RoundedIconBtn extends StatelessWidget {
-  const RoundedIconBtn({
-    Key? key,
-    required this.icon,
-    required this.press,
-    this.showShadow = false,
-  }) : super(key: key);
+// class RoundedIconBtn extends StatelessWidget {
+//   const RoundedIconBtn({
+//     Key? key,
+//     required this.icon,
+//     required this.press,
+//     this.showShadow = false,
+//   }) : super(key: key);
 
-  final IconData icon;
-  final GestureTapCancelCallback press;
-  final bool showShadow;
+//   final IconData icon;
+//   final GestureTapCancelCallback press;
+//   final bool showShadow;
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        boxShadow: [
-          if (showShadow)
-            BoxShadow(
-              offset: Offset(0, 6),
-              blurRadius: 10,
-              color: Color(0xFFB0B0B0).withOpacity(0.2),
-            ),
-        ],
-      ),
-      child: IconButton(
-        color: LightColor.grey,
-        onPressed: press,
-        icon: Icon(icon),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       decoration: BoxDecoration(
+//         shape: BoxShape.circle,
+//         boxShadow: [
+//           if (showShadow)
+//             BoxShadow(
+//               offset: Offset(0, 6),
+//               blurRadius: 10,
+//               color: Color(0xFFB0B0B0).withOpacity(0.2),
+//             ),
+//         ],
+//       ),
+//       child: IconButton(
+//         color: LightColor.grey,
+//         onPressed: press,
+//         icon: Icon(icon),
+//       ),
+//     );
+//   }
+// }

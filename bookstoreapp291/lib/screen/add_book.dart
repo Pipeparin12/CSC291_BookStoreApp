@@ -1,13 +1,18 @@
+import 'dart:html';
+import 'dart:convert';
+
 import 'package:bookstoreapp291/model/book.dart';
 import 'package:bookstoreapp291/model/product.dart';
 import 'package:bookstoreapp291/sizedConfig.dart';
 import 'package:bookstoreapp291/theme/light_color.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:path/path.dart';
+import 'package:path/path.dart' as path;
 
 class AddBook extends StatefulWidget {
   AddBook({Key? key}) : super(key: key);
@@ -29,23 +34,28 @@ class _AddBookState extends State<AddBook> {
   late int bookPrice;
   late int bookAmount;
 
-  getBookName(name) {
+  getBookName(String name) {
     bookName = name;
   }
 
-  getBookDes(des) {
+  getBookDes(String des) {
     bookDes = des;
   }
 
-  getPrice(price) {
+  getPrice(int price) {
     bookPrice = price;
   }
 
-  getAmount(amount) {
+  getAmount(int amount) {
     bookAmount = amount;
   }
 
   createBookData() {
+    debugPrint(bookName);
+    debugPrint(bookDes);
+    debugPrint(bookPrice.toString());
+    debugPrint(bookAmount.toString());
+
     DocumentReference documentReference =
         FirebaseFirestore.instance.collection('books').doc(bookName);
 
@@ -65,12 +75,6 @@ class _AddBookState extends State<AddBook> {
     } else {
       print('error');
     }
-  }
-
-  int _counter = 0;
-
-  Future pickImage() async {
-    final result = await ImagePicker().pickImage(source: ImageSource.gallery);
   }
 
   // @override
@@ -145,12 +149,12 @@ class _AddBookState extends State<AddBook> {
                                             getBookDes(des);
                                           }),
                                           _entryField('Price', 'Enter Price',
-                                              (int price) {
-                                            getPrice(price);
+                                              (String price) {
+                                            getPrice(int.parse(price));
                                           }),
                                           _entryField('Amount', 'Enter Amount',
-                                              (int amount) {
-                                            getAmount(amount);
+                                              (String amount) {
+                                            getAmount(int.parse(amount));
                                           }),
                                           // Expanded(
                                           //     child: Row(
@@ -178,7 +182,7 @@ class _AddBookState extends State<AddBook> {
                                             padding:
                                                 const EdgeInsets.only(top: 40),
                                             child: IconButton(
-                                                onPressed: () => pickImage(),
+                                                onPressed: () {},
                                                 iconSize: 80,
                                                 icon: Icon(Icons
                                                     .add_a_photo_outlined)),
@@ -221,7 +225,7 @@ class _AddBookState extends State<AddBook> {
   }
 }
 
-Widget _entryField(String title, String hintText, Function onChanged) {
+Widget _entryField(String title, String hintText, Function(String) onChanged) {
   return Container(
     margin: const EdgeInsets.only(left: 30, right: 30, top: 15),
     child: Column(
@@ -230,6 +234,7 @@ Widget _entryField(String title, String hintText, Function onChanged) {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextField(
+            onChanged: onChanged,
             decoration: InputDecoration(
               border: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(

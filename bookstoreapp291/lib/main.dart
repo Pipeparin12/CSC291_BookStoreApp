@@ -1,4 +1,5 @@
 import 'package:bookstoreapp291/screen/add_book.dart';
+import 'package:bookstoreapp291/screen/sign_in/sign_in_screen.dart';
 import 'package:bookstoreapp291/test.dart';
 import 'package:bookstoreapp291/theme/light_color.dart';
 import 'package:bookstoreapp291/widget/sellerNavbar.dart';
@@ -10,7 +11,6 @@ import 'package:bookstoreapp291/widget/bottomNavBar.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-      name: 'bookstoreapp291-pipe',
       options: FirebaseOptions(
           apiKey:
               'BErUooYtmwHXmgf4QLedMnPq5CxPSndp2VBxLDsnU7WZmh0g6jbPIzaz76tV0Q0m7fLdgLBRm4Vix0zrWxPs1jo',
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.grey,
       ),
-      home: BottomNavBar(),
+      home: SignInScreen(),
     );
   }
 }

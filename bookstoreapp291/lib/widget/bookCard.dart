@@ -5,6 +5,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:bookstoreapp291/theme/light_color.dart';
 import 'package:bookstoreapp291/model/product.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class bookCard extends StatelessWidget {
   const bookCard({Key? key, required this.product, required this.press})

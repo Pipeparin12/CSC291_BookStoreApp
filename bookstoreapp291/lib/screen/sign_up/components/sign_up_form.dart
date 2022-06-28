@@ -1,4 +1,3 @@
-import 'package:bookstoreapp291/screen/Profile.dart';
 import 'package:bookstoreapp291/screen/login_success/login_success_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:bookstoreapp291/components/custom_surfix_icon.dart';
@@ -16,8 +15,9 @@ class SignUpForm extends StatefulWidget {
 }
 
 class _SignUpFormState extends State<SignUpForm> {
-  final formKey = GlobalKey<FormState>();
-  Profile profile = Profile();
+  final _formKey = GlobalKey<FormState>();
+  late String email;
+  late String password;
   String? conform_password;
   bool remember = false;
   final List<String?> errors = [];
@@ -39,7 +39,7 @@ class _SignUpFormState extends State<SignUpForm> {
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: formKey,
+      key: _formKey,
       child: Column(
         children: [
           buildEmailFormField(),
@@ -52,11 +52,11 @@ class _SignUpFormState extends State<SignUpForm> {
           DefaultButton(
             text: "Continue",
             press: () async {
-              if (formKey.currentState!.validate()) {
-                formKey.currentState!.save();
+              if (_formKey.currentState!.validate()) {
+                _formKey.currentState!.save();
                 try {
                   FirebaseAuth.instance.createUserWithEmailAndPassword(
-                      email: profile.email, password: profile.password);
+                      email: email, password: password);
                 } on FirebaseAuthException catch (e) {
                   print(e.message);
                 }
@@ -80,7 +80,7 @@ class _SignUpFormState extends State<SignUpForm> {
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: kPassNullError);
-        } else if (value.isNotEmpty && profile.password == conform_password) {
+        } else if (value.isNotEmpty && password == conform_password) {
           removeError(error: kMatchPassError);
         }
         conform_password = value;
@@ -89,7 +89,7 @@ class _SignUpFormState extends State<SignUpForm> {
         if (value!.isEmpty) {
           addError(error: kPassNullError);
           return "";
-        } else if ((profile.password != value)) {
+        } else if ((password != value)) {
           addError(error: kMatchPassError);
           return "";
         }
@@ -109,8 +109,24 @@ class _SignUpFormState extends State<SignUpForm> {
   TextFormField buildPasswordFormField() {
     return TextFormField(
       obscureText: true,
-      onSaved: (String? password) {
-        profile.password = password!;
+      onSaved: (newValue) => password = newValue!,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: kPassNullError);
+        } else if (value.length >= 8) {
+          removeError(error: kShortPassError);
+        }
+        password = value;
+      },
+      validator: (value) {
+        if (value!.isEmpty) {
+          addError(error: kPassNullError);
+          return "";
+        } else if (value.length < 8) {
+          addError(error: kShortPassError);
+          return "";
+        }
+        return null;
       },
       decoration: InputDecoration(
         labelText: "Password",
@@ -126,8 +142,24 @@ class _SignUpFormState extends State<SignUpForm> {
   TextFormField buildEmailFormField() {
     return TextFormField(
       keyboardType: TextInputType.emailAddress,
-      onSaved: (String? email) {
-        profile.email = email!;
+      onSaved: (newValue) => email = newValue!,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: kEmailNullError);
+        } else if (emailValidatorRegExp.hasMatch(value)) {
+          removeError(error: kInvalidEmailError);
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value!.isEmpty) {
+          addError(error: kEmailNullError);
+          return "";
+        } else if (!emailValidatorRegExp.hasMatch(value)) {
+          addError(error: kInvalidEmailError);
+          return "";
+        }
+        return null;
       },
       decoration: InputDecoration(
         labelText: "Email",

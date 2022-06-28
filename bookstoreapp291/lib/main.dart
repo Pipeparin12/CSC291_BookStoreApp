@@ -15,12 +15,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
-      name: 'BookStoreApp291',
       options: FirebaseOptions(
-          apiKey:
-              'BErUooYtmwHXmgf4QLedMnPq5CxPSndp2VBxLDsnU7WZmh0g6jbPIzaz76tV0Q0m7fLdgLBRm4Vix0zrWxPs1jo',
-          appId: '1:484998251170:android:3664b9b236ab3636954dfb',
-          messagingSenderId: '',
+          apiKey: 'AIzaSyCP7aV-ug8cSLUCJG5CqaaMVO5oPgViu10',
+          appId: '1:484998251170:web:bdbf04ddf58ee78c954dfb',
+          messagingSenderId: '484998251170',
           projectId: 'book-store-app-291'));
 
   runApp(const MyApp());

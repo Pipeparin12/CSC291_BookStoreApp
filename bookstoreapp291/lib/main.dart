@@ -1,8 +1,10 @@
 import 'package:bookstoreapp291/screen/add_book.dart';
 import 'package:bookstoreapp291/screen/sign_in/sign_in_screen.dart';
+import 'package:bookstoreapp291/screen/sign_up/sign_up_screen.dart';
 import 'package:bookstoreapp291/test.dart';
 import 'package:bookstoreapp291/theme/light_color.dart';
 import 'package:bookstoreapp291/widget/sellerNavbar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:bookstoreapp291/screen/homepage.dart';
@@ -10,6 +12,7 @@ import 'package:bookstoreapp291/widget/bottomNavBar.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
       options: FirebaseOptions(
           apiKey:
@@ -33,4 +36,20 @@ class MyApp extends StatelessWidget {
       home: SignInScreen(),
     );
   }
+}
+
+class SignInScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) => Scaffold(
+        body: StreamBuilder<User?>(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return BottomNavBar();
+            } else {
+              return SignUpScreen();
+            }
+          },
+        ),
+      );
 }

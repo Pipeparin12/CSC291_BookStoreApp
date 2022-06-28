@@ -66,14 +66,12 @@ class _SignFormState extends State<SignForm> {
             ),
             icon: Icon(
               Icons.lock_open,
-              size: 50,
+              size: 40,
             ),
             label: Text(
               'Sign In',
-              style: TextStyle(fontSize: 24),
             ),
-            onPressed: () => Navigator.push(context,
-                MaterialPageRoute(builder: (context) => BottomNavBar())),
+            onPressed: (SignIn),
           ),
         ],
       ),

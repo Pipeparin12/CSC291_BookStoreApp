@@ -8,6 +8,7 @@ class DefaultButton extends StatelessWidget {
     Key? key,
     this.text,
     this.press,
+    required Future<Null> Function() onPressed,
   }) : super(key: key);
   final String? text;
   final Function? press;

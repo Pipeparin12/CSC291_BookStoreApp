@@ -49,6 +49,8 @@ class _SignUpFormState extends State<SignUpForm> {
                         builder: (context) => LoginSuccessScreen()));
               }
             },
+            onPressed: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => LoginSuccessScreen())),
           ),
         ],
       ),

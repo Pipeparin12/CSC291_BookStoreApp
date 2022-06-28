@@ -82,6 +82,8 @@ class _SignFormState extends State<SignForm> {
                     ));
               }
             },
+            onPressed: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => LoginSuccessScreen())),
           ),
         ],
       ),

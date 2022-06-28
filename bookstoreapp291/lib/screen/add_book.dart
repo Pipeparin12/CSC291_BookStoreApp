@@ -77,6 +77,10 @@ class _AddBookState extends State<AddBook> {
     }
   }
 
+  Future<void> uploadImageToDatabase() async {
+    FirebaseFirestore.instance.collection('books');
+  }
+
   // @override
   // void dispose() {
   //   nameController.dispose();

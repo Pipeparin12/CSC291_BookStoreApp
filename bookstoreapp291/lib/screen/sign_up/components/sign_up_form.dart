@@ -22,7 +22,6 @@ class _SignUpFormState extends State<SignUpForm> {
 
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
     return Form(
       key: _formKey,
       child: Column(

@@ -15,6 +15,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
+      name: 'BookStoreApp291',
       options: FirebaseOptions(
           apiKey:
               'BErUooYtmwHXmgf4QLedMnPq5CxPSndp2VBxLDsnU7WZmh0g6jbPIzaz76tV0Q0m7fLdgLBRm4Vix0zrWxPs1jo',

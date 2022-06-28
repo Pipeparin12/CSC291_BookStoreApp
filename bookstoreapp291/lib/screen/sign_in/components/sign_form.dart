@@ -18,8 +18,8 @@ class SignForm extends StatefulWidget {
 
 class _SignFormState extends State<SignForm> {
   final _formKey = GlobalKey<FormState>();
-  late String _email;
-  late String _password;
+  late final String _email;
+  late final String _password;
   final auth = FirebaseAuth.instance;
   bool? remember = false;
 
@@ -59,34 +59,29 @@ class _SignFormState extends State<SignForm> {
             ],
           ),
           SizedBox(height: getProportionateScreenHeight(20)),
-          DefaultButton(
-            text: "Continue",
-            press: () async {
-              if (_formKey.currentState!.validate()) {
-                _formKey.currentState!.save();
-                try {
-                  await FirebaseAuth.instance
-                      .signInWithEmailAndPassword(
-                          email: _email, password: _password)
-                      .then((value) {
-                    _formKey.currentState!.reset();
-                  });
-                } on FirebaseAuthException catch (e) {
-                  print(e.message);
-                }
-                // if all are valid then go to success screen
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => LoginSuccessScreen(),
-                    ));
-              }
-            },
-            onPressed: () => Navigator.push(context,
-                MaterialPageRoute(builder: (context) => LoginSuccessScreen())),
+          ElevatedButton.icon(
+            style: ElevatedButton.styleFrom(
+              minimumSize: Size.fromHeight(20),
+            ),
+            icon: Icon(
+              Icons.lock_open,
+              size: 50,
+            ),
+            label: Text(
+              'Sign In',
+              style: TextStyle(fontSize: 24),
+            ),
+            onPressed: SignIn,
           ),
         ],
       ),
+    );
+  }
+
+  Future SignIn() async {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: _email.trim(),
+      password: _password.trim(),
     );
   }
 

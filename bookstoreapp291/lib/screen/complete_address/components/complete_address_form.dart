@@ -50,6 +50,8 @@ class _CompleteAddressFormState extends State<CompleteAddressForm> {
                     MaterialPageRoute(builder: (context) => ProfileScreen()));
               }
             },
+            onPressed: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ProfileScreen())),
           ),
         ],
       ),

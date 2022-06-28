@@ -107,6 +107,8 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
                     MaterialPageRoute(builder: (context) => OtpScreen()));
               }
             },
+            onPressed: () => Navigator.push(
+                context, MaterialPageRoute(builder: (context) => OtpScreen())),
           ),
           SizedBox(height: SizeConfig.screenHeight * 0.1),
           NoAccountText(),

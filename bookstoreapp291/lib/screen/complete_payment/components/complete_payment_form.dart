@@ -55,6 +55,8 @@ class _CompletePaymentFormState extends State<CompletePaymentForm> {
                     MaterialPageRoute(builder: (context) => ProfileScreen()));
               }
             },
+            onPressed: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ProfileScreen())),
           ),
         ],
       ),

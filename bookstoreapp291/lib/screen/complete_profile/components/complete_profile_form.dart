@@ -48,6 +48,8 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
                     MaterialPageRoute(builder: (context) => ProfileScreen()));
               }
             },
+            onPressed: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ProfileScreen())),
           ),
         ],
       ),

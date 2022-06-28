@@ -60,6 +60,10 @@ class CheckoutCard extends StatelessWidget {
                       context,
                       MaterialPageRoute(builder: (context) => CheckoutScreen()),
                     ),
+                    onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CheckoutScreen())),
                   ),
                 ),
               ],

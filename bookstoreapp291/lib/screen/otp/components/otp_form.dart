@@ -112,6 +112,8 @@ class _OtpFormState extends State<OtpForm> {
             text: "Comfirm",
             press: () => Navigator.push(context,
                 MaterialPageRoute(builder: (context) => ProfileScreen())),
+            onPressed: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ProfileScreen())),
           ),
         ],
       ),

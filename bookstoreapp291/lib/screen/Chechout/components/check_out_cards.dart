@@ -106,6 +106,10 @@ class CheckoutsCardState extends State<CheckoutsCard> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => BottomNavBar())),
+                    onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => BottomNavBar())),
                   ),
                 ),
               ],

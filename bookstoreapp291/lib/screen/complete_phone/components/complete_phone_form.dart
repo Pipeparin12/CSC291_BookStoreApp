@@ -50,6 +50,8 @@ class _CompletePhoneFormState extends State<CompletePhoneForm> {
                     MaterialPageRoute(builder: (context) => OtpPhoneScreen()));
               }
             },
+            onPressed: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => OtpPhoneScreen())),
           ),
         ],
       ),

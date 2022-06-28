@@ -52,6 +52,8 @@ class _CompleteEmailFormState extends State<CompleteEmailForm> {
                     MaterialPageRoute(builder: (context) => OtpScreen()));
               }
             },
+            onPressed: () => Navigator.push(
+                context, MaterialPageRoute(builder: (context) => OtpScreen())),
           ),
         ],
       ),

@@ -18,11 +18,11 @@ class _SignUpFormState extends State<SignUpForm> {
   final _formKey = GlobalKey<FormState>();
   late String _email;
   late String _password;
-  String? conform_password;
   bool remember = false;
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Form(
       key: _formKey,
       child: Column(
@@ -37,7 +37,7 @@ class _SignUpFormState extends State<SignUpForm> {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
                 try {
-                  FirebaseAuth.instance.createUserWithEmailAndPassword(
+                  await FirebaseAuth.instance.createUserWithEmailAndPassword(
                       email: _email, password: _password);
                 } on FirebaseAuthException catch (e) {
                   print(e.message);

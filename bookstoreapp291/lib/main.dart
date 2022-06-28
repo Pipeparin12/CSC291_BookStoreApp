@@ -1,4 +1,5 @@
 import 'package:bookstoreapp291/screen/add_book.dart';
+import 'package:bookstoreapp291/screen/sign_in/components/sign_form.dart';
 import 'package:bookstoreapp291/screen/sign_in/sign_in_screen.dart';
 import 'package:bookstoreapp291/screen/sign_up/sign_up_screen.dart';
 import 'package:bookstoreapp291/test.dart';
@@ -38,16 +39,24 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class SignInScreen extends StatelessWidget {
+class Main extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         body: StreamBuilder<User?>(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
-            if (snapshot.hasData) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.hasError) {
+              return Center(
+                child: Text('Something went wrong!'),
+              );
+            } else if (snapshot.hasData) {
               return BottomNavBar();
             } else {
-              return SignUpScreen();
+              return SignForm();
             }
           },
         ),

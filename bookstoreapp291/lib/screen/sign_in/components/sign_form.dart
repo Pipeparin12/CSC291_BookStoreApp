@@ -26,6 +26,7 @@ class _SignFormState extends State<SignForm> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Form(
       key: _formKey,
       child: Column(
@@ -70,6 +71,7 @@ class _SignFormState extends State<SignForm> {
             ),
             label: Text(
               'Sign In',
+              style: TextStyle(fontSize: 24),
             ),
             onPressed: (SignIn),
           ),

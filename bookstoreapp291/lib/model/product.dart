@@ -1,15 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class Product {
-  final int id;
-  final String name, description,  price;
+  final String name, description, price;
   final String images;
   final double rating;
   final bool isBookmark;
   final int amount;
 
   Product({
-    required this.id,
     required this.images,
     this.rating = 0.0,
     this.isBookmark = false,
@@ -18,11 +17,20 @@ class Product {
     required this.description,
     required this.amount,
   });
+
+  static Product fromSnapshot(DocumentSnapshot snap) {
+    Product books = Product(
+        images: snap['image'],
+        name: snap['bookName'],
+        price: snap['bookPrice'],
+        description: snap['bookDes'],
+        amount: snap['bookAmount']);
+    return books;
+  }
 }
 
 List<Product> demoProducts = [
   Product(
-    id: 1,
     images: 'images/the_help_book.png',
     name: "The Help",
     price: '200',
@@ -32,7 +40,6 @@ List<Product> demoProducts = [
     amount: 3,
   ),
   Product(
-    id: 2,
     images: "images/the_kite_runner_book.png",
     name: "The Kite Runner",
     price: '245',
@@ -41,7 +48,6 @@ List<Product> demoProducts = [
     amount: 2,
   ),
   Product(
-    id: 3,
     images: "images/water_for_elephant_book.png",
     name: "Water for Elephants",
     price: '150',
@@ -50,7 +56,6 @@ List<Product> demoProducts = [
     amount: 1,
   ),
   Product(
-    id: 4,
     images: "images/the_book_thief.png",
     name: "The Book Thief",
     price: '299',

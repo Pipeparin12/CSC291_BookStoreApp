@@ -19,8 +19,8 @@ class SignForm extends StatefulWidget {
 
 class _SignFormState extends State<SignForm> {
   final _formKey = GlobalKey<FormState>();
-  late final String _email;
-  late final String _password;
+  late String _email;
+  late String _password;
   final auth = FirebaseAuth.instance;
   bool? remember = false;
 

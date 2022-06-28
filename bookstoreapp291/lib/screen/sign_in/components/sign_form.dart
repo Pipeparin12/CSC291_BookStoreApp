@@ -18,25 +18,10 @@ class SignForm extends StatefulWidget {
 
 class _SignFormState extends State<SignForm> {
   final _formKey = GlobalKey<FormState>();
-  late String email;
-  late String password;
-  final Future<FirebaseApp> firebase = Firebase.initializeApp();
+  late String _email;
+  late String _password;
+  final auth = FirebaseAuth.instance;
   bool? remember = false;
-  final List<String?> errors = [];
-
-  void addError({String? error}) {
-    if (!errors.contains(error))
-      setState(() {
-        errors.add(error);
-      });
-  }
-
-  void removeError({String? error}) {
-    if (errors.contains(error))
-      setState(() {
-        errors.remove(error);
-      });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +58,6 @@ class _SignFormState extends State<SignForm> {
               )
             ],
           ),
-          FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(20)),
           DefaultButton(
             text: "Continue",
@@ -83,8 +67,10 @@ class _SignFormState extends State<SignForm> {
                 try {
                   await FirebaseAuth.instance
                       .signInWithEmailAndPassword(
-                          email: email, password: password)
-                      .then((value) {});
+                          email: _email, password: _password)
+                      .then((value) {
+                    _formKey.currentState!.reset();
+                  });
                 } on FirebaseAuthException catch (e) {
                   print(e.message);
                 }
@@ -105,24 +91,10 @@ class _SignFormState extends State<SignForm> {
   TextFormField buildPasswordFormField() {
     return TextFormField(
       obscureText: true,
-      onSaved: (newValue) => password = newValue!,
       onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: kPassNullError);
-        } else if (value.length >= 8) {
-          removeError(error: kShortPassError);
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value!.isEmpty) {
-          addError(error: kPassNullError);
-          return "";
-        } else if (value.length < 8) {
-          addError(error: kShortPassError);
-          return "";
-        }
-        return null;
+        setState(() {
+          _password = value.trim();
+        });
       },
       decoration: InputDecoration(
         labelText: "Password",
@@ -138,24 +110,10 @@ class _SignFormState extends State<SignForm> {
   TextFormField buildEmailFormField() {
     return TextFormField(
       keyboardType: TextInputType.emailAddress,
-      onSaved: (newValue) => email = newValue!,
       onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: kEmailNullError);
-        } else if (emailValidatorRegExp.hasMatch(value)) {
-          removeError(error: kInvalidEmailError);
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value!.isEmpty) {
-          addError(error: kEmailNullError);
-          return "";
-        } else if (!emailValidatorRegExp.hasMatch(value)) {
-          addError(error: kInvalidEmailError);
-          return "";
-        }
-        return null;
+        setState(() {
+          _email = value.trim();
+        });
       },
       decoration: InputDecoration(
         labelText: "Email",

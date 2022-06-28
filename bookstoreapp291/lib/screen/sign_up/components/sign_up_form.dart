@@ -16,25 +16,10 @@ class SignUpForm extends StatefulWidget {
 
 class _SignUpFormState extends State<SignUpForm> {
   final _formKey = GlobalKey<FormState>();
-  late String email;
-  late String password;
+  late String _email;
+  late String _password;
   String? conform_password;
   bool remember = false;
-  final List<String?> errors = [];
-
-  void addError({String? error}) {
-    if (!errors.contains(error))
-      setState(() {
-        errors.add(error);
-      });
-  }
-
-  void removeError({String? error}) {
-    if (errors.contains(error))
-      setState(() {
-        errors.remove(error);
-      });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +31,6 @@ class _SignUpFormState extends State<SignUpForm> {
           SizedBox(height: getProportionateScreenHeight(30)),
           buildPasswordFormField(),
           SizedBox(height: getProportionateScreenHeight(30)),
-          buildConformPassFormField(),
-          FormError(errors: errors),
-          SizedBox(height: getProportionateScreenHeight(40)),
           DefaultButton(
             text: "Continue",
             press: () async {
@@ -56,7 +38,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 _formKey.currentState!.save();
                 try {
                   FirebaseAuth.instance.createUserWithEmailAndPassword(
-                      email: email, password: password);
+                      email: _email, password: _password);
                 } on FirebaseAuthException catch (e) {
                   print(e.message);
                 }
@@ -73,60 +55,13 @@ class _SignUpFormState extends State<SignUpForm> {
     );
   }
 
-  TextFormField buildConformPassFormField() {
-    return TextFormField(
-      obscureText: true,
-      onSaved: (newValue) => conform_password = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: kPassNullError);
-        } else if (value.isNotEmpty && password == conform_password) {
-          removeError(error: kMatchPassError);
-        }
-        conform_password = value;
-      },
-      validator: (value) {
-        if (value!.isEmpty) {
-          addError(error: kPassNullError);
-          return "";
-        } else if ((password != value)) {
-          addError(error: kMatchPassError);
-          return "";
-        }
-        return null;
-      },
-      decoration: InputDecoration(
-        labelText: "Confirm Password",
-        hintText: "Re-enter your password",
-        // If  you are using latest version of flutter then lable text and hint text shown like this
-        // if you r using flutter less then 1.20.* then maybe this is not working properly
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
-      ),
-    );
-  }
-
   TextFormField buildPasswordFormField() {
     return TextFormField(
       obscureText: true,
-      onSaved: (newValue) => password = newValue!,
       onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: kPassNullError);
-        } else if (value.length >= 8) {
-          removeError(error: kShortPassError);
-        }
-        password = value;
-      },
-      validator: (value) {
-        if (value!.isEmpty) {
-          addError(error: kPassNullError);
-          return "";
-        } else if (value.length < 8) {
-          addError(error: kShortPassError);
-          return "";
-        }
-        return null;
+        setState(() {
+          _password = value.trim();
+        });
       },
       decoration: InputDecoration(
         labelText: "Password",
@@ -142,24 +77,10 @@ class _SignUpFormState extends State<SignUpForm> {
   TextFormField buildEmailFormField() {
     return TextFormField(
       keyboardType: TextInputType.emailAddress,
-      onSaved: (newValue) => email = newValue!,
       onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: kEmailNullError);
-        } else if (emailValidatorRegExp.hasMatch(value)) {
-          removeError(error: kInvalidEmailError);
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value!.isEmpty) {
-          addError(error: kEmailNullError);
-          return "";
-        } else if (!emailValidatorRegExp.hasMatch(value)) {
-          addError(error: kInvalidEmailError);
-          return "";
-        }
-        return null;
+        setState(() {
+          _email = value.trim();
+        });
       },
       decoration: InputDecoration(
         labelText: "Email",

@@ -51,6 +51,7 @@ class _AddBookState extends State<AddBook> {
   }
 
   createBookData() {
+    debugPrint(FirebaseFirestore.instance.collection('books').id);
     debugPrint(bookName);
     debugPrint(bookDes);
     debugPrint(bookPrice.toString());
@@ -61,6 +62,7 @@ class _AddBookState extends State<AddBook> {
 
     // create Map to send data in key:value pair form
     Map<String, dynamic> books = ({
+      "bookId": FirebaseFirestore.instance.collection('books').doc().id,
       "bookName": bookName,
       "bookDes": bookDes,
       "bookPrice": bookPrice,

@@ -32,6 +32,7 @@ class _AddBookState extends State<AddBook> {
   late String bookDes;
   late int bookPrice;
   late int bookAmount;
+  final scrollController = ScrollController();
 
   getBookName(String name) {
     bookName = name;
@@ -127,6 +128,7 @@ class _AddBookState extends State<AddBook> {
                 body: Form(
                   key: formState,
                   child: CustomScrollView(
+                    controller: scrollController,
                     slivers: [
                       SliverFillRemaining(
                         hasScrollBody: false,

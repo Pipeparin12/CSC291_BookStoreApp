@@ -1,3 +1,4 @@
+import 'package:bookstoreapp291/theme/light_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -33,7 +34,7 @@ class ProfilePic extends StatelessWidget {
                     },
                     child: Icon(
                       Icons.camera_alt,
-                      color: Colors.orange,
+                      color: LightColor.black,
                       size: 28.0,
                     ))),
           )

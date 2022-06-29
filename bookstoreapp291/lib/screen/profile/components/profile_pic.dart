@@ -53,9 +53,7 @@ class _ProfilePicState extends State<ProfilePic> {
         fit: StackFit.expand,
         clipBehavior: Clip.none,
         children: [
-          CircleAvatar(
-            backgroundImage: AssetImage("assets/images/Profile Image.png"),
-          ),
+          Images != null ? Image.file(Images!) : FlutterLogo(),
           Positioned(
             right: -16,
             bottom: 0,
@@ -113,10 +111,8 @@ class _ProfilePicState extends State<ProfilePic> {
               },
               label: Text("Gallery"),
             ),
-            SizedBox(
-              height: 20,
-            ),
-            Images != null ? Image.file(Images!) : Text(" No image Selected")
+            SizedBox(height: 20),
+            Images != null ? Image.file(Images!) : Text(" No image Selected"),
           ])
         ],
       ),

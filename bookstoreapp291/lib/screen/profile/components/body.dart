@@ -16,7 +16,7 @@ class Body extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 20),
       child: Column(
         children: [
-          ProfileScreen(),
+          ProfilePic(title: ''),
           SizedBox(height: 20),
           ProfileMenu(
             text: "My Account",

@@ -53,7 +53,9 @@ class _ProfilePicState extends State<ProfilePic> {
         fit: StackFit.expand,
         clipBehavior: Clip.none,
         children: [
-          Images != null ? Image.file(Images!) : FlutterLogo(),
+          Images != null
+              ? ClipOval(child: Image.file(Images!, fit: BoxFit.cover))
+              : FlutterLogo(),
           Positioned(
             right: -16,
             bottom: 0,

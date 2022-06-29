@@ -19,14 +19,15 @@ class SignForm extends StatefulWidget {
 
 class _SignFormState extends State<SignForm> {
   final _formKey = GlobalKey<FormState>();
-  late String _email;
-  late String _password;
+  late final String _email;
+  late final String _password;
   final auth = FirebaseAuth.instance;
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
   bool? remember = false;
 
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
     return Form(
       key: _formKey,
       child: Column(
@@ -67,13 +68,13 @@ class _SignFormState extends State<SignForm> {
             ),
             icon: Icon(
               Icons.lock_open,
-              size: 40,
+              size: 50,
             ),
             label: Text(
               'Sign In',
               style: TextStyle(fontSize: 24),
             ),
-            onPressed: (SignIn),
+            onPressed: SignIn,
           ),
         ],
       ),
@@ -81,25 +82,40 @@ class _SignFormState extends State<SignForm> {
   }
 
   Future SignIn() async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: _email.trim(),
-      password: _password.trim(),
-    );
+    if (_formKey.currentState!.validate()) {
+      try {
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+            email: emailController.text.trim(),
+            password: passwordController.text.trim());
+
+        emailController.clear();
+        passwordController.clear();
+
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return BottomNavBar();
+        }));
+      } on FirebaseAuthException catch (e) {
+        print(e);
+      }
+    } else {
+      print('invalid username or password');
+    }
   }
 
   TextFormField buildPasswordFormField() {
     return TextFormField(
+      controller: passwordController,
       obscureText: true,
-      onChanged: (value) {
-        setState(() {
-          _password = value.trim();
-        });
+      validator: (val) {
+        if (val == null || val.isEmpty) {
+          return 'Please enter a password';
+        } else if (val.length < 6) {
+          return 'Password must be at least 6 characters';
+        }
       },
       decoration: InputDecoration(
         labelText: "Password",
         hintText: "Enter your password",
-        // If  you are using latest version of flutter then lable text and hint text shown like this
-        // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
       ),
@@ -108,17 +124,21 @@ class _SignFormState extends State<SignForm> {
 
   TextFormField buildEmailFormField() {
     return TextFormField(
-      keyboardType: TextInputType.emailAddress,
-      onChanged: (value) {
-        setState(() {
-          _email = value.trim();
-        });
+      controller: emailController,
+      validator: (email) {
+        var emailReg = RegExp(
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+        if (email == null || email.isEmpty) {
+          return 'Please enter a username';
+        } else if (!emailReg.hasMatch(email)) {
+          return 'Please enter a valid email';
+        }
+        return null;
       },
+      keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
         labelText: "Email",
         hintText: "Enter your email",
-        // If  you are using latest version of flutter then lable text and hint text shown like this
-        // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Mail.svg"),
       ),

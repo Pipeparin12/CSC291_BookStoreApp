@@ -1,7 +1,9 @@
+import 'package:bookstoreapp291/screen/sign_in/components/sign_form.dart';
 import 'package:flutter/material.dart';
 import 'package:bookstoreapp291/components/no_account_text.dart';
 import 'package:bookstoreapp291/components/socal_card.dart';
 import '../../../sizedConfig.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'sign_form.dart';
 
 class Body extends StatelessWidget {
@@ -33,23 +35,6 @@ class Body extends StatelessWidget {
                 SizedBox(height: SizeConfig.screenHeight * 0.08),
                 SignForm(),
                 SizedBox(height: SizeConfig.screenHeight * 0.08),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SocalCard(
-                      icon: "assets/icons/google-icon.svg",
-                      press: () {},
-                    ),
-                    SocalCard(
-                      icon: "assets/icons/facebook-2.svg",
-                      press: () {},
-                    ),
-                    SocalCard(
-                      icon: "assets/icons/twitter.svg",
-                      press: () {},
-                    ),
-                  ],
-                ),
                 SizedBox(height: getProportionateScreenHeight(20)),
                 NoAccountText(),
               ],

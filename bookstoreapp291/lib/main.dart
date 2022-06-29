@@ -38,19 +38,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-class My extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) => Scaffold(
-        body: StreamBuilder<User?>(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return LoginSuccessScreen();
-            } else {
-              return SignInScreen();
-            }
-          },
-        ),
-      );
-}

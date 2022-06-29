@@ -1,4 +1,5 @@
 import 'package:bookstoreapp291/screen/add_book.dart';
+import 'package:bookstoreapp291/screen/profile/profile_screen.dart';
 import 'package:bookstoreapp291/screen/seller_page.dart';
 import 'package:bookstoreapp291/screen/profile.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class _SellerNavBar extends State<SellerNavBar> {
   List<Widget> pageList = <Widget>[
     SellerCentre(),
     AddBook(),
-    ProfilePage(),
+    ProfileScreen(),
   ];
   @override
   Widget build(BuildContext context) {

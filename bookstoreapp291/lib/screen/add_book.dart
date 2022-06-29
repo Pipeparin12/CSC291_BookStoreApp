@@ -1,10 +1,14 @@
 import 'dart:convert';
+import 'dart:io' as io;
+import 'dart:io';
+import 'dart:math';
 
 import 'package:bookstoreapp291/model/book.dart';
 import 'package:bookstoreapp291/model/product.dart';
 import 'package:bookstoreapp291/sizedConfig.dart';
 import 'package:bookstoreapp291/theme/light_color.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -32,6 +36,8 @@ class _AddBookState extends State<AddBook> {
   late String bookDes;
   late int bookPrice;
   late int bookAmount;
+  late String url;
+  File? imageFile;
   final scrollController = ScrollController();
 
   getBookName(String name) {
@@ -66,11 +72,13 @@ class _AddBookState extends State<AddBook> {
       "bookName": bookName,
       "bookDes": bookDes,
       "bookPrice": bookPrice,
-      "bookAmount": bookAmount
+      "bookAmount": bookAmount,
+      "bookImage": imageFile!.path
     });
 
     // send data to Firebase
     if (books != null) {
+      uploadImageToStorage();
       documentReference
           .set(books)
           .whenComplete(() => print('$bookName created'));
@@ -79,8 +87,36 @@ class _AddBookState extends State<AddBook> {
     }
   }
 
-  Future<void> uploadImageToDatabase() async {
-    FirebaseFirestore.instance.collection('books');
+  Future pickedImage() async {
+    XFile? xFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (xFile != null) {
+      imageFile = File(xFile.path);
+    }
+  }
+
+  Future<void> uploadImageToStorage() async {
+    if (imageFile == null) {
+      print('No file was selected');
+      return null;
+    }
+
+    UploadTask uploadTask;
+
+    Reference ref = FirebaseStorage.instance
+        .ref()
+        .child('bookImages/')
+        .child('/$bookName.jpg');
+
+    final metadata = SettableMetadata(
+      contentType: 'image/jpg',
+      customMetadata: {'picked-file-path': imageFile!.path},
+    );
+
+    if (kIsWeb) {
+      uploadTask = ref.putData(await imageFile!.readAsBytes(), metadata);
+    } else {
+      uploadTask = ref.putFile(io.File(imageFile!.path), metadata);
+    }
   }
 
   // @override
@@ -189,7 +225,9 @@ class _AddBookState extends State<AddBook> {
                                             padding:
                                                 const EdgeInsets.only(top: 40),
                                             child: IconButton(
-                                                onPressed: () {},
+                                                onPressed: () {
+                                                  pickedImage();
+                                                },
                                                 iconSize: 80,
                                                 icon: Icon(Icons
                                                     .add_a_photo_outlined)),

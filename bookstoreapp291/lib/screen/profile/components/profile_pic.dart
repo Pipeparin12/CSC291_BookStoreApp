@@ -113,8 +113,6 @@ class _ProfilePicState extends State<ProfilePic> {
               },
               label: Text("Gallery"),
             ),
-            SizedBox(height: 20),
-            Images != null ? Image.file(Images!) : Text(" No image Selected"),
           ])
         ],
       ),

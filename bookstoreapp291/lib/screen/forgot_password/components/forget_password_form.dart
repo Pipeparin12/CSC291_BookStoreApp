@@ -1,4 +1,3 @@
-import 'dart:html';
 import 'package:bookstoreapp291/screen/sign_in/sign_in_screen.dart';
 import 'package:bookstoreapp291/screen/sign_up/components/sign_up_form.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -19,8 +18,46 @@ class ForgotPassForm extends StatefulWidget {
 
 class _ForgotPassFormState extends State<ForgotPassForm> {
   final _formKey = GlobalKey<FormState>();
-  List<String> errors = [];
-  String? email;
+
+  String email = "";
+
+  // Create a text controller and use it to retrieve the current value
+  // of the TextField.
+  final emailController = TextEditingController();
+  @override
+  void dispose() {
+    emailController.dispose();
+    super.dispose();
+  }
+
+  resetPassword() async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.orangeAccent,
+          content: Text(
+            'Password Reset Email has been sent !',
+            style: TextStyle(fontSize: 18.0),
+          ),
+        ),
+      );
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.orangeAccent,
+            content: Text(
+              'No user found for that email.',
+              style: TextStyle(fontSize: 18.0),
+            ),
+          ),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -28,6 +65,15 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
       child: Column(
         children: [
           TextFormField(
+            controller: emailController,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please Enter Email';
+              } else if (!value.contains('@')) {
+                return 'Please Enter Valid Email';
+              }
+              return null;
+            },
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
               labelText: "Email",
@@ -39,15 +85,18 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
             ),
           ),
           SizedBox(height: getProportionateScreenHeight(30)),
-          FormError(errors: errors),
           SizedBox(height: SizeConfig.screenHeight * 0.1),
-          DefaultButton(
-            text: "Continue",
-            press: () {},
-            onPressed: () {},
+          ElevatedButton(
+            onPressed: () {
+              if (_formKey.currentState!.validate()) {
+                setState(() {
+                  email = emailController.text;
+                });
+                resetPassword();
+              }
+            },
+            child: Text('Send Email '),
           ),
-          SizedBox(height: SizeConfig.screenHeight * 0.1),
-          NoAccountText(),
         ],
       ),
     );

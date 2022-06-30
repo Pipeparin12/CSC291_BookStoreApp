@@ -14,6 +14,7 @@ class SellerNavBar extends StatefulWidget {
 
 class _SellerNavBar extends State<SellerNavBar> {
   int _selectedIndex = 0;
+  ScrollController scrollController = ScrollController();
   PageController pageController = PageController();
   List<Widget> pageList = <Widget>[
     SellerCentre(),
@@ -59,6 +60,8 @@ class _SellerNavBar extends State<SellerNavBar> {
     setState(() {
       _selectedIndex = index;
     });
-    pageController.jumpToPage(index);
+    if (scrollController.hasClients) {
+      pageController.jumpToPage(index);
+    }
   }
 }

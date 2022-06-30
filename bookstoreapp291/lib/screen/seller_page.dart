@@ -108,68 +108,84 @@ class _SellerCentreState extends State<SellerCentre> {
                                     ),
                                   ),
                                 ),
-                                Container(
-                                  padding: EdgeInsets.all(50),
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: <Widget>[
-                                      Text(_book[index]['bookName'],
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold)),
-                                      Text("Amount: " +
-                                          _book[index]['bookAmount']
-                                              .toString()),
-                                      Text("Price: " +
-                                          _book[index]['bookPrice'].toString()),
-                                    ],
+                                SizedBox(
+                                  width: 180,
+                                  child: Container(
+                                    padding: EdgeInsets.all(50),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: <Widget>[
+                                        Text(_book[index]['bookName'],
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold)),
+                                        Text("Amount: " +
+                                            _book[index]['bookAmount']
+                                                .toString()),
+                                        Text("Price: " +
+                                            _book[index]['bookPrice']
+                                                .toString()),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                                IconButton(
-                                  onPressed: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            backgroundColor:
-                                                LightColor.lightGrey,
-                                            scrollable: true,
-                                            title: Text('Edit'),
-                                            content: Padding(
-                                              padding: EdgeInsets.all(8.0),
-                                              child: Form(
-                                                child: Column(
-                                                  children: <Widget>[
-                                                    _entryField(
-                                                      "Name",
-                                                    ),
-                                                    _entryField(
-                                                      "Description",
-                                                    ),
-                                                    _entryField(
-                                                      "Price",
-                                                    ),
-                                                    _entryField("Amount"),
-                                                  ],
+                                SizedBox(
+                                  width: 20,
+                                  child: IconButton(
+                                    onPressed: () {
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              backgroundColor:
+                                                  LightColor.lightGrey,
+                                              scrollable: true,
+                                              title: Text('Edit'),
+                                              content: Padding(
+                                                padding: EdgeInsets.all(8.0),
+                                                child: Form(
+                                                  child: Column(
+                                                    children: <Widget>[
+                                                      _entryField(
+                                                        "Name",
+                                                      ),
+                                                      _entryField(
+                                                        "Description",
+                                                      ),
+                                                      _entryField(
+                                                        "Price",
+                                                      ),
+                                                      _entryField("Amount"),
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            actions: [
-                                              Padding(
-                                                padding: EdgeInsets.all(15.0),
-                                                child: ElevatedButton(
-                                                  onPressed: () {},
-                                                  child: Text('Save'),
-                                                ),
-                                              )
-                                            ],
-                                          );
-                                        });
-                                  },
-                                  icon: Icon(Icons.create_rounded),
+                                              actions: [
+                                                Padding(
+                                                  padding: EdgeInsets.all(15.0),
+                                                  child: ElevatedButton(
+                                                    onPressed: () {},
+                                                    child: Text('Save'),
+                                                  ),
+                                                )
+                                              ],
+                                            );
+                                          });
+                                    },
+                                    icon: Icon(Icons.create_rounded),
+                                  ),
                                 ),
-                                IconButton(
-                                    onPressed: () {}, icon: Icon(Icons.delete))
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 10),
+                                  child: IconButton(
+                                      onPressed: () {
+                                        FirebaseFirestore.instance
+                                            .collection('books')
+                                            .doc(_book[index])
+                                            .delete();
+                                      },
+                                      icon: Icon(Icons.delete)),
+                                )
                               ]),
                         ),
                       ),

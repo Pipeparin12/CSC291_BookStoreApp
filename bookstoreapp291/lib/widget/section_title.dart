@@ -13,22 +13,25 @@ class SectionTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Text(
-          title,
-          style: TextStyle(
-            fontSize: 18,
-            color: Colors.black,
-          ),
-        ),
-        GestureDetector(
-          onTap: press,
+        Padding(
+          padding: const EdgeInsets.only(left: 30),
           child: Text(
-            "See More",
-            style: TextStyle(color: Color(0xFFBBBBBB)),
+            title,
+            style: TextStyle(
+              fontSize: 18,
+              color: Colors.black,
+            ),
           ),
         ),
+        // GestureDetector(
+        //   onTap: press,
+        //   child: Text(
+        //     "See More",
+        //     style: TextStyle(color: Color(0xFFBBBBBB)),
+        //   ),
+        // ),
       ],
     );
   }

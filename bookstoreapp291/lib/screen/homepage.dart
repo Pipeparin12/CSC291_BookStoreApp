@@ -136,32 +136,6 @@ class _MyWidgetState extends State<MainScreen> {
                       );
                     }),
               ))
-              // Padding(
-              //     padding: EdgeInsets.only(
-              //   top: 30,
-              // )),
-              // Padding(
-              //   padding: const EdgeInsets.symmetric(horizontal: 0.02),
-              //   child: SectionTitle(title: 'New Release', press: () {}),
-              // ),
-              // SingleChildScrollView(
-              //   scrollDirection: Axis.horizontal,
-              //   child: Row(
-              //     children: [
-              //       ...List.generate(
-              //           demoProducts.length,
-              //           (index) => bookCard(
-              //                 product: demoProducts[index],
-              //                 press: () => Navigator.push(context,
-              //                     MaterialPageRoute(builder: (context) {
-              //                   return DetailPage(
-              //                     product: demoProducts[index],
-              //                   );
-              //                 })),
-              //               ))
-              //     ],
-              //   ),
-              // ),
             ],
           ),
         ),

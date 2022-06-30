@@ -1,13 +1,19 @@
 import 'package:bookstoreapp291/model/product.dart';
 import 'package:bookstoreapp291/theme/light_color.dart';
+import 'package:bookstoreapp291/widget/bookCard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class BookmarkPage extends StatelessWidget {
-  const BookmarkPage({Key? key}) : super(key: key);
+class BookmarkPage extends StatefulWidget {
+  @override
+  State<BookmarkPage> createState() => _BookmarkPageState();
+}
 
+class _BookmarkPageState extends State<BookmarkPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,21 +22,8 @@ class BookmarkPage extends StatelessWidget {
         title: Text('Bookmark'),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(padding: EdgeInsets.only(top: 30)),
-            ...List.generate(demoProducts.length, (index) {
-              if (demoProducts[index].isBookmark)
-                return BookmarkBox(product: demoProducts[index]);
-
-              return SizedBox.square();
-            }),
-            SizedBox(
-              height: 20,
-            )
-          ],
-        ),
+      body: SafeArea(
+        child: bookCard("users-bookmark-items"),
       ),
     );
   }

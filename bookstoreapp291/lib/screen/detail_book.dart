@@ -24,11 +24,12 @@ class _BookDetailState extends State<BookDetail> {
     return _collectionRef
         .doc(currentUser!.email)
         .collection("items")
-        .doc()
+        .doc("bookName")
         .set({
       "name": widget._book["bookName"],
       "price": widget._book["bookPrice"],
       "images": widget._book["bookImage"],
+      "id": widget._book["bookId"],
     }).then((value) => print("Added to favourite"));
   }
 

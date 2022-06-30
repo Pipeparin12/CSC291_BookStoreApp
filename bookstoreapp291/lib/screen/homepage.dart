@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:bookstoreapp291/model/product.dart';
 import 'package:bookstoreapp291/screen/bookmark.dart';
+import 'package:bookstoreapp291/screen/cart/cart_screen.dart';
 import 'package:bookstoreapp291/screen/detail_book.dart';
 import 'package:bookstoreapp291/screen/profile/profile_screen.dart';
 import 'package:bookstoreapp291/theme/light_color.dart';
@@ -13,7 +14,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:bookstoreapp291/screen/cart.dart';
 import 'package:bookstoreapp291/widget/section_title.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -70,7 +70,7 @@ class _MyWidgetState extends State<MainScreen> {
             icon: const Icon(Icons.shopping_cart),
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return CartPage();
+                return CartScreen();
               }));
             },
           )

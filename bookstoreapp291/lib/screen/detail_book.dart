@@ -4,6 +4,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+
+// class BookDetail extends StatefulWidget {
+//   const BookDetail({Key? key}) : super(key: key);
+
+//   @override
+//   State<BookDetail> createState() => _BookDetailState();
+// }
+
+// class _BookDetailState extends State<BookDetail> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         backgroundColor: Colors.grey,
+//         title: Text('Detail Book'),
+//         centerTitle: true,
+//       ),
+//       actions: [
+//         StreamBuilder(builder: builder)
+//       ],
+//     );
+//   }
+// }
 
 class DetailPage extends StatelessWidget {
   const DetailPage({Key? key, required this.product}) : super(key: key);

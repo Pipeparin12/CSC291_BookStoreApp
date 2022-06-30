@@ -74,7 +74,7 @@ class _AddBookState extends State<AddBook> {
       "bookDes": bookDes,
       "bookPrice": bookPrice,
       "bookAmount": bookAmount,
-      "bookImage": imageUrl
+      "bookImage": imageUrl.toString()
     });
 
     // send data to Firebase
@@ -117,8 +117,7 @@ class _AddBookState extends State<AddBook> {
       uploadTask = ref.putData(await imageFile!.readAsBytes(), metadata);
     } else {
       uploadTask = ref.putFile(io.File(imageFile!.path), metadata);
-      var dowUrl = await (await uploadTask).ref.getDownloadURL();
-      imageUrl = dowUrl.toString();
+      imageUrl = await (await uploadTask).ref.getDownloadURL();
     }
   }
 

@@ -36,7 +36,7 @@ class _AddBookState extends State<AddBook> {
   late String bookDes;
   late int bookPrice;
   late int bookAmount;
-  late String imageUrl;
+  String? imageUrl;
   File? imageFile;
   final scrollController = ScrollController();
 
@@ -56,7 +56,7 @@ class _AddBookState extends State<AddBook> {
     bookAmount = amount;
   }
 
-  createBookData() {
+  createBookData() async {
     debugPrint(FirebaseFirestore.instance.collection('books').id);
     debugPrint(bookName);
     debugPrint(bookDes);
@@ -74,12 +74,12 @@ class _AddBookState extends State<AddBook> {
       "bookDes": bookDes,
       "bookPrice": bookPrice,
       "bookAmount": bookAmount,
-      "bookImage": imageUrl.toString()
+      "bookImage": imageUrl
     });
 
     // send data to Firebase
     if (books != null) {
-      uploadImageToStorage();
+      await uploadImageToStorage();
       documentReference
           .set(books)
           .whenComplete(() => print('$bookName created'));
@@ -117,7 +117,7 @@ class _AddBookState extends State<AddBook> {
       uploadTask = ref.putData(await imageFile!.readAsBytes(), metadata);
     } else {
       uploadTask = ref.putFile(io.File(imageFile!.path), metadata);
-      imageUrl = await (await uploadTask).ref.getDownloadURL();
+      imageUrl = await ref.getDownloadURL();
     }
   }
 

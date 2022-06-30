@@ -112,11 +112,12 @@ class _MyWidgetState extends State<MainScreen> {
                               AspectRatio(
                                 aspectRatio: 2,
                                 child: Container(
-                                  color: LightColor.lightGrey,
-                                  child: Image.network(
-                                    _books[index]["bookImage"][0],
-                                  ),
-                                ),
+                                    color: LightColor.lightGrey,
+                                    child: Image(
+                                      image: NetworkImage(
+                                          _books[index]['bookImage']),
+                                      fit: BoxFit.contain,
+                                    )),
                               ),
                               Padding(
                                 padding:

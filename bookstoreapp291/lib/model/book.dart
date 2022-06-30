@@ -1,11 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 
-class Book {
-  String? name;
-  String? description;
-  String? price;
-  int? amount;
-  String? image;
+// class Books {
+//   static const NAME = "name";
+//   static const DES = "des";
+//   static const PRICE = "price";
+//   static const AMOUNT = "amount";
 
-  Book({this.name, this.description, this.price, this.amount, this.image});
-}
+//   String _name;
+//   String _des;
+//   int _price;
+//   int _amount;
+
+//   String get name => _name;
+//   String get des => _des;
+//   int get price => _price;
+//   int get amount => _amount;
+
+//   Books.fromSnnapshot(DocumentSnapshot snapshot) {
+//     _name = snapshot.data[NAME];
+//   }
+// }

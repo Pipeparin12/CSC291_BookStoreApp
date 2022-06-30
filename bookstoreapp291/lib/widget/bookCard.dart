@@ -1,4 +1,5 @@
 import 'package:bookstoreapp291/widget/section_title.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -7,75 +8,58 @@ import 'package:bookstoreapp291/theme/light_color.dart';
 import 'package:bookstoreapp291/model/product.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class bookCard extends StatelessWidget {
-  const bookCard({Key? key, required this.product, required this.press})
-      : super(key: key);
-  final Product product;
-  final GestureTapCallback press;
+import '../screen/detail_book.dart';
+
+class bookCard extends StatefulWidget {
+  const bookCard({Key? key}) : super(key: key);
+
+  @override
+  State<bookCard> createState() => _bookCardState();
+}
+
+class _bookCardState extends State<bookCard> {
+  final Stream<QuerySnapshot> _bookStream =
+      FirebaseFirestore.instance.collection('books').snapshots();
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: SingleChildScrollView(
-          child: Column(
-        children: [
-          Padding(padding: EdgeInsets.only(top: 25)),
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 20),
-                child: GestureDetector(
-                  onTap: press,
-                  child: SizedBox(
-                      width: 140,
-                      child: Column(
-                        children: [
-                          AspectRatio(
-                            aspectRatio: 1.02,
-                            child: SizedBox(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: LightColor.lightGrey,
-                                    borderRadius: BorderRadius.circular(15)),
-                                child: Image.asset(product.images),
-                              ),
-                            ),
-                          ),
-                          Padding(padding: EdgeInsets.only(top: 5)),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                product.name,
-                                style: TextStyle(
-                                    color: LightColor.titleTextColor,
-                                    fontSize: 15),
-                                maxLines: 2,
-                              ),
-                            ],
-                          ),
-                          Padding(padding: EdgeInsets.only(top: 5)),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                product.price.toString(),
-                                style: TextStyle(
-                                  color: LightColor.orange,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Container()
-                            ],
-                          )
-                        ],
-                      )),
-                ),
-              ),
-            ],
-          ),
-        ],
-      )),
+    return StreamBuilder<QuerySnapshot>(
+      stream: _bookStream,
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text('Something went wrong');
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Text("Loading");
+        }
+
+        return ListView(
+          shrinkWrap: true,
+          children: snapshot.data!.docs.map((DocumentSnapshot document) {
+            Map<String, dynamic> data =
+                document.data()! as Map<String, dynamic>;
+            return ListView.builder(
+              shrinkWrap: true,
+              itemCount: snapshot.data == null ? 0 : snapshot.data!.docs.length,
+              itemBuilder: (_, index) {
+                DocumentSnapshot _documentSnapshot = snapshot.data!.docs[index];
+
+                return Card(
+                    elevation: 5,
+                    child: ListTile(
+                      leading: Text(_documentSnapshot['name']),
+                      title: Text(
+                        "\$ ${_documentSnapshot['price']}",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.red),
+                      ),
+                    ));
+              },
+            );
+          }).toList(),
+        );
+      },
     );
   }
 }

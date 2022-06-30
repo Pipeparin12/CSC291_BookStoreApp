@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:bookstoreapp291/model/product.dart';
 import 'package:bookstoreapp291/screen/bookmark.dart';
+import 'package:bookstoreapp291/screen/cart/cart_screen.dart';
 import 'package:bookstoreapp291/screen/detail_book.dart';
 import 'package:bookstoreapp291/screen/profile/profile_screen.dart';
 import 'package:bookstoreapp291/theme/light_color.dart';
@@ -13,7 +14,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:bookstoreapp291/screen/cart.dart';
 import 'package:bookstoreapp291/widget/section_title.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -70,7 +70,7 @@ class _MyWidgetState extends State<MainScreen> {
             icon: const Icon(Icons.shopping_cart),
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return CartPage();
+                return CartScreen();
               }));
             },
           )
@@ -101,7 +101,10 @@ class _MyWidgetState extends State<MainScreen> {
                         crossAxisCount: 2, childAspectRatio: 1),
                     itemBuilder: (_, index) {
                       return GestureDetector(
-                        // onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => DetailPage(_books[index]))),
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => BookDetail(_books[index]))),
                         child: Card(
                           elevation: 3,
                           child: Column(
@@ -109,11 +112,12 @@ class _MyWidgetState extends State<MainScreen> {
                               AspectRatio(
                                 aspectRatio: 2,
                                 child: Container(
-                                  color: LightColor.lightGrey,
-                                  child: Image.network(
-                                    _books[index]["bookImage"][0],
-                                  ),
-                                ),
+                                    color: LightColor.lightGrey,
+                                    child: Image(
+                                      image: NetworkImage(
+                                          _books[index]['bookImage']),
+                                      fit: BoxFit.contain,
+                                    )),
                               ),
                               Padding(
                                 padding:

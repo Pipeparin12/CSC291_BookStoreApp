@@ -99,10 +99,12 @@ class _SellerCentreState extends State<SellerCentre> {
                                 SizedBox(
                                   width: 120,
                                   child: Padding(
-                                    padding: EdgeInsets.only(bottom: 5),
-                                    child: Image.network(
-                                      _book[index]['bookImage'][0],
-                                      // fit: BoxFit.contain,
+                                    padding:
+                                        EdgeInsets.only(bottom: 5, left: 5),
+                                    child: Image(
+                                      image: NetworkImage(
+                                          _book[index]['bookImage']),
+                                      fit: BoxFit.contain,
                                     ),
                                   ),
                                 ),

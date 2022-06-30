@@ -117,7 +117,8 @@ class _AddBookState extends State<AddBook> {
       uploadTask = ref.putData(await imageFile!.readAsBytes(), metadata);
     } else {
       uploadTask = ref.putFile(io.File(imageFile!.path), metadata);
-      imageUrl = await (await uploadTask).ref.getDownloadURL().toString();
+      var dowUrl = await (await uploadTask).ref.getDownloadURL();
+      imageUrl = dowUrl.toString();
     }
   }
 

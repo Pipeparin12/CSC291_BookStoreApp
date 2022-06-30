@@ -1,7 +1,6 @@
 import 'package:bookstoreapp291/screen/add_book.dart';
 import 'package:bookstoreapp291/screen/profile/profile_screen.dart';
 import 'package:bookstoreapp291/screen/seller_page.dart';
-import 'package:bookstoreapp291/screen/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -15,6 +14,7 @@ class SellerNavBar extends StatefulWidget {
 
 class _SellerNavBar extends State<SellerNavBar> {
   int _selectedIndex = 0;
+  ScrollController scrollController = ScrollController();
   PageController pageController = PageController();
   List<Widget> pageList = <Widget>[
     SellerCentre(),
@@ -60,6 +60,8 @@ class _SellerNavBar extends State<SellerNavBar> {
     setState(() {
       _selectedIndex = index;
     });
-    pageController.jumpToPage(index);
+    if (scrollController.hasClients) {
+      pageController.jumpToPage(index);
+    }
   }
 }

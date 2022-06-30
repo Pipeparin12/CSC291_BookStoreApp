@@ -10,59 +10,69 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../screen/detail_book.dart';
 
-class bookCard extends StatefulWidget {
-  const bookCard({Key? key}) : super(key: key);
+@override
+Widget bookCard(String collectionName) {
+  return StreamBuilder(
+    stream: FirebaseFirestore.instance
+        .collection(collectionName)
+        .doc(FirebaseAuth.instance.currentUser!.email)
+        .collection('items')
+        .snapshots(),
+    builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+      if (snapshot.hasError) {
+        return Text('Something went wrong');
+      }
 
-  @override
-  State<bookCard> createState() => _bookCardState();
-}
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return Text("Loading");
+      }
 
-class _bookCardState extends State<bookCard> {
-  final Stream<QuerySnapshot> _bookStream = FirebaseFirestore.instance
-      .collection('books')
-      .doc(FirebaseAuth.instance.currentUser!.email)
-      .collection('books')
-      .snapshots();
+      return ListView(
+        shrinkWrap: true,
+        children: snapshot.data!.docs.map((DocumentSnapshot document) {
+          Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
+          return ListView.builder(
+            shrinkWrap: true,
+            itemCount: snapshot.data == null ? 0 : snapshot.data!.docs.length,
+            itemBuilder: (_, index) {
+              DocumentSnapshot _documentSnapshot = snapshot.data!.docs[index];
 
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-      stream: _bookStream,
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasError) {
-          return Text('Something went wrong');
-        }
-
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text("Loading");
-        }
-
-        return ListView(
-          shrinkWrap: true,
-          children: snapshot.data!.docs.map((DocumentSnapshot document) {
-            Map<String, dynamic> data =
-                document.data()! as Map<String, dynamic>;
-            return ListView.builder(
-              shrinkWrap: true,
-              itemCount: snapshot.data == null ? 0 : snapshot.data!.docs.length,
-              itemBuilder: (_, index) {
-                DocumentSnapshot _documentSnapshot = snapshot.data!.docs[index];
-
-                return Card(
-                    elevation: 5,
-                    child: ListTile(
-                      leading: Text(_documentSnapshot['name']),
-                      title: Text(
-                        "\$ ${_documentSnapshot['price']}",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.red),
-                      ),
-                    ));
-              },
-            );
-          }).toList(),
-        );
-      },
-    );
-  }
+              return Card(
+                  elevation: 5,
+                  child: ListTile(
+                    leading: Text(_documentSnapshot['name']),
+                    title: Text(
+                      "\$ ${_documentSnapshot['price']}",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.red),
+                    ),
+                    trailing: GestureDetector(
+                        child: CircleAvatar(
+                          child: Icon(Icons.remove_circle),
+                        ),
+                        onTap: () {
+                          FirebaseFirestore.instance
+                              .collection(collectionName)
+                              .doc(FirebaseAuth.instance.currentUser!.email)
+                              .collection('items')
+                              .doc(_documentSnapshot.id)
+                              .delete();
+                        }),
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => BookDetail(
+                                  FirebaseFirestore.instance
+                                      .collection("books")
+                                      .where("bookName",
+                                          isEqualTo: _documentSnapshot["name"])
+                                      .snapshots(),
+                                ))),
+                  ));
+            },
+          );
+        }).toList(),
+      );
+    },
+  );
 }

@@ -18,8 +18,11 @@ class bookCard extends StatefulWidget {
 }
 
 class _bookCardState extends State<bookCard> {
-  final Stream<QuerySnapshot> _bookStream =
-      FirebaseFirestore.instance.collection('books').snapshots();
+  final Stream<QuerySnapshot> _bookStream = FirebaseFirestore.instance
+      .collection('books')
+      .doc(FirebaseAuth.instance.currentUser!.email)
+      .collection('books')
+      .snapshots();
 
   @override
   Widget build(BuildContext context) {

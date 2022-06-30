@@ -101,7 +101,10 @@ class _MyWidgetState extends State<MainScreen> {
                         crossAxisCount: 2, childAspectRatio: 1),
                     itemBuilder: (_, index) {
                       return GestureDetector(
-                        // onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => DetailPage(_books[index]))),
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => BookDetail(_books[index]))),
                         child: Card(
                           elevation: 3,
                           child: Column(

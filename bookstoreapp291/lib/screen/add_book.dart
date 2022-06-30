@@ -39,6 +39,7 @@ class _AddBookState extends State<AddBook> {
   String? imageUrl;
   File? imageFile;
   final scrollController = ScrollController();
+  final imagePicker = ImagePicker();
 
   getBookName(String name) {
     bookName = name;
@@ -79,7 +80,6 @@ class _AddBookState extends State<AddBook> {
 
     // send data to Firebase
     if (books != null) {
-      await uploadImageToStorage();
       documentReference
           .set(books)
           .whenComplete(() => print('$bookName created'));
@@ -89,58 +89,25 @@ class _AddBookState extends State<AddBook> {
   }
 
   Future pickedImage() async {
-    XFile? xFile = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (xFile != null) {
-      imageFile = File(xFile.path);
-    }
+    final pick = await imagePicker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pick != null) {
+        imageFile = File(pick.path);
+      } else {
+        return null;
+      }
+    });
   }
 
   Future<void> uploadImageToStorage() async {
-    if (imageFile == null) {
-      print('No file was selected');
-      return null;
-    }
+    Reference ref =
+        FirebaseStorage.instance.ref().child('bookImages/').child('/$bookName');
 
-    UploadTask uploadTask;
-
-    Reference ref = FirebaseStorage.instance
-        .ref()
-        .child('bookImages/')
-        .child('/$bookName.jpg');
-
-    final metadata = SettableMetadata(
-      contentType: 'image/jpg',
-      customMetadata: {'picked-file-path': imageFile!.path},
-    );
-
-    if (kIsWeb) {
-      uploadTask = ref.putData(await imageFile!.readAsBytes(), metadata);
-    } else {
-      uploadTask = ref.putFile(io.File(imageFile!.path), metadata);
-      imageUrl = await ref.getDownloadURL();
-    }
+    await ref.putFile(imageFile!);
+    imageUrl = await ref.getDownloadURL();
+    print(imageUrl);
   }
-
-  // @override
-  // void dispose() {
-  //   nameController.dispose();
-  //   desController.dispose();
-  //   priceController.dispose();
-  //   amountController.dispose();
-  //   super.dispose();
-  // }
-
-  // void _incrementCounter() {
-  //   setState(() {
-  //     _counter++;
-  //   });
-  // }
-
-  // void _decrementCounter() {
-  //   setState(() {
-  //     _counter--;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +117,7 @@ class _AddBookState extends State<AddBook> {
           if (snapshot.hasError) {
             return Scaffold(
               appBar: AppBar(
-                title: Text('Error'),
+                title: const Text('Error'),
               ),
               body: Center(
                 child: Text("${snapshot.error}"),
@@ -201,39 +168,70 @@ class _AddBookState extends State<AddBook> {
                                               (String amount) {
                                             getAmount(int.parse(amount));
                                           }),
-                                          // Expanded(
-                                          //     child: Row(
-                                          //   mainAxisAlignment:
-                                          //       MainAxisAlignment.center,
-                                          //   children: [
-                                          //     Text('Amount'),
-                                          //     RoundedIconBtn(
-                                          //       icon: Icons.remove,
-                                          //       press: () {
-                                          //         _decrementCounter();
-                                          //       },
-                                          //     ),
-                                          //     Text('$_counter'),
-                                          //     RoundedIconBtn(
-                                          //       icon: Icons.add,
-                                          //       showShadow: true,
-                                          //       press: () {
-                                          //         _incrementCounter();
-                                          //       },
-                                          //     ),
-                                          //   ],
-                                          // )),
                                           Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 40),
-                                            child: IconButton(
-                                                onPressed: () {
-                                                  pickedImage();
-                                                },
-                                                iconSize: 80,
-                                                icon: Icon(Icons
-                                                    .add_a_photo_outlined)),
-                                          )
+                                              padding: const EdgeInsets.only(
+                                                  top: 40),
+                                              child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  child: SizedBox(
+                                                    height: 250,
+                                                    width: double.infinity,
+                                                    child: Column(
+                                                      children: [
+                                                        Expanded(
+                                                          child: Container(
+                                                              width: 300,
+                                                              decoration: BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              20),
+                                                                  border: Border.all(
+                                                                      color: LightColor
+                                                                          .grey)),
+                                                              child: Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(10),
+                                                                child: Center(
+                                                                  child: Column(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceBetween,
+                                                                    children: [
+                                                                      Expanded(
+                                                                        child: imageFile ==
+                                                                                null
+                                                                            ? const Center(
+                                                                                child: Text('No image selected'),
+                                                                              )
+                                                                            : Image.file(imageFile!),
+                                                                      ),
+                                                                      Row(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.spaceEvenly,
+                                                                        children: [
+                                                                          ElevatedButton(
+                                                                              onPressed: () {
+                                                                                pickedImage();
+                                                                              },
+                                                                              child: const Text('Select Image')),
+                                                                          ElevatedButton(
+                                                                              onPressed: () {
+                                                                                uploadImageToStorage();
+                                                                              },
+                                                                              child: const Text('Upload Image'))
+                                                                        ],
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              )),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  )))
                                         ],
                                       ),
                                     ),
@@ -263,7 +261,7 @@ class _AddBookState extends State<AddBook> {
                   ),
                 ));
           }
-          return Scaffold(
+          return const Scaffold(
             body: Center(
               child: CircularProgressIndicator(),
             ),
@@ -280,7 +278,14 @@ Widget _entryField(String title, String hintText, Function(String) onChanged) {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: TextField(
+          child: TextFormField(
+            obscureText: true,
+            validator: (val) {
+              if (val == null || val.isEmpty) {
+                return 'Please enter the $title';
+              }
+              return null;
+            },
             onChanged: onChanged,
             decoration: InputDecoration(
               border: const OutlineInputBorder(
@@ -298,38 +303,3 @@ Widget _entryField(String title, String hintText, Function(String) onChanged) {
     ),
   );
 }
-
-// class RoundedIconBtn extends StatelessWidget {
-//   const RoundedIconBtn({
-//     Key? key,
-//     required this.icon,
-//     required this.press,
-//     this.showShadow = false,
-//   }) : super(key: key);
-
-//   final IconData icon;
-//   final GestureTapCancelCallback press;
-//   final bool showShadow;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       decoration: BoxDecoration(
-//         shape: BoxShape.circle,
-//         boxShadow: [
-//           if (showShadow)
-//             BoxShadow(
-//               offset: Offset(0, 6),
-//               blurRadius: 10,
-//               color: Color(0xFFB0B0B0).withOpacity(0.2),
-//             ),
-//         ],
-//       ),
-//       child: IconButton(
-//         color: LightColor.grey,
-//         onPressed: press,
-//         icon: Icon(icon),
-//       ),
-//     );
-//   }
-// }

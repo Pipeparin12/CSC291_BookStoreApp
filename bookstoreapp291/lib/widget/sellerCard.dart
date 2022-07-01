@@ -10,6 +10,27 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../screen/detail_book.dart';
 
+TextEditingController bookNameController = TextEditingController();
+TextEditingController bookDesController = TextEditingController();
+TextEditingController bookPriceController = TextEditingController();
+TextEditingController bookAmountController = TextEditingController();
+
+final updateName = '';
+final updateDes = '';
+final updatePrice = '';
+final updateAmount = '';
+
+String docId = FirebaseFirestore.instance.collection('books').doc().id;
+
+Future updateBookData() async {
+  FirebaseFirestore.instance.collection('books').doc(docId).update({
+    "bookName": bookNameController.text,
+    "bookDes": bookDesController.text,
+    "bookPrice": int.parse(bookPriceController.text),
+    "bookAmount": int.parse(bookAmountController.text),
+  });
+}
+
 @override
 Widget sellerCard(String sellerId) {
   return StreamBuilder(
@@ -31,6 +52,30 @@ Widget sellerCard(String sellerId) {
           itemCount: snapshot.data == null ? 0 : snapshot.data!.docs.length,
           itemBuilder: (_, index) {
             DocumentSnapshot _documentSnapshot = snapshot.data!.docs[index];
+
+            final updateName = _documentSnapshot['bookName'];
+            final updateDes = _documentSnapshot['bookDes'];
+            final updatePrice = _documentSnapshot['bookPrice'];
+            final updateAmount = _documentSnapshot['bookAmount'];
+
+            bookNameController.value = TextEditingValue(
+              text: updateName,
+              selection: TextSelection.fromPosition(
+                TextPosition(offset: updateName.length),
+              ),
+            );
+
+            bookDesController.value = TextEditingValue(
+              text: updateDes,
+              selection: TextSelection.fromPosition(
+                TextPosition(offset: updateDes.length),
+              ),
+            );
+
+            bookPriceController.value = TextEditingValue(text: '$updatePrice');
+
+            bookAmountController.value =
+                TextEditingValue(text: '$updateAmount');
 
             return Container(
                 padding: EdgeInsets.only(right: 20, left: 20, bottom: 10),
@@ -80,15 +125,13 @@ Widget sellerCard(String sellerId) {
                                         child: Column(
                                           children: <Widget>[
                                             _entryField(
-                                              "Name",
-                                            ),
+                                                "Name", bookNameController),
+                                            _entryField("Description",
+                                                bookDesController),
                                             _entryField(
-                                              "Description",
-                                            ),
+                                                "Price", bookPriceController),
                                             _entryField(
-                                              "Price",
-                                            ),
-                                            _entryField("Amount"),
+                                                "Amount", bookAmountController),
                                           ],
                                         ),
                                       ),
@@ -97,7 +140,9 @@ Widget sellerCard(String sellerId) {
                                       Padding(
                                         padding: EdgeInsets.all(15.0),
                                         child: ElevatedButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            updateBookData();
+                                          },
                                           child: Text('Save'),
                                         ),
                                       )
@@ -122,7 +167,7 @@ Widget sellerCard(String sellerId) {
       });
 }
 
-Widget _entryField(String title) {
+Widget _entryField(String title, TextEditingController controller) {
   return Container(
     margin: EdgeInsets.only(left: 8.0, right: 8.0, top: 15),
     child: Column(
@@ -131,6 +176,7 @@ Widget _entryField(String title) {
         Padding(
           padding: EdgeInsets.all(2.0),
           child: TextFormField(
+            controller: controller,
             autofocus: true,
             decoration: InputDecoration(
               border: OutlineInputBorder(

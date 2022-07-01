@@ -8,6 +8,7 @@ import 'package:bookstoreapp291/model/product.dart';
 import 'package:bookstoreapp291/sizedConfig.dart';
 import 'package:bookstoreapp291/theme/light_color.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -70,6 +71,7 @@ class _AddBookState extends State<AddBook> {
 
     // create Map to send data in key:value pair form
     Map<String, dynamic> books = ({
+      "sellerId": FirebaseAuth.instance.currentUser!.email,
       "bookId": FirebaseFirestore.instance.collection('books').doc().id,
       "bookName": bookName,
       "bookDes": bookDes,
@@ -279,7 +281,7 @@ Widget _entryField(String title, String hintText, Function(String) onChanged) {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
-            obscureText: true,
+            obscureText: false,
             validator: (val) {
               if (val == null || val.isEmpty) {
                 return 'Please enter the $title';

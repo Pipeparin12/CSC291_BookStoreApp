@@ -65,7 +65,8 @@ Widget bookCard(String collectionName) {
                                   FirebaseFirestore.instance
                                       .collection("books")
                                       .where("bookName",
-                                          isEqualTo: _documentSnapshot["name"])
+                                          isEqualTo:
+                                              _documentSnapshot["bookName"])
                                       .snapshots(),
                                 ))),
                   ));

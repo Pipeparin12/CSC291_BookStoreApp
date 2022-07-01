@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart';
 
 class ProfilePic extends StatefulWidget {
   const ProfilePic({Key? key, required this.title}) : super(key: key);
@@ -36,12 +38,19 @@ class _ProfilePicState extends State<ProfilePic> {
 
       if (Images == null) return;
 
-      final imageTemp = File(Images.path);
-
-      setState(() => this.Images = imageTemp);
+      final imagePermanent = await saveImagePermanently(Images.path);
+      setState(() => this.Images = imagePermanent);
     } on PlatformException catch (e) {
       print('Failed to pick image: $e');
     }
+  }
+
+  Future<File> saveImagePermanently(String imagePath) async {
+    final directory = await getApplicationDocumentsDirectory();
+    final name = basename(imagePath);
+    final Images = File('${directory.path}/$name');
+
+    return File(imagePath).copy(Images.path);
   }
 
   @override

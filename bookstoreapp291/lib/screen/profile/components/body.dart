@@ -1,4 +1,5 @@
 import 'package:bookstoreapp291/screen/profile/profile_screen.dart';
+import 'package:bookstoreapp291/screen/sign_in/sign_in_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:bookstoreapp291/screen/complete_address/complete_address_screen.dart';
 import 'package:bookstoreapp291/screen/complete_email/complete_email_screen.dart';
@@ -53,6 +54,12 @@ class Body extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                     builder: (context) => CompleteAddressScreen())),
+          ),
+          ProfileMenu(
+            text: "Sign Out",
+            icon: "assets/icons/Log out.svg",
+            press: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => SignInScreen())),
           ),
         ],
       ),

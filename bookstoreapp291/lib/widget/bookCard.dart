@@ -13,67 +13,78 @@ import '../screen/detail_book.dart';
 @override
 Widget bookCard(String collectionName) {
   return StreamBuilder(
-    stream: FirebaseFirestore.instance
-        .collection(collectionName)
-        .doc(FirebaseAuth.instance.currentUser!.email)
-        .collection('items')
-        .snapshots(),
-    builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-      if (snapshot.hasError) {
-        return Text('Something went wrong');
-      }
+      stream: FirebaseFirestore.instance
+          .collection(collectionName)
+          .doc(FirebaseAuth.instance.currentUser!.email)
+          .collection('items')
+          .snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text('Something went wrong');
+        }
 
-      if (snapshot.connectionState == ConnectionState.waiting) {
-        return Text("Loading");
-      }
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Text("Loading");
+        }
 
-      return ListView(
-        shrinkWrap: true,
-        children: snapshot.data!.docs.map((DocumentSnapshot document) {
-          Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-          return ListView.builder(
-            shrinkWrap: true,
-            itemCount: snapshot.data == null ? 0 : snapshot.data!.docs.length,
-            itemBuilder: (_, index) {
-              DocumentSnapshot _documentSnapshot = snapshot.data!.docs[index];
+        return ListView.builder(
+          shrinkWrap: true,
+          itemCount: snapshot.data == null ? 0 : snapshot.data!.docs.length,
+          itemBuilder: (_, index) {
+            DocumentSnapshot _documentSnapshot = snapshot.data!.docs[index];
 
-              return Card(
-                  elevation: 5,
-                  child: ListTile(
-                    leading: Text(_documentSnapshot['name']),
-                    title: Text(
-                      "\$ ${_documentSnapshot['price']}",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.red),
-                    ),
-                    trailing: GestureDetector(
-                        child: CircleAvatar(
-                          child: Icon(Icons.remove_circle),
-                        ),
-                        onTap: () {
-                          FirebaseFirestore.instance
-                              .collection(collectionName)
-                              .doc(FirebaseAuth.instance.currentUser!.email)
-                              .collection('items')
-                              .doc(_documentSnapshot.id)
-                              .delete();
-                        }),
-                    onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => BookDetail(
-                                  FirebaseFirestore.instance
-                                      .collection("books")
-                                      .where("bookName",
-                                          isEqualTo:
-                                              _documentSnapshot["bookName"])
-                                      .snapshots(),
-                                ))),
-                  ));
-            },
-          );
-        }).toList(),
-      );
-    },
-  );
+            return GestureDetector(
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => BookDetail(_documentSnapshot[index]))),
+              child: Container(
+                  padding: EdgeInsets.only(right: 20, left: 20, bottom: 10),
+                  height: 120,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: LightColor.lightGrey,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Padding(
+                              padding: EdgeInsets.all(5.0),
+                              child: Image(
+                                  image: NetworkImage(
+                                      _documentSnapshot['images']))),
+                          Expanded(
+                            child: Container(
+                              padding: EdgeInsets.all(5),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  Text(_documentSnapshot['name'],
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold)),
+                                  Text("Price: " +
+                                      _documentSnapshot['price'].toString()),
+                                ],
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                              onPressed: () {
+                                FirebaseFirestore.instance
+                                    .collection(collectionName)
+                                    .doc(FirebaseAuth
+                                        .instance.currentUser!.email)
+                                    .collection('items')
+                                    .doc(_documentSnapshot.id)
+                                    .delete();
+                              },
+                              icon: Icon(Icons.delete))
+                        ]),
+                  )),
+            );
+          },
+        );
+      });
 }

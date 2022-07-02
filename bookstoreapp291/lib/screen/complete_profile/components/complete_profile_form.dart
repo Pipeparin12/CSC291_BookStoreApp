@@ -1,11 +1,12 @@
 import 'dart:ffi';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:bookstoreapp291/components/custom_surfix_icon.dart';
 import 'package:bookstoreapp291/components/default_button.dart';
 import 'package:bookstoreapp291/screen/profile/profile_screen.dart';
-
+import 'package:firebase_storage/firebase_storage.dart';
 import '../../../constants.dart';
 import '../../../sizedConfig.dart';
 
@@ -17,8 +18,9 @@ class CompleteProfileForm extends StatefulWidget {
 class _CompleteProfileFormState extends State<CompleteProfileForm> {
   final _formKey = GlobalKey<FormState>();
 
-  String firstname = '';
-  String lastname = '';
+  late String firstname = '';
+  late String lastname = '';
+  late String NameId = FirebaseFirestore.instance.collection('Name').doc().id;
 
   @override
   Widget build(BuildContext context) {

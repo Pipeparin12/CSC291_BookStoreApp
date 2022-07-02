@@ -1,5 +1,8 @@
+import 'dart:ffi';
+
 import 'package:bookstoreapp291/screen/profile/profile_screen.dart';
 import 'package:bookstoreapp291/screen/sign_in/sign_in_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:bookstoreapp291/screen/complete_address/complete_address_screen.dart';
 import 'package:bookstoreapp291/screen/complete_email/complete_email_screen.dart';
@@ -10,13 +13,24 @@ import 'package:bookstoreapp291/screen/complete_profile/complete_profile_screen.
 import 'profile_menu.dart';
 import 'profile_pic.dart';
 
-class Body extends StatelessWidget {
+class Body extends StatefulWidget {
+  @override
+  _BodyState createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
+  String login = '';
+  Widget showLogin() {
+    return Text('Name: $login');
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       padding: EdgeInsets.symmetric(vertical: 20),
       child: Column(
         children: [
+          showLogin(),
           ProfilePic(title: ''),
           SizedBox(height: 20),
           ProfileMenu(

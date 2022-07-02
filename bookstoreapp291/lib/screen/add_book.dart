@@ -37,6 +37,7 @@ class _AddBookState extends State<AddBook> {
   late String bookDes;
   late int bookPrice;
   late int bookAmount;
+  late String bookId = FirebaseFirestore.instance.collection('books').doc().id;
   String? imageUrl;
   File? imageFile;
   final scrollController = ScrollController();
@@ -59,7 +60,7 @@ class _AddBookState extends State<AddBook> {
   }
 
   createBookData() async {
-    debugPrint(FirebaseFirestore.instance.collection('books').id);
+    debugPrint(bookId);
     debugPrint(bookName);
     debugPrint(bookDes);
     debugPrint(bookPrice.toString());
@@ -72,7 +73,7 @@ class _AddBookState extends State<AddBook> {
     // create Map to send data in key:value pair form
     Map<String, dynamic> books = ({
       "sellerId": FirebaseAuth.instance.currentUser!.email,
-      "bookId": FirebaseFirestore.instance.collection('books').doc().id,
+      "bookId": bookId,
       "bookName": bookName,
       "bookDes": bookDes,
       "bookPrice": bookPrice,

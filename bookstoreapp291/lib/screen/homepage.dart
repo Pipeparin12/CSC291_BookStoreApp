@@ -16,6 +16,8 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:bookstoreapp291/widget/section_title.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:bookstoreapp291/widget/search.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -82,7 +84,23 @@ class _MyWidgetState extends State<MainScreen> {
           child: Column(
             children: <Widget>[
               Padding(padding: EdgeInsets.only(top: 30)),
-              _search(),
+              Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: TextFormField(
+                  readOnly: true,
+                  decoration: InputDecoration(
+                      fillColor: LightColor.lightGrey.withAlpha(100),
+                      hintText: "Search",
+                      hintStyle: TextStyle(fontSize: 12),
+                      contentPadding:
+                          EdgeInsets.only(left: 5, right: 5, bottom: 0, top: 5),
+                      prefixIcon: Icon(Icons.search, color: Colors.black54),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)))),
+                  onTap: () => Navigator.push(
+                      context, CupertinoPageRoute(builder: (_) => Search())),
+                ),
+              ),
               Padding(
                   padding: EdgeInsets.only(
                 top: 30,
@@ -142,31 +160,4 @@ class _MyWidgetState extends State<MainScreen> {
       ),
     );
   }
-}
-
-Widget _search() {
-  return Container(
-    margin: AppTheme.padding,
-    child: Row(
-      children: <Widget>[
-        Expanded(
-            child: Container(
-          height: 40,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-              color: LightColor.lightGrey.withAlpha(100),
-              borderRadius: BorderRadius.all(Radius.circular(10))),
-          child: TextField(
-            decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: "Search",
-                hintStyle: TextStyle(fontSize: 12),
-                contentPadding:
-                    EdgeInsets.only(left: 5, right: 5, bottom: 0, top: 5),
-                prefixIcon: Icon(Icons.search, color: Colors.black54)),
-          ),
-        ))
-      ],
-    ),
-  );
 }

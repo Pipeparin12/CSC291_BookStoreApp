@@ -29,7 +29,8 @@ class _BookDetailState extends State<BookDetail> {
       "name": widget._book["bookName"],
       "price": widget._book["bookPrice"],
       "images": widget._book["bookImage"],
-      "id": widget._book["bookId"]
+      "des": widget._book["bookDes"],
+      "amount": widget._book["bookAmount"]
     }).then((value) => print("Added to favourite"));
   }
 
@@ -66,7 +67,7 @@ class _BookDetailState extends State<BookDetail> {
                             )
                           : Icon(
                               Icons.bookmark,
-                              color: Colors.white,
+                              color: Colors.red,
                             ),
                     ),
                   ),

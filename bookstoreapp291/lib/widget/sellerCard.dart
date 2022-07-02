@@ -10,6 +10,95 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../screen/detail_book.dart';
 
+TextEditingController bookNameController = TextEditingController();
+TextEditingController bookDesController = TextEditingController();
+TextEditingController bookPriceController = TextEditingController();
+TextEditingController bookAmountController = TextEditingController();
+late String bookId;
+
+CollectionReference _books = FirebaseFirestore.instance.collection('books');
+
+Future<void> fetchBookData([DocumentSnapshot? documentSnapshot]) async {
+  if (documentSnapshot != null) {
+    bookNameController.text = documentSnapshot['bookName'];
+    bookDesController.text = documentSnapshot['bookDes'];
+    bookPriceController.text = documentSnapshot['bookPrice'].toString();
+    bookAmountController.text = documentSnapshot['bookAmount'].toString();
+  }
+
+  // AlertDialog(
+  //   backgroundColor: LightColor.lightGrey,
+  //   scrollable: true,
+  //   title: Text('Edit'),
+  //   content: Padding(
+  //     padding: EdgeInsets.all(8.0),
+  //     child: Form(
+  //       child: Column(
+  //         children: <Widget>[
+  //           _entryField("Name", bookNameController),
+  //           _entryField("Description", bookDesController),
+  //           _entryField("Price", bookPriceController),
+  //           _entryField("Amount", bookAmountController),
+  //         ],
+  //       ),
+  //     ),
+  //   ),
+  //   actions: [
+  //     Padding(
+  //       padding: EdgeInsets.all(15.0),
+  //       child: ElevatedButton(
+  //         onPressed: () async {
+  //           final String bookName = bookNameController.text;
+  //           final String bookDes = bookDesController.text;
+  //           final int bookPrice = int.parse(bookPriceController.text);
+  //           final int bookAmount = int.parse(bookAmountController.text);
+
+  //           if (bookName != null ||
+  //               bookDes != null ||
+  //               bookPrice != null ||
+  //               bookAmount != null) {
+  //             await _books.doc(documentSnapshot!.id).update({
+  //               'bookName': bookName,
+  //               'bookDes': bookDes,
+  //               'bookPrice': bookPrice,
+  //               'bookAmount': bookAmount
+  //             });
+  //             bookNameController.text = '';
+  //             bookDesController.text = '';
+  //             bookPriceController.text = '';
+  //             bookAmountController.text = '';
+  //           }
+  //         },
+  //         child: Text('Save'),
+  //       ),
+  //     )
+  //   ],
+  // );
+}
+
+Future<void> updateBookData(DocumentSnapshot documentSnapshot) async {
+  final String bookName = bookNameController.text;
+  final String bookDes = bookDesController.text;
+  final int bookPrice = int.parse(bookPriceController.text);
+  final int bookAmount = int.parse(bookAmountController.text);
+
+  if (bookName != null ||
+      bookDes != null ||
+      bookPrice != null ||
+      bookAmount != null) {
+    await _books.doc(documentSnapshot.id).update({
+      'bookName': bookName,
+      'bookDes': bookDes,
+      'bookPrice': bookPrice,
+      'bookAmount': bookAmount
+    });
+    bookNameController.text = '';
+    bookDesController.text = '';
+    bookPriceController.text = '';
+    bookAmountController.text = '';
+  }
+}
+
 @override
 Widget sellerCard(String sellerId) {
   return StreamBuilder(
@@ -31,6 +120,8 @@ Widget sellerCard(String sellerId) {
           itemCount: snapshot.data == null ? 0 : snapshot.data!.docs.length,
           itemBuilder: (_, index) {
             DocumentSnapshot _documentSnapshot = snapshot.data!.docs[index];
+
+            bookId = _documentSnapshot['bookId'][index];
 
             return Container(
                 padding: EdgeInsets.only(right: 20, left: 20, bottom: 10),
@@ -67,45 +158,46 @@ Widget sellerCard(String sellerId) {
                         ),
                         IconButton(
                           onPressed: () {
+                            fetchBookData();
                             showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    backgroundColor: LightColor.lightGrey,
-                                    scrollable: true,
-                                    title: Text('Edit'),
-                                    content: Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: Form(
-                                        child: Column(
-                                          children: <Widget>[
-                                            _entryField(
-                                              "Name",
-                                            ),
-                                            _entryField(
-                                              "Description",
-                                            ),
-                                            _entryField(
-                                              "Price",
-                                            ),
-                                            _entryField("Amount"),
-                                          ],
-                                        ),
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  backgroundColor: LightColor.lightGrey,
+                                  scrollable: true,
+                                  title: Text('Edit'),
+                                  content: Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Form(
+                                      child: Column(
+                                        children: <Widget>[
+                                          _entryField(
+                                              "Name", bookNameController),
+                                          _entryField(
+                                              "Description", bookDesController),
+                                          _entryField(
+                                              "Price", bookPriceController),
+                                          _entryField(
+                                              "Amount", bookAmountController),
+                                        ],
                                       ),
                                     ),
-                                    actions: [
-                                      Padding(
-                                        padding: EdgeInsets.all(15.0),
-                                        child: ElevatedButton(
-                                          onPressed: () {},
-                                          child: Text('Save'),
-                                        ),
-                                      )
-                                    ],
-                                  );
-                                });
+                                  ),
+                                  actions: [
+                                    Padding(
+                                      padding: EdgeInsets.all(15.0),
+                                      child: ElevatedButton(
+                                        onPressed: () =>
+                                            updateBookData(_documentSnapshot),
+                                        child: Text('Save'),
+                                      ),
+                                    )
+                                  ],
+                                );
+                              },
+                            );
                           },
-                          icon: Icon(Icons.create_rounded),
+                          icon: Icon(Icons.edit),
                         ),
                         IconButton(
                             onPressed: () {
@@ -122,7 +214,7 @@ Widget sellerCard(String sellerId) {
       });
 }
 
-Widget _entryField(String title) {
+Widget _entryField(String title, TextEditingController controller) {
   return Container(
     margin: EdgeInsets.only(left: 8.0, right: 8.0, top: 15),
     child: Column(
@@ -131,7 +223,8 @@ Widget _entryField(String title) {
         Padding(
           padding: EdgeInsets.all(2.0),
           child: TextFormField(
-            autofocus: true,
+            controller: controller,
+            autofocus: false,
             decoration: InputDecoration(
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(30.0))),

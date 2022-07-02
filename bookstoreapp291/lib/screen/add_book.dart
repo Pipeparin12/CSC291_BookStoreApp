@@ -7,6 +7,7 @@ import 'package:bookstoreapp291/model/book.dart';
 import 'package:bookstoreapp291/model/product.dart';
 import 'package:bookstoreapp291/sizedConfig.dart';
 import 'package:bookstoreapp291/theme/light_color.dart';
+import 'package:bookstoreapp291/widget/sellerCard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -68,7 +69,7 @@ class _AddBookState extends State<AddBook> {
     debugPrint(imageUrl);
 
     DocumentReference documentReference =
-        FirebaseFirestore.instance.collection('books').doc(bookName);
+        FirebaseFirestore.instance.collection('books').doc(bookId);
 
     // create Map to send data in key:value pair form
     Map<String, dynamic> books = ({

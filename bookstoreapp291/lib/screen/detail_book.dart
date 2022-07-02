@@ -16,6 +16,24 @@ class BookDetail extends StatefulWidget {
 }
 
 class _BookDetailState extends State<BookDetail> {
+  late int counter = 1;
+
+  void increment() {
+    setState(() {
+      counter++;
+    });
+  }
+
+  void decrement() {
+    setState(() {
+      if (counter == 0) {
+        return null;
+      } else {
+        counter--;
+      }
+    });
+  }
+
   Future addToBookmark() async {
     final FirebaseAuth _auth = FirebaseAuth.instance;
     var currentUser = _auth.currentUser;
@@ -147,10 +165,15 @@ class _BookDetailState extends State<BookDetail> {
                                 color: LightColor.skyBlue,
                                 borderRadius: BorderRadius.circular(10)),
                             child: Center(
-                                child: Text(
-                              '-',
-                              style: GoogleFonts.ptSans(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
+                                child: TextButton(
+                              child: Text(
+                                '-',
+                                style: GoogleFonts.ptSans(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                              onPressed: () {
+                                decrement();
+                              },
                             )),
                           ),
                           Container(
@@ -158,7 +181,7 @@ class _BookDetailState extends State<BookDetail> {
                             width: 70,
                             child: Center(
                                 child: Text(
-                              '1',
+                              '$counter',
                               style: GoogleFonts.ptSans(
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             )),
@@ -170,10 +193,15 @@ class _BookDetailState extends State<BookDetail> {
                                 color: LightColor.skyBlue,
                                 borderRadius: BorderRadius.circular(10)),
                             child: Center(
-                                child: Text(
-                              '+',
-                              style: GoogleFonts.ptSans(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
+                                child: TextButton(
+                              child: Text(
+                                '+',
+                                style: GoogleFonts.ptSans(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                              onPressed: () {
+                                increment();
+                              },
                             )),
                           ),
                         ],

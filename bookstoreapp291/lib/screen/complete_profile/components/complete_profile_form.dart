@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:bookstoreapp291/components/custom_surfix_icon.dart';
 import 'package:bookstoreapp291/components/default_button.dart';
@@ -18,9 +19,37 @@ class CompleteProfileForm extends StatefulWidget {
 class _CompleteProfileFormState extends State<CompleteProfileForm> {
   final _formKey = GlobalKey<FormState>();
 
+  final Future<FirebaseApp> firebase = Firebase.initializeApp();
+  CollectionReference Names = FirebaseFirestore.instance.collection("Names");
   late String firstname = '';
   late String lastname = '';
-  late String NameId = FirebaseFirestore.instance.collection('Name').doc().id;
+  late String NameId = FirebaseFirestore.instance.collection('Names').doc().id;
+
+  getFirstname(String firstnames) {
+    firstname = firstnames;
+  }
+
+  getLastname(String lastnames) {
+    lastname = lastnames;
+  }
+
+  createUserData() async {
+    debugPrint(firstname);
+    debugPrint(lastname);
+
+    DocumentReference documentReference =
+        FirebaseFirestore.instance.collection('Names').doc(NameId);
+
+    Map<String, dynamic> Names =
+        ({"NameId": NameId, "Firstname": firstname, "Lastname": lastname});
+
+    if (Names != null) {
+      DocumentReference.set(Names)
+          .whenComplete(() => print('$firstname created'));
+    } else {
+      print('error');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

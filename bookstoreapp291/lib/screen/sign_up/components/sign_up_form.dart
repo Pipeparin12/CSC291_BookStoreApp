@@ -5,7 +5,6 @@ import 'package:bookstoreapp291/components/custom_surfix_icon.dart';
 import 'package:bookstoreapp291/components/default_button.dart';
 import 'package:bookstoreapp291/components/from_error.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:bookstoreapp291/screen/complete_profile/complete_profile_screen.dart';
 
 import '../../../constants.dart';
 import '../../../sizedConfig.dart';

@@ -19,37 +19,8 @@ class CompleteProfileForm extends StatefulWidget {
 class _CompleteProfileFormState extends State<CompleteProfileForm> {
   final _formKey = GlobalKey<FormState>();
 
-  final Future<FirebaseApp> firebase = Firebase.initializeApp();
-  CollectionReference Names = FirebaseFirestore.instance.collection("Names");
-  late String firstname = '';
-  late String lastname = '';
-  late String NameId = FirebaseFirestore.instance.collection('Names').doc().id;
-
-  getFirstname(String firstnames) {
-    firstname = firstnames;
-  }
-
-  getLastname(String lastnames) {
-    lastname = lastnames;
-  }
-
-  createUserData() async {
-    debugPrint(firstname);
-    debugPrint(lastname);
-
-    DocumentReference documentReference =
-        FirebaseFirestore.instance.collection('Names').doc(NameId);
-
-    Map<String, dynamic> Names =
-        ({"NameId": NameId, "Firstname": firstname, "Lastname": lastname});
-
-    if (Names != null) {
-      DocumentReference.set(Names)
-          .whenComplete(() => print('$firstname created'));
-    } else {
-      print('error');
-    }
-  }
+  String firstname = '';
+  String lastname = '';
 
   @override
   Widget build(BuildContext context) {

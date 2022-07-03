@@ -17,8 +17,8 @@ void main() async {
 
   await Firebase.initializeApp(
       options: FirebaseOptions(
-          apiKey: 'AIzaSyAoZA5MxzzcTlMObKvN6omJeLHsLJfo1GM',
-          appId: '1:484998251170:android:f0db595777a80f35954dfb',
+          apiKey: 'AIzaSyCP7aV-ug8cSLUCJG5CqaaMVO5oPgViu10',
+          appId: '1:484998251170:web:bdbf04ddf58ee78c954dfb',
           messagingSenderId: '484998251170',
           projectId: 'book-store-app-291'));
 

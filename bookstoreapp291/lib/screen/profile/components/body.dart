@@ -1,11 +1,10 @@
-import 'dart:ffi';
-
 import 'package:bookstoreapp291/screen/profile/profile_screen.dart';
 import 'package:bookstoreapp291/screen/sign_in/sign_in_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:bookstoreapp291/screen/complete_address/complete_address_screen.dart';
 import 'package:bookstoreapp291/screen/complete_email/complete_email_screen.dart';
+
 import 'package:bookstoreapp291/screen/complete_payment/complete_payment_screen.dart';
 import 'package:bookstoreapp291/screen/complete_phone/complete_phone_screen.dart';
 import 'package:bookstoreapp291/screen/complete_profile/complete_profile_screen.dart';

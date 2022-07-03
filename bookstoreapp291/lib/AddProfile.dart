@@ -1,5 +1,6 @@
 import 'package:bookstoreapp291/theme/light_color.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -54,6 +55,7 @@ class _AddProfileState extends State<AddProfile> {
         FirebaseFirestore.instance.collection('User').doc(NameId);
 
     Map<String, dynamic> User = ({
+      "UserId": FirebaseAuth.instance.currentUser!.email,
       "NameId": NameId,
       "firstName": firstName,
       "lastName": lastName,

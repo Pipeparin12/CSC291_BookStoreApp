@@ -69,10 +69,11 @@ class _SignFormState extends State<SignForm> {
             ),
             icon: Icon(
               Icons.lock_open,
-              size: 45,
+              size: 50,
             ),
             label: Text(
               'Sign In',
+              style: TextStyle(fontSize: 24),
             ),
             onPressed: SignIn,
           ),

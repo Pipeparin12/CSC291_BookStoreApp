@@ -1,5 +1,6 @@
 import 'package:bookstoreapp291/screen/login_success/login_success_screen.dart';
 import 'package:bookstoreapp291/widget/bottomNavBar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:bookstoreapp291/components/custom_surfix_icon.dart';
 import 'package:bookstoreapp291/components/default_button.dart';
@@ -34,6 +35,17 @@ class _SignUpFormState extends State<SignUpForm> {
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
               email: emailController.text.trim(),
               password: passwordController.text.trim());
+
+          await FirebaseFirestore.instance.collection("User").add({
+            "UserId": emailController.text.trim(),
+            "NameId": FirebaseFirestore.instance.collection("User").id,
+            "firstName": "Job",
+            "lastName": "Steve",
+            "addressName": "Around Me",
+            "emailName": emailController.text.trim(),
+            "phoneNum": "191",
+          });
+
           Navigator.push(context, MaterialPageRoute(builder: (context) {
             return BottomNavBar();
           }));

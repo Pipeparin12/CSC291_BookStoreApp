@@ -25,8 +25,9 @@ class Body extends StatelessWidget {
         children: [
           ProfilePic(title: ''),
           SizedBox(height: 20),
+          ProfileDetail(this),
           ProfileMenu(
-            text: "Add Profile",
+            text: "Edit Profile",
             icon: "assets/icons/User.svg",
             press: () => Navigator.push(
                 context, MaterialPageRoute(builder: (context) => AddProfile())),

@@ -1,3 +1,4 @@
+import 'package:bookstoreapp291/model/profile.dart';
 import 'package:bookstoreapp291/theme/light_color.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -15,13 +16,18 @@ class _AddProfileState extends State<AddProfile> {
   GlobalKey<FormState> formState = new GlobalKey<FormState>();
   final Future<FirebaseApp> firebase = Firebase.initializeApp();
   CollectionReference Names = FirebaseFirestore.instance.collection("User");
-
   late String firstName;
   late String lastName;
   late String addressName;
   late String emailName;
-  late int phoneNum;
-  late String NameId = FirebaseFirestore.instance.collection('User').doc().id;
+  late String phoneNum;
+  late String NameId;
+
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
+  final addressNameController = TextEditingController();
+  final emailNameController = TextEditingController();
+  final phoneNumController = TextEditingController();
 
   getFirstName(String fname) {
     firstName = fname;
@@ -39,38 +45,69 @@ class _AddProfileState extends State<AddProfile> {
     emailName = ename;
   }
 
-  getPhoneNum(int pnum) {
+  getPhoneNum(String pnum) {
     phoneNum = pnum;
   }
 
-  createUserData() async {
-    debugPrint(NameId);
-    debugPrint(firstName);
-    debugPrint(lastName);
-    debugPrint(addressName);
-    debugPrint(emailName);
-    debugPrint(phoneNum.toString());
-
+  createUserData(context) async {
     DocumentReference documentReference =
         FirebaseFirestore.instance.collection('User').doc(NameId);
 
     Map<String, dynamic> User = ({
       "UserId": FirebaseAuth.instance.currentUser!.email,
       "NameId": NameId,
-      "firstName": firstName,
-      "lastName": lastName,
-      "addressName": addressName,
-      "emailName": emailName,
-      "phoneNum": phoneNum
+      "firstName": firstNameController.text.trim(),
+      "lastName": lastNameController.text.trim(),
+      "addressName": addressNameController.text.trim(),
+      "emailName": emailNameController.text.trim(),
+      "phoneNum": phoneNumController.text.trim()
     });
 
     if (User != null) {
-      documentReference
-          .set(User)
-          .whenComplete(() => print('$firstName created'));
+      documentReference.update(User).whenComplete(() {
+        print('profile updated');
+        Navigator.of(context).pop();
+      });
     } else {
       print('error');
     }
+  }
+
+  void GetProfileInfo() async {
+    FirebaseFirestore.instance
+        .collection("User")
+        .where("UserId", isEqualTo: FirebaseAuth.instance.currentUser!.email)
+        .get()
+        .then((snapshot) {
+      final documents = snapshot.docs;
+      if (documents != null) {
+        Profile userProfile = Profile.fromJson(documents[0] as dynamic);
+        print(userProfile.emailName);
+        NameId = documents[0].id;
+        setState(() {
+          firstNameController.text = userProfile.firstName;
+          lastNameController.text = userProfile.lastName;
+          phoneNumController.text = userProfile.phoneNum;
+          emailNameController.text = userProfile.emailName;
+          addressNameController.text = userProfile.addressName;
+        });
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    GetProfileInfo();
+  }
+
+  @override
+  void dispose() {
+    firstNameController.dispose();
+    lastNameController.dispose();
+    phoneNumController.dispose();
+    emailNameController.dispose();
+    addressNameController.dispose();
   }
 
   Widget build(BuildContext context) {
@@ -89,108 +126,76 @@ class _AddProfileState extends State<AddProfile> {
           }
           if (snapshot.connectionState == ConnectionState.done) {
             return Scaffold(
-                resizeToAvoidBottomInset: false,
-                appBar: AppBar(
-                  title: const Text('Add Profile'),
-                  centerTitle: true,
-                  backgroundColor: Colors.grey,
-                ),
-                body: Form(
-                  key: formState,
-                  child: CustomScrollView(
-                    slivers: [
-                      SliverFillRemaining(
-                        hasScrollBody: false,
-                        child: Column(
-                          children: [
-                            Expanded(
-                                child: SizedBox(
-                              child: Column(
-                                children: [
-                                  Expanded(
-                                    child: Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 30),
-                                      child: Column(
-                                        children: [
-                                          _entryField(
-                                              'Name', 'Enter First Name',
-                                              (String fname) {
-                                            getFirstName(fname);
-                                          }),
-                                          _entryField('Name', 'Enter Lastname',
-                                              (String lname) {
-                                            getLastName(lname);
-                                          }),
-                                          _entryField(
-                                              'Address', 'Enter Address',
-                                              (String aname) {
-                                            getAddressName(aname);
-                                          }),
-                                          _entryField('Email', 'Enter Email',
-                                              (String ename) {
-                                            getEmailName(ename);
-                                          }),
-                                          _entryField(
-                                              'Phone', 'Enter Phone Number',
-                                              (String pnum) {
-                                            getPhoneNum(int.parse(pnum));
-                                          }),
-                                          Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 40),
-                                              child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  child: SizedBox(
-                                                    height: 250,
-                                                    width: double.infinity,
-                                                    child: Column(
-                                                      children: [
-                                                        Expanded(
-                                                          child: Container(
-                                                            width: 300,
-                                                            decoration: BoxDecoration(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            20),
-                                                                border: Border.all(
-                                                                    color: LightColor
-                                                                        .grey)),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  )))
-                                        ],
-                                      ),
+              resizeToAvoidBottomInset: false,
+              appBar: AppBar(
+                title: const Text('Edit Profile'),
+                centerTitle: true,
+                backgroundColor: Colors.grey,
+              ),
+              body: Form(
+                key: formState,
+                child: CustomScrollView(
+                  slivers: [
+                    SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: Column(
+                        children: [
+                          Expanded(
+                              child: SizedBox(
+                            child: Column(
+                              children: [
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(bottom: 30),
+                                    child: Column(
+                                      children: [
+                                        _entryField('Name', 'Enter First Name',
+                                            (String fname) {
+                                          getFirstName(fname);
+                                        }, firstNameController),
+                                        _entryField('Name', 'Enter Lastname',
+                                            (String lname) {
+                                          getLastName(lname);
+                                        }, lastNameController),
+                                        _entryField('Address', 'Enter Address',
+                                            (String aname) {
+                                          getAddressName(aname);
+                                        }, addressNameController),
+                                        _entryField(
+                                            'Phone', 'Enter Phone Number',
+                                            (String pnum) {
+                                          getPhoneNum(pnum);
+                                        }, phoneNumController),
+                                      ],
                                     ),
                                   ),
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.only(bottom: 30.0),
-                                    child: ElevatedButton(
-                                      style: ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStateProperty.all(
-                                                Colors.grey),
-                                        padding: MaterialStateProperty.all(
-                                            const EdgeInsets.all(10.0)),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 30.0),
+                                  child: ElevatedButton(
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                        Colors.grey,
                                       ),
-                                      onPressed: () => createUserData(),
-                                      child: const Text('Confirm'),
+                                      padding: MaterialStateProperty.all(
+                                        const EdgeInsets.all(10.0),
+                                      ),
                                     ),
-                                  )
-                                ],
-                              ),
-                            )),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ));
+                                    onPressed: () => createUserData(context),
+                                    child: const Text('Confirm'),
+                                  ),
+                                )
+                              ],
+                            ),
+                          )),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            );
           }
           return const Scaffold(
             body: Center(
@@ -201,7 +206,8 @@ class _AddProfileState extends State<AddProfile> {
   }
 }
 
-Widget _entryField(String title, String hintText, Function(String) onChanged) {
+Widget _entryField(String title, String hintText, Function(String) onChanged,
+    TextEditingController controller) {
   return Container(
     margin: const EdgeInsets.only(left: 30, right: 30, top: 15),
     child: Column(
@@ -210,6 +216,7 @@ Widget _entryField(String title, String hintText, Function(String) onChanged) {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
+            controller: controller,
             obscureText: false,
             validator: (val) {
               if (val == null || val.isEmpty) {

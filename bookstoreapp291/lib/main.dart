@@ -16,7 +16,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
-      name: 'BookStoreApp291',
       options: FirebaseOptions(
           apiKey: 'AIzaSyCP7aV-ug8cSLUCJG5CqaaMVO5oPgViu10',
           appId: '1:484998251170:web:bdbf04ddf58ee78c954dfb',
@@ -35,6 +34,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.grey,
       ),
+      debugShowCheckedModeBanner: false,
       home: SignInScreen(),
     );
   }

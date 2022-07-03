@@ -31,6 +31,7 @@ class CheckoutCard extends StatelessWidget {
             snapshot.data?.docs.forEach((result) {
               total += ((result['price'] * result['itemInCart']));
             });
+
             return Container(
               padding: EdgeInsets.symmetric(
                 vertical: getProportionateScreenWidth(15),

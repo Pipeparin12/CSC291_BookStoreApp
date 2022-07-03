@@ -1,10 +1,16 @@
 import 'dart:convert';
+import 'dart:io' as io;
+import 'dart:io';
+import 'dart:math';
 
 import 'package:bookstoreapp291/model/book.dart';
 import 'package:bookstoreapp291/model/product.dart';
 import 'package:bookstoreapp291/sizedConfig.dart';
 import 'package:bookstoreapp291/theme/light_color.dart';
+import 'package:bookstoreapp291/widget/sellerCard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -32,6 +38,11 @@ class _AddBookState extends State<AddBook> {
   late String bookDes;
   late int bookPrice;
   late int bookAmount;
+  late String bookId = FirebaseFirestore.instance.collection('books').doc().id;
+  String? imageUrl;
+  File? imageFile;
+  final scrollController = ScrollController();
+  final imagePicker = ImagePicker();
 
   getBookName(String name) {
     bookName = name;
@@ -49,21 +60,26 @@ class _AddBookState extends State<AddBook> {
     bookAmount = amount;
   }
 
-  createBookData() {
+  createBookData() async {
+    debugPrint(bookId);
     debugPrint(bookName);
     debugPrint(bookDes);
     debugPrint(bookPrice.toString());
     debugPrint(bookAmount.toString());
+    debugPrint(imageUrl);
 
     DocumentReference documentReference =
-        FirebaseFirestore.instance.collection('books').doc(bookName);
+        FirebaseFirestore.instance.collection('books').doc(bookId);
 
     // create Map to send data in key:value pair form
     Map<String, dynamic> books = ({
+      "sellerId": FirebaseAuth.instance.currentUser!.email,
+      "bookId": bookId,
       "bookName": bookName,
       "bookDes": bookDes,
       "bookPrice": bookPrice,
-      "bookAmount": bookAmount
+      "bookAmount": bookAmount,
+      "bookImage": imageUrl
     });
 
     // send data to Firebase
@@ -76,30 +92,26 @@ class _AddBookState extends State<AddBook> {
     }
   }
 
-  Future<void> uploadImageToDatabase() async {
-    FirebaseFirestore.instance.collection('books');
+  Future pickedImage() async {
+    final pick = await imagePicker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pick != null) {
+        imageFile = File(pick.path);
+      } else {
+        return null;
+      }
+    });
   }
 
-  // @override
-  // void dispose() {
-  //   nameController.dispose();
-  //   desController.dispose();
-  //   priceController.dispose();
-  //   amountController.dispose();
-  //   super.dispose();
-  // }
+  Future<void> uploadImageToStorage() async {
+    Reference ref =
+        FirebaseStorage.instance.ref().child('bookImages/').child('/$bookName');
 
-  // void _incrementCounter() {
-  //   setState(() {
-  //     _counter++;
-  //   });
-  // }
-
-  // void _decrementCounter() {
-  //   setState(() {
-  //     _counter--;
-  //   });
-  // }
+    await ref.putFile(imageFile!);
+    imageUrl = await ref.getDownloadURL();
+    print(imageUrl);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +121,7 @@ class _AddBookState extends State<AddBook> {
           if (snapshot.hasError) {
             return Scaffold(
               appBar: AppBar(
-                title: Text('Error'),
+                title: const Text('Error'),
               ),
               body: Center(
                 child: Text("${snapshot.error}"),
@@ -127,6 +139,7 @@ class _AddBookState extends State<AddBook> {
                 body: Form(
                   key: formState,
                   child: CustomScrollView(
+                    controller: scrollController,
                     slivers: [
                       SliverFillRemaining(
                         hasScrollBody: false,
@@ -159,37 +172,70 @@ class _AddBookState extends State<AddBook> {
                                               (String amount) {
                                             getAmount(int.parse(amount));
                                           }),
-                                          // Expanded(
-                                          //     child: Row(
-                                          //   mainAxisAlignment:
-                                          //       MainAxisAlignment.center,
-                                          //   children: [
-                                          //     Text('Amount'),
-                                          //     RoundedIconBtn(
-                                          //       icon: Icons.remove,
-                                          //       press: () {
-                                          //         _decrementCounter();
-                                          //       },
-                                          //     ),
-                                          //     Text('$_counter'),
-                                          //     RoundedIconBtn(
-                                          //       icon: Icons.add,
-                                          //       showShadow: true,
-                                          //       press: () {
-                                          //         _incrementCounter();
-                                          //       },
-                                          //     ),
-                                          //   ],
-                                          // )),
                                           Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 40),
-                                            child: IconButton(
-                                                onPressed: () {},
-                                                iconSize: 80,
-                                                icon: Icon(Icons
-                                                    .add_a_photo_outlined)),
-                                          )
+                                              padding: const EdgeInsets.only(
+                                                  top: 40),
+                                              child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  child: SizedBox(
+                                                    height: 250,
+                                                    width: double.infinity,
+                                                    child: Column(
+                                                      children: [
+                                                        Expanded(
+                                                          child: Container(
+                                                              width: 300,
+                                                              decoration: BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              20),
+                                                                  border: Border.all(
+                                                                      color: LightColor
+                                                                          .grey)),
+                                                              child: Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(10),
+                                                                child: Center(
+                                                                  child: Column(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceBetween,
+                                                                    children: [
+                                                                      Expanded(
+                                                                        child: imageFile ==
+                                                                                null
+                                                                            ? const Center(
+                                                                                child: Text('No image selected'),
+                                                                              )
+                                                                            : Image.file(imageFile!),
+                                                                      ),
+                                                                      Row(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.spaceEvenly,
+                                                                        children: [
+                                                                          ElevatedButton(
+                                                                              onPressed: () {
+                                                                                pickedImage();
+                                                                              },
+                                                                              child: const Text('Select Image')),
+                                                                          ElevatedButton(
+                                                                              onPressed: () {
+                                                                                uploadImageToStorage();
+                                                                              },
+                                                                              child: const Text('Upload Image'))
+                                                                        ],
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              )),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  )))
                                         ],
                                       ),
                                     ),
@@ -219,7 +265,7 @@ class _AddBookState extends State<AddBook> {
                   ),
                 ));
           }
-          return Scaffold(
+          return const Scaffold(
             body: Center(
               child: CircularProgressIndicator(),
             ),
@@ -236,7 +282,14 @@ Widget _entryField(String title, String hintText, Function(String) onChanged) {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: TextField(
+          child: TextFormField(
+            obscureText: false,
+            validator: (val) {
+              if (val == null || val.isEmpty) {
+                return 'Please enter the $title';
+              }
+              return null;
+            },
             onChanged: onChanged,
             decoration: InputDecoration(
               border: const OutlineInputBorder(
@@ -254,38 +307,3 @@ Widget _entryField(String title, String hintText, Function(String) onChanged) {
     ),
   );
 }
-
-// class RoundedIconBtn extends StatelessWidget {
-//   const RoundedIconBtn({
-//     Key? key,
-//     required this.icon,
-//     required this.press,
-//     this.showShadow = false,
-//   }) : super(key: key);
-
-//   final IconData icon;
-//   final GestureTapCancelCallback press;
-//   final bool showShadow;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       decoration: BoxDecoration(
-//         shape: BoxShape.circle,
-//         boxShadow: [
-//           if (showShadow)
-//             BoxShadow(
-//               offset: Offset(0, 6),
-//               blurRadius: 10,
-//               color: Color(0xFFB0B0B0).withOpacity(0.2),
-//             ),
-//         ],
-//       ),
-//       child: IconButton(
-//         color: LightColor.grey,
-//         onPressed: press,
-//         icon: Icon(icon),
-//       ),
-//     );
-//   }
-// }

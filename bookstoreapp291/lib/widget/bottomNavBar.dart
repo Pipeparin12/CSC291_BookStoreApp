@@ -1,6 +1,5 @@
 import 'package:bookstoreapp291/screen/bookmark.dart';
 import 'package:bookstoreapp291/screen/homepage.dart';
-import 'package:bookstoreapp291/screen/profile.dart';
 import 'package:bookstoreapp291/screen/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -60,6 +59,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
     setState(() {
       _selectedIndex = index;
     });
-    pageController.jumpToPage(index);
+    if (pageController.hasClients) {
+      pageController.jumpToPage(index);
+    }
   }
 }

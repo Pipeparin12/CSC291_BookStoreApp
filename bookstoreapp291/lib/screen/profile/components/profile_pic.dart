@@ -1,4 +1,6 @@
-import 'dart:io';
+import 'package:bookstoreapp291/theme/light_color.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -80,7 +82,7 @@ class _ProfilePicState extends State<ProfilePic> {
                     },
                     child: Icon(
                       Icons.camera_alt,
-                      color: Colors.orange,
+                      color: LightColor.grey,
                       size: 28.0,
                     ))),
           )

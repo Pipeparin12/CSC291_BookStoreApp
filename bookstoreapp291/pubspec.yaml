@@ -43,7 +43,8 @@ dependencies:
   firebase_auth: ^3.3.20
   watcher: ^1.0.1
   path_provider: ^2.0.11
-  firebase_storage: ^10.3.1
+  
+  firebase_storage: ^10.2.18
 
 dev_dependencies:
   flutter_test:
@@ -73,9 +74,14 @@ flutter:
   assets:
     - assets/
     - assets/icons/
-    - assets/fonts/
     - assets/images/
+    - assets/fonts/
     - images/
+    - assets/icons/google-icon.svg
+    - assets/icons/facebook-2.svg
+    - assets/icons/twitter.svg
+    - assets/icons/Mail.svg
+    - assets/icons/Lock.svg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

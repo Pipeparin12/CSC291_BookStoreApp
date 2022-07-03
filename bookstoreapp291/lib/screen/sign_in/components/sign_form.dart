@@ -1,3 +1,4 @@
+import 'package:bookstoreapp291/screen/seller_page.dart';
 import 'package:bookstoreapp291/widget/bottomNavBar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';

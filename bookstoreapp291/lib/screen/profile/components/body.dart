@@ -1,4 +1,5 @@
 import 'package:bookstoreapp291/AddProfile.dart';
+import 'package:bookstoreapp291/screen/profile/components/profile_detail.dart';
 import 'package:bookstoreapp291/screen/profile/profile_screen.dart';
 import 'package:bookstoreapp291/screen/sign_in/sign_in_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -11,22 +12,11 @@ import 'package:bookstoreapp291/screen/complete_payment/complete_payment_screen.
 import 'package:bookstoreapp291/screen/complete_phone/complete_phone_screen.dart';
 import 'package:bookstoreapp291/screen/complete_profile/complete_profile_screen.dart';
 
+import 'profile_detail.dart';
 import 'profile_menu.dart';
 import 'profile_pic.dart';
 
-class Body extends StatefulWidget {
-  @override
-  _BodyState createState() => _BodyState();
-}
-
-class _BodyState extends State<Body> {
-  Future addDetail() async {
-    final FirebaseAuth _auth = FirebaseAuth.instance;
-    var currentUser = _auth.currentUser;
-    CollectionReference _collectionRef =
-        FirebaseFirestore.instance.collection("User");
-  }
-
+class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(

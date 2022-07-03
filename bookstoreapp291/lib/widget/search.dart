@@ -64,8 +64,15 @@ class _SearchState extends State<Search> {
                                 onTap: () => Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (_) =>
-                                            BookDetail(data[document.id]))),
+                                        builder: (_) => BookDetail({
+                                              "bookName": document["bookName"],
+                                              "bookDes": document["bookDes"],
+                                              "bookPrice":
+                                                  document["bookPrice"],
+                                              "bookAmount":
+                                                  document["bookAmount"],
+                                              "bookImage": document["bookImage"]
+                                            }))),
                               ),
                             );
                           }).toList(),

@@ -1,60 +1,107 @@
+import 'dart:developer';
+
+import 'package:bookstoreapp291/widget/section_title.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:bookstoreapp291/model/Cart.dart';
+import 'package:flutter/src/foundation/key.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:bookstoreapp291/theme/light_color.dart';
+import 'package:bookstoreapp291/model/product.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-import '../../../constants.dart';
-import '../../../sizedConfig.dart';
+import '../../detail_book.dart';
 
-class CartCard extends StatelessWidget {
-  const CartCard({
-    Key? key,
-    required this.cart,
-  }) : super(key: key);
+@override
+Widget cartCard(String collectionName) {
+  return StreamBuilder(
+      stream: FirebaseFirestore.instance
+          .collection(collectionName)
+          .doc(FirebaseAuth.instance.currentUser!.email)
+          .collection('items')
+          .snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text('Something went wrong');
+        }
 
-  final Cart cart;
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Text("Loading");
+        }
 
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        SizedBox(
-          width: 88,
-          child: AspectRatio(
-            aspectRatio: 0.88,
-            child: Container(
-              padding: EdgeInsets.all(getProportionateScreenWidth(10)),
-              decoration: BoxDecoration(
-                color: Color(0xFFF5F6F9),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Image.asset(cart.product.images[0]),
-            ),
-          ),
-        ),
-        SizedBox(width: 20),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              cart.product.name,
-              style: TextStyle(color: Colors.black, fontSize: 16),
-              maxLines: 2,
-            ),
-            SizedBox(height: 10),
-            Text.rich(
-              TextSpan(
-                text: "\$${cart.product.price}",
-                style: TextStyle(
-                    fontWeight: FontWeight.w600, color: kPrimaryColor),
-                children: [
-                  TextSpan(
-                      text: " x${cart.numOfItem}",
-                      style: Theme.of(context).textTheme.bodyText1),
-                ],
-              ),
-            )
-          ],
-        )
-      ],
-    );
-  }
+        return ListView.builder(
+          shrinkWrap: true,
+          itemCount: snapshot.data == null ? 0 : snapshot.data!.docs.length,
+          itemBuilder: (_, index) {
+            DocumentSnapshot _documentSnapshot = snapshot.data!.docs[index];
+
+            return GestureDetector(
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => BookDetail({
+                            "bookName": _documentSnapshot["name"],
+                            "bookDes": _documentSnapshot["des"],
+                            "bookPrice": _documentSnapshot["price"],
+                            "bookAmount": _documentSnapshot["amount"],
+                            "bookImage": _documentSnapshot["images"]
+                          }))),
+              child: Container(
+                  padding: EdgeInsets.only(right: 20, left: 20, bottom: 10),
+                  height: 120,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: LightColor.lightGrey,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Padding(
+                              padding: EdgeInsets.all(5.0),
+                              child: Image(
+                                  image: NetworkImage(
+                                      _documentSnapshot['images']))),
+                          Expanded(
+                            child: Container(
+                              padding: EdgeInsets.all(5),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  Text(_documentSnapshot['name'],
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20)),
+                                  Text(
+                                      "Total: " +
+                                          _documentSnapshot['price']
+                                              .toString() +
+                                          " x " +
+                                          _documentSnapshot['itemInCart']
+                                              .toString(),
+                                      style: GoogleFonts.barlow(
+                                          fontWeight: FontWeight.w500)),
+                                ],
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                              onPressed: () {
+                                FirebaseFirestore.instance
+                                    .collection(collectionName)
+                                    .doc(FirebaseAuth
+                                        .instance.currentUser!.email)
+                                    .collection('items')
+                                    .doc(_documentSnapshot.id)
+                                    .delete();
+                              },
+                              icon: Icon(Icons.delete))
+                        ]),
+                  )),
+            );
+          },
+        );
+      });
 }

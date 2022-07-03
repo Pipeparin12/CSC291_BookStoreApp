@@ -14,16 +14,6 @@ import '../screen/detail_book.dart';
 
 @override
 Widget bookCard(String collectionName) {
-  // var items = FirebaseFirestore.instance
-  //     .collection(collectionName)
-  //     .doc(FirebaseAuth.instance.currentUser!.email)
-  //     .collection('items')
-  //     .doc('name')
-  //     .snapshots();
-  // var book = FirebaseFirestore.instance
-  //     .collection('books')
-  //     .where('bookName', isEqualTo: items)
-  //     .snapshots();
   return StreamBuilder(
       stream: FirebaseFirestore.instance
           .collection(collectionName)
@@ -46,8 +36,16 @@ Widget bookCard(String collectionName) {
             DocumentSnapshot _documentSnapshot = snapshot.data!.docs[index];
 
             return GestureDetector(
-              onTap: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => BookDetail(''))),
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => BookDetail({
+                            "bookName": _documentSnapshot["name"],
+                            "bookDes": _documentSnapshot["des"],
+                            "bookPrice": _documentSnapshot["price"],
+                            "bookAmount": _documentSnapshot["amount"],
+                            "bookImage": _documentSnapshot["images"]
+                          }))),
               child: Container(
                   padding: EdgeInsets.only(right: 20, left: 20, bottom: 10),
                   height: 120,

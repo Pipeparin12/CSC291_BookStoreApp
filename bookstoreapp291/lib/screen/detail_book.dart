@@ -17,7 +17,6 @@ class BookDetail extends StatefulWidget {
 
 class _BookDetailState extends State<BookDetail> {
   late int counter = 1;
-
   void increment() {
     setState(() {
       counter++;
@@ -32,6 +31,25 @@ class _BookDetailState extends State<BookDetail> {
         counter--;
       }
     });
+  }
+
+  Future addToCart() async {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    var currentUser = _auth.currentUser;
+    CollectionReference _collectionRef =
+        FirebaseFirestore.instance.collection("users-cart-items");
+    return _collectionRef
+        .doc(currentUser!.email)
+        .collection("items")
+        .doc()
+        .set({
+      "name": widget._book["bookName"],
+      "price": widget._book["bookPrice"],
+      "images": widget._book["bookImage"],
+      "des": widget._book["bookDes"],
+      "amount": widget._book["bookAmount"],
+      "itemInCart": counter
+    }).then((value) => print("Added to cart"));
   }
 
   Future addToBookmark() async {
@@ -207,13 +225,16 @@ class _BookDetailState extends State<BookDetail> {
                           ),
                         ],
                       )),
-                      Container(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                        decoration: BoxDecoration(
-                            color: LightColor.iconColor,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Text('Add to cart'),
+                      GestureDetector(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 20),
+                          decoration: BoxDecoration(
+                              color: LightColor.iconColor,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Text('Add to cart'),
+                        ),
+                        onTap: () => addToCart(),
                       ),
                     ],
                   ),

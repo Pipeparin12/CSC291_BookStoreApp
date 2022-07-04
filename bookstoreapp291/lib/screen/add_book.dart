@@ -69,7 +69,7 @@ class _AddBookState extends State<AddBook> {
     debugPrint(imageUrl);
 
     DocumentReference documentReference =
-        FirebaseFirestore.instance.collection('books').doc(bookId);
+        FirebaseFirestore.instance.collection('books').doc(bookName);
 
     // create Map to send data in key:value pair form
     Map<String, dynamic> books = ({

@@ -41,7 +41,7 @@ class _BookDetailState extends State<BookDetail> {
     return _collectionRef
         .doc(currentUser!.email)
         .collection("items")
-        .doc()
+        .doc(widget._book["bookName"])
         .set({
       "name": widget._book["bookName"],
       "price": widget._book["bookPrice"],

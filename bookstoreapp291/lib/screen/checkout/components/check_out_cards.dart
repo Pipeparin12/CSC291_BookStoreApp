@@ -27,6 +27,21 @@ class CheckoutsCardState extends State<CheckoutsCard> {
   File? imageFile;
   final imagePicker = ImagePicker();
   String? user_email = FirebaseAuth.instance.currentUser!.email;
+  CollectionReference books = FirebaseFirestore.instance.collection('books');
+  int itemInCart = 0;
+
+  _fetchData() async {
+    FirebaseFirestore.instance
+        .collection('users-cart-items')
+        .doc(user_email)
+        .collection('items')
+        .get()
+        .then((value) {
+      setState(() {});
+    });
+  }
+
+  Future<void> updateAmount() async {}
 
   Future pickedImage() async {
     final pick = await imagePicker.pickImage(source: ImageSource.gallery);

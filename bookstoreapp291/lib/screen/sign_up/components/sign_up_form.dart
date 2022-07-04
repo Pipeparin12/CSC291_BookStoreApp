@@ -39,12 +39,19 @@ class _SignUpFormState extends State<SignUpForm> {
           await FirebaseFirestore.instance.collection("User").add({
             "UserId": emailController.text.trim(),
             "NameId": FirebaseFirestore.instance.collection("User").id,
-            "firstName": "Job",
-            "lastName": "Steve",
-            "addressName": "Around Me",
+            "firstName": "Please enter your firstname",
+            "lastName": "Please enter your lastname",
+            "addressName": "Please enter address",
             "emailName": emailController.text.trim(),
-            "phoneNum": "191",
+            "phoneNum": "Please enter your phone number",
+            "payment": "Please enter payment address"
           });
+
+          await FirebaseFirestore.instance
+              .collection('usersProfilePic')
+              .doc(emailController.text)
+              .set(
+                  {'email': emailController.text.trim(), 'userProfilePic': ''});
 
           Navigator.push(context, MaterialPageRoute(builder: (context) {
             return BottomNavBar();

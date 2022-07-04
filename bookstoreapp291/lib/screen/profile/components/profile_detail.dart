@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:bookstoreapp291/model/profile.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../../theme/light_color.dart';
 
 class ProfileDetail extends StatefulWidget {
@@ -35,11 +36,54 @@ class _ProfileDetailState extends State<ProfileDetail> {
 
           return Column(
             children: [
-              Text(" Firstname: ${userProfile.firstName}"),
-              Text(" Lastname: ${userProfile.lastName}"),
-              Text(" Email: ${userProfile.emailName}"),
-              Text(" Phone: ${userProfile.phoneNum}"),
-              Text(" Address: ${userProfile.addressName}"),
+              Text(
+                " Firstname: ${userProfile.firstName}",
+                style: GoogleFonts.roboto(
+                    fontSize: 15, fontWeight: FontWeight.w400),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                " Lastname: ${userProfile.lastName}",
+                style: GoogleFonts.roboto(
+                    fontSize: 15, fontWeight: FontWeight.w400),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                " Email: ${userProfile.emailName}",
+                style: GoogleFonts.roboto(
+                    fontSize: 15, fontWeight: FontWeight.w400),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                " Phone: ${userProfile.phoneNum}",
+                style: GoogleFonts.roboto(
+                    fontSize: 15, fontWeight: FontWeight.w400),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                " Address: ${userProfile.addressName}",
+                style: GoogleFonts.roboto(
+                    fontSize: 15, fontWeight: FontWeight.w400),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                " Payment: ${userProfile.payment}",
+                style: GoogleFonts.roboto(
+                    fontSize: 15, fontWeight: FontWeight.w400),
+              ),
+              SizedBox(
+                height: 10,
+              ),
             ],
           );
         });

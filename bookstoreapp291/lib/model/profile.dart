@@ -4,6 +4,7 @@ class Profile {
   late String addressName;
   late String emailName;
   late String phoneNum;
+  late String payment;
 
   Profile({
     required this.firstName,
@@ -11,16 +12,17 @@ class Profile {
     required this.addressName,
     required this.emailName,
     required this.phoneNum,
+    required this.payment,
   });
 
   static Profile fromJson(dynamic json) {
     return Profile(
-      firstName: json["firstName"],
-      lastName: json["lastName"],
-      addressName: json["addressName"],
-      emailName: json["emailName"],
-      phoneNum: json["phoneNum"],
-    );
+        firstName: json["firstName"],
+        lastName: json["lastName"],
+        addressName: json["addressName"],
+        emailName: json["emailName"],
+        phoneNum: json["phoneNum"],
+        payment: json["payment"]);
   }
 
   static List<String> keys = [
@@ -28,6 +30,7 @@ class Profile {
     "lastName",
     "addressName",
     "emailName",
-    "phoneNum"
+    "phoneNum",
+    "payment"
   ];
 }

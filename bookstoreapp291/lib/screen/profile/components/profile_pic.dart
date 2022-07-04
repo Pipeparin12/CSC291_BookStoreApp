@@ -1,6 +1,9 @@
 import 'dart:io';
 
 import 'package:bookstoreapp291/theme/light_color.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -20,76 +23,102 @@ class ProfilePic extends StatefulWidget {
 }
 
 class _ProfilePicState extends State<ProfilePic> {
-  File? Images;
+  String? imageUrl;
+  File? imageFile;
+  final imagePicker = ImagePicker();
+  String? user_email = FirebaseAuth.instance.currentUser!.email;
+  DocumentReference docChecker = FirebaseFirestore.instance
+      .collection('usersProfilePic')
+      .doc(FirebaseAuth.instance.currentUser!.email);
 
-  Future pickImage() async {
-    try {
-      final Images = await ImagePicker().pickImage(source: ImageSource.gallery);
+  Future pickedImage() async {
+    final pick = await imagePicker.pickImage(source: ImageSource.gallery);
 
-      if (Images == null) return;
-
-      final imageTemp = File(Images.path);
-
-      setState(() => this.Images = imageTemp);
-    } on PlatformException catch (e) {
-      print('Failed to pick image: $e');
-    }
+    setState(() {
+      if (pick != null) {
+        imageFile = File(pick.path);
+      } else {
+        return null;
+      }
+    });
   }
 
-  Future pickImageC() async {
-    try {
-      final Images = await ImagePicker().pickImage(source: ImageSource.camera);
+  Future<void> uploadImageToStorage() async {
+    DocumentReference documentReference = FirebaseFirestore.instance
+        .collection('usersProfilePic')
+        .doc(user_email);
 
-      if (Images == null) return;
+    Reference ref = FirebaseStorage.instance
+        .ref()
+        .child('profile-Images/')
+        .child('/$user_email');
 
-      final imagePermanent = await saveImagePermanently(Images.path);
-      setState(() => this.Images = imagePermanent);
-    } on PlatformException catch (e) {
-      print('Failed to pick image: $e');
-    }
-  }
+    await ref.putFile(imageFile!);
+    imageUrl = await ref.getDownloadURL();
+    print(imageUrl);
 
-  Future<File> saveImagePermanently(String imagePath) async {
-    final directory = await getApplicationDocumentsDirectory();
-    final name = basename(imagePath);
-    final Images = File('${directory.path}/$name');
-
-    return File(imagePath).copy(Images.path);
+    documentReference.set({'email': user_email, 'userProfilePic': imageUrl});
   }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 115,
-      width: 115,
-      child: Stack(
-        fit: StackFit.expand,
-        clipBehavior: Clip.none,
-        children: [
-          Images != null
-              ? ClipOval(child: Image.file(Images!, fit: BoxFit.cover))
-              : FlutterLogo(),
-          Positioned(
-            right: -16,
-            bottom: 0,
-            child: SizedBox(
-                height: 46,
-                width: 46,
-                child: InkWell(
-                    onTap: () {
-                      showModalBottomSheet(
-                        context: context,
-                        builder: ((Builder) => BottomSheet()),
-                      );
-                    },
-                    child: Icon(
-                      Icons.camera_alt,
-                      color: LightColor.grey,
-                      size: 28.0,
-                    ))),
-          )
-        ],
-      ),
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance
+          .collection('usersProfilePic')
+          .where('email', isEqualTo: user_email)
+          .snapshots(),
+      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text('Something went wrong');
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Text("Loading");
+        }
+
+        return ListView.builder(
+          shrinkWrap: true,
+          itemCount: snapshot.data == null ? 0 : snapshot.data!.docs.length,
+          itemBuilder: (_, index) {
+            DocumentSnapshot documentSnapshot = snapshot.data!.docs[index];
+            return SizedBox(
+              height: 115,
+              width: 115,
+              child: Stack(
+                fit: StackFit.expand,
+                clipBehavior: Clip.none,
+                children: [
+                  documentSnapshot['userProfilePic'] != ''
+                      ? ClipOval(
+                          child: Image(
+                              image: NetworkImage(
+                                  documentSnapshot['userProfilePic'])))
+                      : FlutterLogo(),
+                  Positioned(
+                    right: 100,
+                    bottom: 0,
+                    child: SizedBox(
+                        height: 46,
+                        width: 46,
+                        child: InkWell(
+                            onTap: () {
+                              showModalBottomSheet(
+                                context: context,
+                                builder: ((Builder) => BottomSheet()),
+                              );
+                            },
+                            child: Icon(
+                              Icons.camera_alt,
+                              color: LightColor.grey,
+                              size: 28.0,
+                            ))),
+                  )
+                ],
+              ),
+            );
+          },
+        );
+      },
     );
   }
 
@@ -113,19 +142,17 @@ class _ProfilePicState extends State<ProfilePic> {
           ),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
             FlatButton.icon(
-              icon: Icon(Icons.camera),
-              onPressed: () {
-                pickImageC();
-              },
-              label: Text("Camera"),
-            ),
-            FlatButton.icon(
               icon: Icon(Icons.image),
               onPressed: () {
-                pickImage();
+                pickedImage();
               },
               label: Text("Gallery"),
             ),
+            ElevatedButton(
+                onPressed: () {
+                  uploadImageToStorage();
+                },
+                child: Text('upload'))
           ])
         ],
       ),

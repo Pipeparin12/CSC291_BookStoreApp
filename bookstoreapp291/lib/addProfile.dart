@@ -22,12 +22,14 @@ class _AddProfileState extends State<AddProfile> {
   late String emailName;
   late String phoneNum;
   late String NameId;
+  late String payment;
 
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
   final addressNameController = TextEditingController();
   final emailNameController = TextEditingController();
   final phoneNumController = TextEditingController();
+  final paymentController = TextEditingController();
 
   getFirstName(String fname) {
     firstName = fname;
@@ -49,6 +51,10 @@ class _AddProfileState extends State<AddProfile> {
     phoneNum = pnum;
   }
 
+  getPayment(String pay) {
+    payment = pay;
+  }
+
   createUserData(context) async {
     DocumentReference documentReference =
         FirebaseFirestore.instance.collection('User').doc(NameId);
@@ -60,7 +66,8 @@ class _AddProfileState extends State<AddProfile> {
       "lastName": lastNameController.text.trim(),
       "addressName": addressNameController.text.trim(),
       "emailName": emailNameController.text.trim(),
-      "phoneNum": phoneNumController.text.trim()
+      "phoneNum": phoneNumController.text.trim(),
+      "payment": paymentController.text.trim()
     });
 
     if (User != null) {
@@ -90,6 +97,7 @@ class _AddProfileState extends State<AddProfile> {
           phoneNumController.text = userProfile.phoneNum;
           emailNameController.text = userProfile.emailName;
           addressNameController.text = userProfile.addressName;
+          paymentController.text = userProfile.payment;
         });
       }
     });
@@ -108,6 +116,8 @@ class _AddProfileState extends State<AddProfile> {
     phoneNumController.dispose();
     emailNameController.dispose();
     addressNameController.dispose();
+    paymentController.dispose();
+    super.dispose();
   }
 
   Widget build(BuildContext context) {
@@ -168,6 +178,11 @@ class _AddProfileState extends State<AddProfile> {
                                             (String pnum) {
                                           getPhoneNum(pnum);
                                         }, phoneNumController),
+                                        _entryField(
+                                            'Payment', 'Enter Payment Address',
+                                            (String pay) {
+                                          getPhoneNum(pay);
+                                        }, paymentController),
                                       ],
                                     ),
                                   ),

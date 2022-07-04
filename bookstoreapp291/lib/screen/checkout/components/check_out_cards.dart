@@ -27,6 +27,21 @@ class CheckoutsCardState extends State<CheckoutsCard> {
   File? imageFile;
   final imagePicker = ImagePicker();
   String? user_email = FirebaseAuth.instance.currentUser!.email;
+  CollectionReference books = FirebaseFirestore.instance.collection('books');
+  int itemInCart = 0;
+
+  _fetchData() async {
+    FirebaseFirestore.instance
+        .collection('users-cart-items')
+        .doc(user_email)
+        .collection('items')
+        .get()
+        .then((value) {
+      setState(() {});
+    });
+  }
+
+  Future<void> updateAmount() async {}
 
   Future pickedImage() async {
     final pick = await imagePicker.pickImage(source: ImageSource.gallery);
@@ -54,132 +69,126 @@ class CheckoutsCardState extends State<CheckoutsCard> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: FirebaseFirestore.instance
-          .collection('users-cart-items')
-          .doc(FirebaseAuth.instance.currentUser!.email)
-          .collection('items')
-          .snapshots(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasError) {
-          return Text('Something went wrong');
-        }
+        stream: FirebaseFirestore.instance
+            .collection('users-cart-items')
+            .doc(FirebaseAuth.instance.currentUser!.email)
+            .collection('items')
+            .snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Text('Something went wrong');
+          }
 
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text("Loading");
-        }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Text("Loading");
+          }
 
-        return ListView.builder(
-            shrinkWrap: true,
-            itemCount: snapshot.data == null ? 0 : snapshot.data!.docs.length,
-            itemBuilder: (_, index) {
-              DocumentSnapshot _documentSnapshot = snapshot.data!.docs[index];
-
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Column(
-                      children: [
-                        Text(
-                          'Prompt Pay: 0912345678',
-                          style: GoogleFonts.abel(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                        Padding(padding: EdgeInsets.all(5)),
-                        Text(
-                          'Kbank: 0312456789',
-                          style: GoogleFonts.abel(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                        Padding(padding: EdgeInsets.all(5)),
-                        Text(
-                          'SCB: 0612345789',
-                          style: GoogleFonts.abel(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                      ],
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    Text(
+                      'Prompt Pay: 0912345678',
+                      style: GoogleFonts.abel(
+                          fontSize: 20, fontWeight: FontWeight.bold),
                     ),
-                  ),
-                  Padding(
-                      padding: const EdgeInsets.only(top: 20),
-                      child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: SizedBox(
-                            height: 250,
-                            width: double.infinity,
-                            child: Column(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                      width: 300,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          border: Border.all(
-                                              color: LightColor.grey)),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(10),
-                                        child: Center(
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Expanded(
-                                                child: imageFile == null
-                                                    ? const Center(
-                                                        child: Text(
-                                                            'No image selected'),
-                                                      )
-                                                    : Image.file(imageFile!),
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
-                                                children: [
-                                                  ElevatedButton(
-                                                      onPressed: () {
-                                                        pickedImage();
-                                                      },
-                                                      child: const Text(
-                                                          'Select Bill')),
-                                                  ElevatedButton(
-                                                      onPressed: () {
-                                                        uploadImageToStorage();
-                                                      },
-                                                      child: const Text(
-                                                          'Upload Bill'))
-                                                ],
-                                              )
-                                            ],
+                    Padding(padding: EdgeInsets.all(5)),
+                    Text(
+                      'Kbank: 0312456789',
+                      style: GoogleFonts.abel(
+                          fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    Padding(padding: EdgeInsets.all(5)),
+                    Text(
+                      'SCB: 0612345789',
+                      style: GoogleFonts.abel(
+                          fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: SizedBox(
+                        height: 250,
+                        width: double.infinity,
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                  width: 300,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      border:
+                                          Border.all(color: LightColor.grey)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10),
+                                    child: Center(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(
+                                            child: imageFile == null
+                                                ? const Center(
+                                                    child: Text(
+                                                        'No image selected'),
+                                                  )
+                                                : Image.file(imageFile!),
                                           ),
-                                        ),
-                                      )),
-                                ),
-                              ],
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              ElevatedButton(
+                                                  onPressed: () {
+                                                    pickedImage();
+                                                  },
+                                                  child: const Text(
+                                                      'Select Bill')),
+                                              ElevatedButton(
+                                                  onPressed: () {
+                                                    uploadImageToStorage();
+                                                  },
+                                                  child:
+                                                      const Text('Upload Bill'))
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  )),
                             ),
-                          ))),
-                  Padding(padding: EdgeInsets.all(20)),
-                  ElevatedButton(
-                      onPressed: () {
-                        FirebaseFirestore.instance
-                            .collection('users-cart-items')
-                            .doc(FirebaseAuth.instance.currentUser!.email)
-                            .collection('items')
-                            .doc(_documentSnapshot.id)
-                            .delete();
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => BottomNavBar()));
-                      },
-                      child: Text('Confirm'))
-                ],
-              );
-            });
-      },
-    );
+                          ],
+                        ),
+                      ))),
+              Padding(padding: EdgeInsets.all(20)),
+              ElevatedButton(
+                  onPressed: () {
+                    for (int i = 0; i < snapshot.data!.docs.length; i++) {
+                      DocumentSnapshot _documentSnapshot =
+                          snapshot.data!.docs[i];
+                      FirebaseFirestore.instance
+                          .collection('users-cart-items')
+                          .doc(FirebaseAuth.instance.currentUser!.email)
+                          .collection('items')
+                          .doc(_documentSnapshot.id)
+                          .delete();
+                    }
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => BottomNavBar()));
+                  },
+                  child: Text('Confirm'))
+            ],
+          );
+        });
 
     //   return Container(
     //     padding: EdgeInsets.symmetric(

@@ -29,6 +29,8 @@ class CheckoutsCardState extends State<CheckoutsCard> {
   String? user_email = FirebaseAuth.instance.currentUser!.email;
   CollectionReference books = FirebaseFirestore.instance.collection('books');
   int itemInCart = 0;
+  int amount = 0;
+  int book = 0;
 
   _fetchData() async {
     FirebaseFirestore.instance
@@ -169,10 +171,37 @@ class CheckoutsCardState extends State<CheckoutsCard> {
                       ))),
               Padding(padding: EdgeInsets.all(20)),
               ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     for (int i = 0; i < snapshot.data!.docs.length; i++) {
                       DocumentSnapshot _documentSnapshot =
                           snapshot.data!.docs[i];
+                      DocumentSnapshot<Map<String, dynamic>> value1 =
+                          await FirebaseFirestore.instance
+                              .collection('users-cart-items')
+                              .doc(FirebaseAuth.instance.currentUser!.email)
+                              .collection('items')
+                              .doc(_documentSnapshot.id)
+                              .get();
+
+                      itemInCart = value1["itemInCart"];
+                      print(itemInCart);
+
+                      DocumentSnapshot<Map<String, dynamic>> value2 =
+                          await FirebaseFirestore.instance
+                              .collection('books')
+                              .doc(_documentSnapshot.id)
+                              .get();
+
+                      amount = value2["bookAmount"];
+
+                      print(amount);
+                      book = amount - itemInCart;
+                      FirebaseFirestore.instance
+                          .collection('books')
+                          .doc(_documentSnapshot.id)
+                          .update({"bookAmount": book}).catchError(
+                              (error) => print(error.toString()));
+
                       FirebaseFirestore.instance
                           .collection('users-cart-items')
                           .doc(FirebaseAuth.instance.currentUser!.email)

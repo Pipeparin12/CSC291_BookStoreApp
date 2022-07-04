@@ -36,6 +36,8 @@ Widget cartCard(String collectionName) {
           itemBuilder: (_, index) {
             DocumentSnapshot _documentSnapshot = snapshot.data!.docs[index];
 
+            
+
             return GestureDetector(
               onTap: () => Navigator.push(
                   context,

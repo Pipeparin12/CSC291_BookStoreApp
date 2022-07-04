@@ -25,55 +25,6 @@ Future<void> fetchBookData([DocumentSnapshot? documentSnapshot]) async {
     bookPriceController.text = documentSnapshot['bookPrice'].toString();
     bookAmountController.text = documentSnapshot['bookAmount'].toString();
   }
-
-  // AlertDialog(
-  //   backgroundColor: LightColor.lightGrey,
-  //   scrollable: true,
-  //   title: Text('Edit'),
-  //   content: Padding(
-  //     padding: EdgeInsets.all(8.0),
-  //     child: Form(
-  //       child: Column(
-  //         children: <Widget>[
-  //           _entryField("Name", bookNameController),
-  //           _entryField("Description", bookDesController),
-  //           _entryField("Price", bookPriceController),
-  //           _entryField("Amount", bookAmountController),
-  //         ],
-  //       ),
-  //     ),
-  //   ),
-  //   actions: [
-  //     Padding(
-  //       padding: EdgeInsets.all(15.0),
-  //       child: ElevatedButton(
-  //         onPressed: () async {
-  //           final String bookName = bookNameController.text;
-  //           final String bookDes = bookDesController.text;
-  //           final int bookPrice = int.parse(bookPriceController.text);
-  //           final int bookAmount = int.parse(bookAmountController.text);
-
-  //           if (bookName != null ||
-  //               bookDes != null ||
-  //               bookPrice != null ||
-  //               bookAmount != null) {
-  //             await _books.doc(documentSnapshot!.id).update({
-  //               'bookName': bookName,
-  //               'bookDes': bookDes,
-  //               'bookPrice': bookPrice,
-  //               'bookAmount': bookAmount
-  //             });
-  //             bookNameController.text = '';
-  //             bookDesController.text = '';
-  //             bookPriceController.text = '';
-  //             bookAmountController.text = '';
-  //           }
-  //         },
-  //         child: Text('Save'),
-  //       ),
-  //     )
-  //   ],
-  // );
 }
 
 Future<void> updateBookData(DocumentSnapshot documentSnapshot) async {

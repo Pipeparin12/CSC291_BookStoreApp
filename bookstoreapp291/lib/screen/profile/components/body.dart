@@ -20,12 +20,13 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(vertical: 20),
+      padding: EdgeInsets.symmetric(vertical: 30),
       child: Column(
         children: [
           ProfilePic(title: ''),
-          SizedBox(height: 20),
+          SizedBox(height: 25),
           ProfileDetail(this),
+          SizedBox(height: 25),
           ProfileMenu(
             text: "Edit Profile",
             icon: "assets/icons/User.svg",

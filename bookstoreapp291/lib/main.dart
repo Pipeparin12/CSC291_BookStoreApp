@@ -14,7 +14,6 @@ import 'package:bookstoreapp291/widget/bottomNavBar.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await Firebase.initializeApp(
       options: FirebaseOptions(
           apiKey: 'AIzaSyAoZA5MxzzcTlMObKvN6omJeLHsLJfo1GM',

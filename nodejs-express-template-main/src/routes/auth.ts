@@ -1,6 +1,7 @@
 import express from "express";
 // eslint-disable-next-line new-cap
 const User = require('../models/user')
+const book = require('../models/book')
 const authRoute = express.Router();
 
 authRoute.post('/signup',(req,res)=>{
@@ -45,6 +46,18 @@ authRoute.post('/signin',(req,res)=>{
             res.json(user)   
         }
     })
+})
+
+authRoute.post('/addBook', (req,res)=> {
+        var newBook = new book({
+            bookName: req.body.bookName,
+            bookDescription: req.body.bookDescription,
+            bookPrice: req.body.bookPrice,
+            bookAmount: req.body.bookAmount,
+            bookImage: req.body.bookImage
+        })
+        newBook.save()
+        res.json(newBook)
 })
 
 authRoute.get("/", (req, res) => {

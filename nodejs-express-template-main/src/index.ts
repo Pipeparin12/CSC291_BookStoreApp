@@ -9,6 +9,7 @@ import cookieParser from "cookie-parser";
 
 /** Routes */
 import authRoute from "@/routes/auth";
+import addBookRoute from '@/routes/addBook';
 
 /** Misc */
 import config from "./config";
@@ -74,6 +75,7 @@ app.use(
 app.use('/', authRoute)
 app.use('/signin', authRoute)
 app.use('/signup', authRoute)
+app.use('/addBook', authRoute)
 
 // for testing only
 app.get("/", async (req, res) => {

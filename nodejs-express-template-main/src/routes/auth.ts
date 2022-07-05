@@ -10,7 +10,7 @@ authRoute.post('/signup',(req,res)=>{
             res.json(err)
         }else{
             if(user==null){
-                const user = User({
+                user = new User({
                     email:req.body.email,
                     password:req.body.password
                 })

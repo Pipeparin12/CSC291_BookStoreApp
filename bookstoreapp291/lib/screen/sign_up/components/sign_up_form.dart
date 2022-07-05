@@ -1,11 +1,11 @@
 import 'package:bookstoreapp291/screen/sign_in/sign_in_screen.dart';
 import 'package:bookstoreapp291/widget/bottomNavBar.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:bookstoreapp291/components/custom_surfix_icon.dart';
 import 'package:bookstoreapp291/components/default_button.dart';
 import 'package:bookstoreapp291/components/from_error.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:http/http.dart' as http;
+import 'package:bookstoreapp291/model/user.dart';
 
 import '../../../constants.dart';
 import '../../../sizedConfig.dart';
@@ -26,43 +26,23 @@ class _SignUpFormState extends State<SignUpForm> {
   final passwordController = TextEditingController();
   final cpasswordController = TextEditingController();
 
+  Future save() async {
+    var res = await http.post(Uri.parse('http://localhost:8080/signup'),
+        headers: <String, String>{
+          'Context-Type': 'application/json;charSet=UTF-8'
+        },
+        body: <String, String>{
+          'email': user.email,
+          'password': user.password
+        });
+    print(res.body);
+    Navigator.push(
+        context, new MaterialPageRoute(builder: (context) => SignInScreen()));
+  }
+
+  User user = User('', '');
   @override
   Widget build(BuildContext context) {
-    Future signUp() async {
-      if (_formKey.currentState!.validate()) {
-        try {
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
-              email: emailController.text.trim(),
-              password: passwordController.text.trim());
-
-          await FirebaseFirestore.instance.collection("User").add({
-            "UserId": emailController.text.trim(),
-            "NameId": FirebaseFirestore.instance.collection("User").id,
-            "firstName": "Please enter your firstname",
-            "lastName": "Please enter your lastname",
-            "addressName": "Please enter address",
-            "emailName": emailController.text.trim(),
-            "phoneNum": "Please enter your phone number",
-            "payment": "Please enter payment address"
-          });
-
-          await FirebaseFirestore.instance
-              .collection('usersProfilePic')
-              .doc(emailController.text)
-              .set(
-                  {'email': emailController.text.trim(), 'userProfilePic': ''});
-
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return BottomNavBar();
-          }));
-        } on FirebaseAuthException catch (e) {
-          print(e);
-        }
-      } else {
-        print('invalid email or password');
-      }
-    }
-
     return Form(
       key: _formKey,
       child: Column(
@@ -75,7 +55,7 @@ class _SignUpFormState extends State<SignUpForm> {
           SizedBox(height: getProportionateScreenHeight(30)),
           DefaultButton(
             text: "Continue",
-            press: signUp,
+            press: save,
             onPressed: () => Navigator.push(context,
                 MaterialPageRoute(builder: (context) => SignInScreen())),
           ),

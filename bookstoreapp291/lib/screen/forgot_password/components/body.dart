@@ -1,7 +1,6 @@
 import 'package:bookstoreapp291/screen/forgot_password/components/forget_password_form.dart';
 import 'package:bookstoreapp291/screen/sign_in/sign_in_screen.dart';
 import 'package:bookstoreapp291/screen/sign_up/components/sign_up_form.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:bookstoreapp291/components/custom_surfix_icon.dart';
 import 'package:bookstoreapp291/components/default_button.dart';

@@ -1,6 +1,5 @@
 import 'package:bookstoreapp291/screen/sign_in/sign_in_screen.dart';
 import 'package:bookstoreapp291/screen/sign_up/components/sign_up_form.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:bookstoreapp291/components/custom_surfix_icon.dart';
 import 'package:bookstoreapp291/components/default_button.dart';
@@ -28,34 +27,6 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
   void dispose() {
     emailController.dispose();
     super.dispose();
-  }
-
-  resetPassword() async {
-    try {
-      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: Colors.orangeAccent,
-          content: Text(
-            'Password Reset Email has been sent !',
-            style: TextStyle(fontSize: 18.0),
-          ),
-        ),
-      );
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        print('No user found for that email.');
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.orangeAccent,
-            content: Text(
-              'No user found for that email.',
-              style: TextStyle(fontSize: 18.0),
-            ),
-          ),
-        );
-      }
-    }
   }
 
   @override
@@ -92,7 +63,6 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
                 setState(() {
                   email = emailController.text;
                 });
-                resetPassword();
               }
             },
             child: Text('Send Email '),

@@ -1,10 +1,10 @@
 import 'package:bookstoreapp291/screen/seller_page.dart';
 import 'package:bookstoreapp291/widget/bottomNavBar.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:bookstoreapp291/components/custom_surfix_icon.dart';
 import 'package:bookstoreapp291/components/from_error.dart';
+import 'package:http/http.dart' as http;
+import 'package:bookstoreapp291/model/user.dart';
 
 import 'package:bookstoreapp291/screen/forgot_password/forgot_password_screen.dart';
 
@@ -21,11 +21,25 @@ class _SignFormState extends State<SignForm> {
   final _formKey = GlobalKey<FormState>();
   late final String _email;
   late final String _password;
-  final auth = FirebaseAuth.instance;
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   bool? remember = false;
 
+  Future save() async {
+    var res = await http.post(Uri.parse('http://10.0.2.2:8080/signin'),
+        headers: <String, String>{
+          'Context-Type': 'application/json;charSet=UTF-8'
+        },
+        body: <String, String>{
+          'email': emailController.text,
+          'password': passwordController.text
+        });
+    print(res.body);
+    Navigator.push(
+        context, new MaterialPageRoute(builder: (context) => BottomNavBar()));
+  }
+
+  User user = User('', '');
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -64,32 +78,11 @@ class _SignFormState extends State<SignForm> {
               'Sign In',
               style: TextStyle(fontSize: 24),
             ),
-            onPressed: SignIn,
+            onPressed: save,
           ),
         ],
       ),
     );
-  }
-
-  Future SignIn() async {
-    if (_formKey.currentState!.validate()) {
-      try {
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
-            email: emailController.text.trim(),
-            password: passwordController.text.trim());
-
-        emailController.clear();
-        passwordController.clear();
-
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return BottomNavBar();
-        }));
-      } on FirebaseAuthException catch (e) {
-        print(e);
-      }
-    } else {
-      print('invalid username or password');
-    }
   }
 
   TextFormField buildPasswordFormField() {

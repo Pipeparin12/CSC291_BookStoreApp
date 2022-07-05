@@ -4,8 +4,6 @@ import 'dart:ui';
 import 'package:bookstoreapp291/screen/homepage.dart';
 import 'package:bookstoreapp291/widget/bottomNavBar.dart';
 import 'package:bookstoreapp291/widget/sellerCard.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:bookstoreapp291/theme/light_color.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,9 +16,6 @@ class SellerCentre extends StatefulWidget {
 }
 
 class _SellerCentreState extends State<SellerCentre> {
-  var _firestoreInstace = FirebaseFirestore.instance;
-  String sellerMail = FirebaseAuth.instance.currentUser!.email.toString();
-
   @override
   void initState() {
     super.initState();
@@ -59,7 +54,7 @@ class _SellerCentreState extends State<SellerCentre> {
             ),
             SafeArea(
               child: SizedBox(
-                child: sellerCard(sellerMail),
+                child: Text(''),
               ),
             )
           ]),

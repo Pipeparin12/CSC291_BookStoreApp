@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:bookstoreapp291/theme/light_color.dart';
-import 'package:bookstoreapp291/model/product.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../screen/detail_book.dart';
@@ -188,33 +187,3 @@ Widget _entryField(String title, TextEditingController controller) {
     ),
   );
 }
-// ListTile(
-//                     leading: Text(_documentSnapshot['bookName']),
-//                     title: Text(
-//                       "\$ ${_documentSnapshot['bookPrice']}",
-//                       style: TextStyle(
-//                           fontWeight: FontWeight.bold, color: Colors.red),
-//                     ),
-//                     trailing: GestureDetector(
-//                         child: CircleAvatar(
-//                           child: Icon(Icons.remove_circle),
-//                         ),
-//                         onTap: () {
-//                           FirebaseFirestore.instance
-//                               .collection('')
-//                               .doc(FirebaseAuth.instance.currentUser!.email)
-//                               .collection('items')
-//                               .doc(_documentSnapshot.id)
-//                               .delete();
-//                         }),
-//                     onTap: () => Navigator.push(
-//                         context,
-//                         MaterialPageRoute(
-//                             builder: (_) => BookDetail(
-//                                   FirebaseFirestore.instance
-//                                       .collection("books")
-//                                       .where("bookName",
-//                                           isEqualTo: _documentSnapshot["bookName"])
-//                                       .snapshots(),
-//                                 ))),
-//                   )

@@ -1,3 +1,4 @@
+import 'package:bookstoreapp291/constants.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -32,59 +33,98 @@ class _ProfileDetailState extends State<ProfileDetail> {
 
           Profile userProfile = Profile.fromJson(documents[0] as dynamic);
 
-          // Profile userProfile = profiles[0];
-
-          return Column(
-            children: [
-              Text(
-                " Firstname: ${userProfile.firstName}",
-                style: GoogleFonts.roboto(
-                    fontSize: 15, fontWeight: FontWeight.w400),
+          return Padding(
+            padding:
+                const EdgeInsets.only(left: 20, right: 20, top: 12, bottom: 10),
+            child: Container(
+              padding:
+                  EdgeInsets.only(left: 20, right: 20, top: 12, bottom: 10),
+              decoration: BoxDecoration(
+                color: LightColor.lightGrey,
+                borderRadius: BorderRadius.circular(15),
               ),
-              SizedBox(
-                height: 10,
+              child: Column(
+                children: [
+                  Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        " Firstname: ${userProfile.firstName}",
+                        style: GoogleFonts.roboto(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: kSecondaryColor),
+                      )),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      " Lastname: ${userProfile.lastName}",
+                      style: GoogleFonts.roboto(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: kSecondaryColor),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      " Email: ${userProfile.emailName}",
+                      style: GoogleFonts.roboto(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: kSecondaryColor),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      " Phone: ${userProfile.phoneNum}",
+                      style: GoogleFonts.roboto(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: kSecondaryColor),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      " Address: ${userProfile.addressName}",
+                      style: GoogleFonts.roboto(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: kSecondaryColor),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      " Payment: ${userProfile.payment}",
+                      style: GoogleFonts.roboto(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: kSecondaryColor),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                ],
               ),
-              Text(
-                " Lastname: ${userProfile.lastName}",
-                style: GoogleFonts.roboto(
-                    fontSize: 15, fontWeight: FontWeight.w400),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                " Email: ${userProfile.emailName}",
-                style: GoogleFonts.roboto(
-                    fontSize: 15, fontWeight: FontWeight.w400),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                " Phone: ${userProfile.phoneNum}",
-                style: GoogleFonts.roboto(
-                    fontSize: 15, fontWeight: FontWeight.w400),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                " Address: ${userProfile.addressName}",
-                style: GoogleFonts.roboto(
-                    fontSize: 15, fontWeight: FontWeight.w400),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                " Payment: ${userProfile.payment}",
-                style: GoogleFonts.roboto(
-                    fontSize: 15, fontWeight: FontWeight.w400),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-            ],
+            ),
           );
         });
   }

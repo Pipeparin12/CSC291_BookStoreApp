@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:bookstoreapp291/model/product.dart';
 import 'package:bookstoreapp291/theme/light_color.dart';
 import 'package:bookstoreapp291/widget/bookCard.dart';
 import 'package:flutter/material.dart';

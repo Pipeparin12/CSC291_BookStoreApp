@@ -7,7 +7,6 @@ import 'package:bookstoreapp291/components/custom_surfix_icon.dart';
 import 'package:bookstoreapp291/components/from_error.dart';
 
 import 'package:bookstoreapp291/screen/forgot_password/forgot_password_screen.dart';
-import 'package:bookstoreapp291/screen/login_success/login_success_screen.dart';
 
 import '../../../components/default_button.dart';
 import '../../../constants.dart';
@@ -39,16 +38,6 @@ class _SignFormState extends State<SignForm> {
           SizedBox(height: getProportionateScreenHeight(30)),
           Row(
             children: [
-              Checkbox(
-                value: remember,
-                activeColor: kPrimaryColor,
-                onChanged: (value) {
-                  setState(() {
-                    remember = value;
-                  });
-                },
-              ),
-              Text("Remember me"),
               Spacer(),
               GestureDetector(
                 onTap: () => Navigator.push(
@@ -65,11 +54,11 @@ class _SignFormState extends State<SignForm> {
           SizedBox(height: getProportionateScreenHeight(20)),
           ElevatedButton.icon(
             style: ElevatedButton.styleFrom(
-              minimumSize: Size.fromHeight(20),
+              minimumSize: Size.fromHeight(60),
             ),
             icon: Icon(
               Icons.lock_open,
-              size: 50,
+              size: 30,
             ),
             label: Text(
               'Sign In',

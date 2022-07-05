@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:bookstoreapp291/model/product.dart';
 import 'package:bookstoreapp291/screen/bookmark.dart';
 import 'package:bookstoreapp291/screen/cart/cart_screen.dart';
 import 'package:bookstoreapp291/screen/detail_book.dart';
@@ -57,7 +56,7 @@ class _MyWidgetState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Book Store'),
+        title: Text('BookAround'),
         centerTitle: true,
         backgroundColor: Colors.grey,
         leading: IconButton(

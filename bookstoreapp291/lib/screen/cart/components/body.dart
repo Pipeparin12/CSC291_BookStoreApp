@@ -1,7 +1,6 @@
 import 'package:bookstoreapp291/widget/bookCard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:bookstoreapp291/model/Cart.dart';
 
 import '../../../sizedConfig.dart';
 import 'cart_card.dart';

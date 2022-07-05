@@ -1,6 +1,5 @@
 import 'package:bookstoreapp291/screen/add_book.dart';
 import 'package:bookstoreapp291/screen/sign_in/sign_in_screen.dart';
-import 'package:bookstoreapp291/test.dart';
 import 'package:bookstoreapp291/theme/light_color.dart';
 import 'package:bookstoreapp291/widget/sellerNavbar.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -32,6 +31,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.grey,
       ),
       home: SignInScreen(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }

@@ -4,7 +4,6 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:bookstoreapp291/model/book.dart';
-import 'package:bookstoreapp291/model/product.dart';
 import 'package:bookstoreapp291/sizedConfig.dart';
 import 'package:bookstoreapp291/theme/light_color.dart';
 import 'package:bookstoreapp291/widget/sellerCard.dart';
@@ -28,10 +27,6 @@ class AddBook extends StatefulWidget {
 
 class _AddBookState extends State<AddBook> {
   GlobalKey<FormState> formState = new GlobalKey<FormState>();
-  // var nameController = TextEditingController();
-  // var desController = TextEditingController();
-  // var priceController = TextEditingController();
-  // var amountController = TextEditingController();
   final Future<FirebaseApp> firebase = Firebase.initializeApp();
   CollectionReference books = FirebaseFirestore.instance.collection("books");
   late String bookName;

@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:bookstoreapp291/model/Cart.dart';
-
-import 'components/body.dart';
 import 'components/check_out_cards.dart';
 
 class CheckoutScreen extends StatelessWidget {

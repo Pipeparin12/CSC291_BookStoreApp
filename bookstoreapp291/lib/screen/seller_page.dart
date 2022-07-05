@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'dart:ui';
 
-import 'package:bookstoreapp291/model/product.dart';
 import 'package:bookstoreapp291/screen/homepage.dart';
 import 'package:bookstoreapp291/widget/bottomNavBar.dart';
 import 'package:bookstoreapp291/widget/sellerCard.dart';

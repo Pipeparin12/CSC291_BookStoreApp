@@ -3,6 +3,7 @@ import 'package:bookstoreapp291/theme/light_color.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AddProfile extends StatefulWidget {
@@ -136,7 +137,7 @@ class _AddProfileState extends State<AddProfile> {
           }
           if (snapshot.connectionState == ConnectionState.done) {
             return Scaffold(
-              resizeToAvoidBottomInset: false,
+              resizeToAvoidBottomInset: true,
               appBar: AppBar(
                 title: const Text('Edit Profile'),
                 centerTitle: true,
@@ -145,6 +146,7 @@ class _AddProfileState extends State<AddProfile> {
               body: Form(
                 key: formState,
                 child: CustomScrollView(
+                  scrollDirection: Axis.vertical,
                   slivers: [
                     SliverFillRemaining(
                       hasScrollBody: false,

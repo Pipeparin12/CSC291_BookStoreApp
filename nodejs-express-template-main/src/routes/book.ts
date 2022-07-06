@@ -1,8 +1,8 @@
 import express from "express";
 const book = require('../models/book')
-const addBookRoute = express.Router();
+const bookRoute = express.Router();
 
-addBookRoute.post('/addBook', (req,res)=> {
+bookRoute.post('/addBook', (req,res)=> {
     if (book == null) {
         res.json({message:'Please enter book information'})
     } else {
@@ -24,4 +24,4 @@ addBookRoute.post('/addBook', (req,res)=> {
         })
     }
 })
-export default addBookRoute;
+export default bookRoute;

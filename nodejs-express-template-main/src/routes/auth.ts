@@ -3,8 +3,6 @@ import express from "express";
 import User, { userSchema } from '../models/user';
 import jwt from 'jsonwebtoken';
 // const User = require('../models/user')
-
-const book = require('../models/book')
 const authRoute = express.Router();
 
 import AppConfig from '@/config';
@@ -103,18 +101,6 @@ authRoute.post('/signin',async (req,res)=>{
             message: err
         });
     }
-})
-
-authRoute.post('/add-book', (req,res)=> {
-        var newBook = new book({
-            bookName: req.body.bookName,
-            bookDescription: req.body.bookDescription,
-            bookPrice: req.body.bookPrice,
-            bookAmount: req.body.bookAmount,
-            bookImage: req.body.bookImage
-        })
-        newBook.save()
-        res.json(newBook)
 })
 
 // Service Book Restful API

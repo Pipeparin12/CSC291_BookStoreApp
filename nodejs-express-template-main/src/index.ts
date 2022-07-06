@@ -9,7 +9,7 @@ import cookieParser from "cookie-parser";
 
 /** Routes */
 import authRoute from "@/routes/auth";
-import addBookRoute from '@/routes/addBook';
+import bookRoute from "@/routes/book";
 
 /** Misc */
 import config from "./config";
@@ -73,6 +73,7 @@ app.use(
 
 /** Routes */
 app.use('/auth', authRoute) // -> /auth/book/sdfsdf
+app.use('/book', bookRoute)
 
 // for testing only
 app.get("/", async (req, res) => {

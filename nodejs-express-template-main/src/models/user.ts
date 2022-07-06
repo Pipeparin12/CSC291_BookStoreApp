@@ -1,7 +1,8 @@
-const umongoose = require('mongoose')
-const uSchema = umongoose.Schema
+// const umongoose = require('mongoose')
+import mongoose from 'mongoose'
+// const uSchema = umongoose.Schema
 
-const userSchema = new uSchema({
+export const userSchema = new mongoose.Schema({
     email:{
         type: String, 
         require: true,
@@ -12,6 +13,4 @@ const userSchema = new uSchema({
     }
 })
 
-
-
-module.exports = umongoose.model('User',userSchema)
+export default mongoose.model('User',userSchema);

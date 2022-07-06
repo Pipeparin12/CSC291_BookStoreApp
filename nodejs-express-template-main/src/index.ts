@@ -72,10 +72,7 @@ app.use(
 );
 
 /** Routes */
-app.use('/', authRoute)
-app.use('/signin', authRoute)
-app.use('/signup', authRoute)
-app.use('/addBook', authRoute)
+app.use('/auth', authRoute) // -> /auth/book/sdfsdf
 
 // for testing only
 app.get("/", async (req, res) => {

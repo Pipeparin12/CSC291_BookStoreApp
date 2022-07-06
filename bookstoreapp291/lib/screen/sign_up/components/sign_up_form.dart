@@ -15,10 +15,6 @@ class SignUpForm extends StatefulWidget {
   _SignUpFormState createState() => _SignUpFormState();
 }
 
-String email = '';
-String password = '';
-String cpassword = '';
-
 class _SignUpFormState extends State<SignUpForm> {
   final _formKey = GlobalKey<FormState>();
   bool remember = false;
@@ -27,7 +23,7 @@ class _SignUpFormState extends State<SignUpForm> {
   final cpasswordController = TextEditingController();
 
   Future save() async {
-    var res = await http.post(Uri.parse('http://localhost:8080/signup'),
+    var res = await http.post(Uri.parse('http://10.0.2.2:8080/signup'),
         headers: <String, String>{
           'Context-Type': 'application/json;charSet=UTF-8'
         },
@@ -68,6 +64,9 @@ class _SignUpFormState extends State<SignUpForm> {
     return TextFormField(
       controller: passwordController,
       obscureText: true,
+      onChanged: (value) {
+        user.password = value;
+      },
       validator: (password) {
         if (password == null) {
           return 'Please enter a password';
@@ -109,6 +108,9 @@ class _SignUpFormState extends State<SignUpForm> {
   TextFormField buildEmailFormField() {
     return TextFormField(
       controller: emailController,
+      onChanged: (value) {
+        user.email = value;
+      },
       validator: (email) {
         var emailReg = RegExp(
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");

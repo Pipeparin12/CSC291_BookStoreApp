@@ -200,7 +200,9 @@ class _AddBookState extends State<AddBook> {
                                 padding: MaterialStateProperty.all(
                                     const EdgeInsets.all(10.0)),
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                add();
+                              },
                               child: const Text('Confirm'),
                             ),
                           )

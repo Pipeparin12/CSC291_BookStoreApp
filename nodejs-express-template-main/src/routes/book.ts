@@ -12,7 +12,74 @@ bookRoute.post('/add', async (req,res)=> {
                 success: true,
                 message: 'Create book product success'
             })
-            
+
+    } catch (err) {
+        return res.json({
+            success: false,
+            message: err
+        })
+    }
+})
+bookRoute.get('/all-book', async (req, res) => {
+    try{
+        const book = await Book.find();
+        return res.json({
+            book,
+            success: true,
+            message: 'Get book successfully!'
+        });
+    }catch(err){
+        return res.json({
+            success: false,
+            message: err
+        });
+    }
+});
+
+bookRoute.get('/:id', async (req, res) => {
+    try{
+        const book = await Book.findById(req.params.id);
+
+        return res.json({
+            book,
+            success: true,
+            message: 'Get detail successfully!'
+        });
+    }catch(err){
+        return res.json({
+            success: false,
+            message: err
+        });
+    }
+});
+
+bookRoute.patch('/:id', async (req, res) => {
+    const book = await Book.findById(req.params.id);
+    if(!book) return res.json({message: "No Data Found"});
+    try{
+        const updateBook = await Book.updateOne({_id: req.params.id}, {$set: req.body});
+        return res.json({
+            updateBook,
+            success: true,
+            message: 'Update book successfully!'
+        });
+    }catch(err){
+        return res.json({
+            success: false,
+            message: err
+        });
+    }
+})
+
+bookRoute.delete('/:id',async (req, res) => {
+    const book = await Book.findById(req.params.id);
+    if (!book) return res.json({message: "No Data Found"});
+    try {
+        const deletedBook = await Book.deleteOne({_id: req.params.id});
+        return res.json({
+            success: true,
+            message: 'Delete book successfully'
+        })
     } catch (err) {
         return res.json({
             success: false,

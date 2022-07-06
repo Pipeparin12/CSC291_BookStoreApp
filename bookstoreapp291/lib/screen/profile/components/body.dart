@@ -18,20 +18,19 @@ class Body extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 20),
         child: Column(
           children: [
-            ProfilePic(title: ''),
+            FlutterLogo(
+              size: 100,
+            ),
             SizedBox(height: 20),
-            ProfileDetail(this),
             ProfileMenu(
               text: "Edit Profile",
               icon: "assets/icons/User.svg",
-              press: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AddProfile())),
+              press: () {},
             ),
             ProfileMenu(
               text: "Sign Out",
               icon: "assets/icons/Log out.svg",
-              press: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SignInScreen())),
+              press: () {},
             ),
           ],
         ),

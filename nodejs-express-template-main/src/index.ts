@@ -9,7 +9,7 @@ import cookieParser from "cookie-parser";
 
 /** Routes */
 import authRoute from "@/routes/auth";
-import addBookRoute from '@/routes/addBook';
+import addBookRoute from '@/routes/book';
 
 /** Misc */
 import config from "./config";
@@ -21,6 +21,7 @@ import morgan from "morgan";
 import { logger } from "@/utils/serviceLog";
 import path from "path";
 import fs from "fs";
+import bookRoute from "@/routes/book";
 
 /** Instantiate Application */
 const app = express();
@@ -73,6 +74,7 @@ app.use(
 
 /** Routes */
 app.use('/auth', authRoute) // -> /auth/book/sdfsdf
+app.use('/book', bookRoute)
 
 // for testing only
 app.get("/", async (req, res) => {

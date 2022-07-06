@@ -1,8 +1,8 @@
-const bmongoose = require('mongoose')
+import mongoose  from "mongoose"
 import { ObjectId, Types } from "mongoose"
-const bSchema = bmongoose.Schema
 
-const bookSchema = new bSchema({
+
+export const bookSchema = new mongoose.Schema({
     bookId:{
         type: Types.ObjectId,
         require: true
@@ -29,4 +29,4 @@ const bookSchema = new bSchema({
     }
 })
 
-module.exports = bmongoose.model('Book', bookSchema)
+export default mongoose.model('Book',bookSchema);

@@ -2,7 +2,7 @@
 import mongoose from 'mongoose'
 // const bSchema = bmongoose.Schema
 
-const bookSchema = new mongoose.Schema({
+export const bookSchema = new mongoose.Schema({
     bookName:{
         type: String, 
         require: true,
@@ -25,4 +25,4 @@ const bookSchema = new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('Book', bookSchema)
+export default mongoose.model('Book', bookSchema)

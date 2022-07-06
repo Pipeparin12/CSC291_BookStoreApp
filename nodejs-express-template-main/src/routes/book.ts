@@ -1,26 +1,22 @@
 import express from "express";
-const book = require('../models/book')
+import Book, { bookSchema } from '../models/book';
 const bookRoute = express.Router();
 
-bookRoute.post('/addBook', (req,res)=> {
-    if (book == null) {
-        res.json({message:'Please enter book information'})
-    } else {
-        book({
-            bookName: req.body.bookName,
-            bookDescription: req.body.bookDescription,
-            bookPrice: req.body.bookPrice,
-            bookAmount: req.body.bookAmount,
-            bookImage: req.body.bookImage
-        })
-        book.save().then((err) =>{
-            if (err) {
-                console.log(err)
-                res.json(err)
-            } else {
-                console.log(book)
-                res.json(book)
-            }
+bookRoute.post('/add', async (req,res)=> {
+    const book = new Book(req.body);
+    console.log(book)
+    try {
+        const savedBook = await book.save()
+            //Send it back to flutter
+            return res.json({
+                success: true,
+                message: 'Create book product success'
+            })
+            
+    } catch (err) {
+        return res.json({
+            success: false,
+            message: err
         })
     }
 })

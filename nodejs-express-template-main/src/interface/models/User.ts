@@ -1,9 +1,9 @@
 import { UserType } from "@/database/models/schema";
 
 export default interface User {
-	username: string;
-	password: string;
 	email: string;
+	password: string;
+	address: string;
 	tel: string;
 	type: UserType;
 }

@@ -9,21 +9,16 @@ const validateEmail = function (email) {
 export type UserType = "admin" | "user";
 
 export const userSchema = new Schema<User>({
-	username: {
-		type: String,
-		unique: true,
-		required: [true, "Enter a username."],
-	},
-	password: {
-		type: String,
-		required: [true, "Enter a password."],
-		minlength: [4, "Password must be at least 4 characters"],
-	},
 	email: {
 		type: String,
 		required: [true, "Enter an email address."],
 		validate: [validateEmail, "Please fill a valid email address"],
 		unique: true,
+	},
+	password: {
+		type: String,
+		required: [true, "Enter a password."],
+		minlength: [4, "Password must be at least 4 characters"],
 	},
 	tel: {
 		type: String,

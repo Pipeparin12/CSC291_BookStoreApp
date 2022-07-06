@@ -1,7 +1,12 @@
 const bmongoose = require('mongoose')
+import { ObjectId, Types } from "mongoose"
 const bSchema = bmongoose.Schema
 
 const bookSchema = new bSchema({
+    bookId:{
+        type: Types.ObjectId,
+        require: true
+    },
     bookName:{
         type: String, 
         require: true,
@@ -23,7 +28,5 @@ const bookSchema = new bSchema({
         require: true
     }
 })
-
-
 
 module.exports = bmongoose.model('Book', bookSchema)

@@ -1,7 +1,5 @@
 import express from "express";
-import book from "../models/book";
-import Book, { bookSchema } from '../models/book'; 
-
+import Book, { bookSchema } from '../models/book';
 const bookRoute = express.Router();
 
 bookRoute.post('/add', async (req,res)=> {
@@ -22,7 +20,6 @@ bookRoute.post('/add', async (req,res)=> {
         })
     }
 })
-
 bookRoute.get('/all-book', async (req, res) => {
     try{
         const book = await Book.find();
@@ -42,7 +39,6 @@ bookRoute.get('/all-book', async (req, res) => {
 bookRoute.get('/:id', async (req, res) => {
     try{
         const book = await Book.findById(req.params.id);
-        
         return res.json({
             book,
             success: true,
@@ -74,4 +70,20 @@ bookRoute.patch('/:id', async (req, res) => {
     }
 })
 
+bookRoute.delete('/:id',async (req, res) => {
+    const book = await Book.findById(req.params.id);
+    if (!book) return res.json({message: "No Data Found"});
+    try {
+        const deletedBook = await Book.deleteOne({_id: req.params.id});
+        return res.json({
+            success: true,
+            message: 'Delete book successfully'
+        })
+    } catch (err) {
+        return res.json({
+            success: false,
+            message: err
+        })
+    }
+})
 export default bookRoute;

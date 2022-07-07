@@ -1,22 +1,14 @@
-import mongoose  from "mongoose"
-import { ObjectId, Types } from "mongoose"
-
+// const bmongoose = require('mongoose')
+import mongoose from 'mongoose'
+// const bSchema = bmongoose.Schema
 
 export const bookSchema = new mongoose.Schema({
-    bookId:{
-        type: Types.ObjectId,
-        require: true
-    },
     bookName:{
         type: String, 
         require: true,
     },
     bookDescription:{
         type: String,
-        require: true,
-    },
-    bookPrice:{
-        type: Number,
         require: true,
     },
     bookAmount:{
@@ -29,4 +21,4 @@ export const bookSchema = new mongoose.Schema({
     }
 })
 
-export default mongoose.model('Book',bookSchema);
+export default mongoose.model('Book', bookSchema)

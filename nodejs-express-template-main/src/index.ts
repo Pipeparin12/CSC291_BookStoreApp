@@ -9,7 +9,7 @@ import cookieParser from "cookie-parser";
 
 /** Routes */
 import authRoute from "@/routes/auth";
-import addBookRoute from '@/routes/book';
+import bookRoute from "@/routes/book";
 
 /** Misc */
 import config from "./config";

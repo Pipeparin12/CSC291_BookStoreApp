@@ -1,5 +1,7 @@
 import 'package:bookstoreapp291/screen/seller_page.dart';
+import 'package:bookstoreapp291/service/api/user.dart';
 import 'package:bookstoreapp291/widget/bottomNavBar.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:bookstoreapp291/components/custom_surfix_icon.dart';
 import 'package:bookstoreapp291/components/from_error.dart';
@@ -19,24 +21,26 @@ class SignForm extends StatefulWidget {
 
 class _SignFormState extends State<SignForm> {
   final _formKey = GlobalKey<FormState>();
-  late final String _email;
-  late final String _password;
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  bool? isLoading = false;
   bool? remember = false;
 
-  Future save() async {
-    var res = await http.post(Uri.parse('http://10.0.2.2:8080/signin'),
-        headers: <String, String>{
-          'Context-Type': 'application/json;charSet=UTF-8'
-        },
-        body: <String, String>{
-          'email': emailController.text,
-          'password': passwordController.text
+  void signInHandler() async {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        isLoading = true;
+      });
+      try {
+        var result =
+            await UserApi.signIn(emailController.text, passwordController.text);
+      } on DioError catch (e) {
+        setState(() {
+          isLoading = false;
         });
-    print(res.body);
-    Navigator.push(
-        context, new MaterialPageRoute(builder: (context) => BottomNavBar()));
+        print(e);
+      }
+    }
   }
 
   User user = User('', '');
@@ -78,7 +82,7 @@ class _SignFormState extends State<SignForm> {
               'Sign In',
               style: TextStyle(fontSize: 24),
             ),
-            onPressed: save,
+            onPressed: signInHandler,
           ),
         ],
       ),

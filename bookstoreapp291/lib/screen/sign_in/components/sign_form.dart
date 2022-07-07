@@ -1,5 +1,7 @@
 import 'package:bookstoreapp291/screen/seller_page.dart';
 import 'package:bookstoreapp291/service/api/user.dart';
+import 'package:bookstoreapp291/service/dio.dart';
+import 'package:bookstoreapp291/service/share_preference.dart';
 import 'package:bookstoreapp291/widget/bottomNavBar.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +36,10 @@ class _SignFormState extends State<SignForm> {
       try {
         var result =
             await UserApi.signIn(emailController.text, passwordController.text);
+        print(result.data['token']);
+        SharePreference.prefs.setString("token", result.data['token']);
+        DioInstance.dio.options.headers["Authorization"] =
+            "Bearer ${result.data}";
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => BottomNavBar()));
       } on DioError catch (e) {

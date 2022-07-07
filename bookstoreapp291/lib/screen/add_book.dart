@@ -8,6 +8,7 @@ import 'package:bookstoreapp291/service/api/book.dart';
 import 'package:bookstoreapp291/sizedConfig.dart';
 import 'package:bookstoreapp291/theme/light_color.dart';
 import 'package:bookstoreapp291/widget/sellerCard.dart';
+import 'package:bookstoreapp291/widget/sellerNavbar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -27,7 +28,6 @@ class _AddBookState extends State<AddBook> {
   final _formKey = GlobalKey<FormState>();
   late String bookName;
   late String bookDes;
-  late int bookPrice;
   late int bookAmount;
   late String imageUrl;
   File? imageFile;
@@ -47,10 +47,6 @@ class _AddBookState extends State<AddBook> {
 
   getBookDes(String des) {
     bookDes = des;
-  }
-
-  getPrice(int price) {
-    bookPrice = price;
   }
 
   getAmount(int amount) {
@@ -199,6 +195,10 @@ class _AddBookState extends State<AddBook> {
                               ),
                               onPressed: () {
                                 addBook();
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => SellerNavBar()));
                               },
                               child: const Text('Confirm'),
                             ),

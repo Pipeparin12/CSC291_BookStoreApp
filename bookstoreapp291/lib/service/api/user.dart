@@ -4,6 +4,7 @@ class UserApi {
   static Future<dynamic> signIn(String email, String password) async {
     var response = await DioInstance.dio
         .post("/auth/signin", data: {"email": email, "password": password});
+    return response;
   }
 
   static Future<dynamic> signUp(String email, String password) async {

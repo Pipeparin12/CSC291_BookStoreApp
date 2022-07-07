@@ -14,13 +14,13 @@ class Book {
       required this.bookAmount,
       required this.bookImage});
 
-  factory Book.fromJson(Map<String, dynamic> data) {
+  factory Book.fromJson(Map<String, dynamic> json) {
     return Book.set(
-        id: data['_id'],
-        bookName: data['bookName'],
-        bookDescription: data['bookDescription'],
-        bookAmount: data['bookAmount'],
-        bookImage: data['bookImage']);
+        id: json['_id'],
+        bookName: json['bookName'],
+        bookDescription: json['bookDescription'],
+        bookAmount: json['bookAmount'],
+        bookImage: json['bookImage']);
   }
 
   Map<String, dynamic> toJson() {

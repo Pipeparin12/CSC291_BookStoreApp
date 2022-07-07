@@ -3,6 +3,7 @@ import 'package:bookstoreapp291/screen/profile/profile_screen.dart';
 import 'package:bookstoreapp291/screen/sign_in/sign_in_screen.dart';
 import 'package:bookstoreapp291/screen/sign_up/sign_up_screen.dart';
 import 'package:bookstoreapp291/service/dio.dart';
+import 'package:bookstoreapp291/service/share_preference.dart';
 import 'package:bookstoreapp291/theme/light_color.dart';
 import 'package:bookstoreapp291/widget/sellerNavbar.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -13,6 +14,7 @@ import 'package:bookstoreapp291/widget/bottomNavBar.dart';
 void main() async {
   runApp(const MyApp());
   DioInstance.init();
+  SharePreference.init();
 }
 
 class MyApp extends StatelessWidget {

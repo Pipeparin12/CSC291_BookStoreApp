@@ -4,6 +4,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:bookstoreapp291/model/book.dart';
+import 'package:bookstoreapp291/service/api/book.dart';
 import 'package:bookstoreapp291/sizedConfig.dart';
 import 'package:bookstoreapp291/theme/light_color.dart';
 import 'package:bookstoreapp291/widget/sellerCard.dart';
@@ -23,29 +24,21 @@ class AddBook extends StatefulWidget {
 }
 
 class _AddBookState extends State<AddBook> {
-  GlobalKey<FormState> formState = new GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   late String bookName;
   late String bookDes;
   late int bookPrice;
   late int bookAmount;
-  String? imageUrl;
+  late String imageUrl;
   File? imageFile;
   final scrollController = ScrollController();
   final imagePicker = ImagePicker();
 
-  Future add() async {
-    var res = await http.post(Uri.parse('http://10.0.2.2:8080/addBook'),
-        headers: <String, String>{
-          'Context-Type': 'application/json;charSet=UTF-8'
-        },
-        body: <String, String>{
-          'bookName': bookName,
-          'bookDescription': bookDes,
-          'bookPrice': bookPrice.toString(),
-          'bookAmount': bookAmount.toString(),
-          'bookImage': imageUrl!
-        });
-    print(res.body);
+  void addBook() async {
+    try {
+      var result =
+          await BookApi.addBook(bookName, bookDes, bookAmount, imageUrl);
+    } catch (e) {}
   }
 
   getBookName(String name) {
@@ -62,6 +55,10 @@ class _AddBookState extends State<AddBook> {
 
   getAmount(int amount) {
     bookAmount = amount;
+  }
+
+  getUrl(String url) {
+    imageUrl = url;
   }
 
   Future pickedImage() async {
@@ -86,7 +83,7 @@ class _AddBookState extends State<AddBook> {
           backgroundColor: Colors.grey,
         ),
         body: Form(
-          key: formState,
+          key: _formKey,
           child: CustomScrollView(
             controller: scrollController,
             slivers: [
@@ -112,81 +109,81 @@ class _AddBookState extends State<AddBook> {
                                       (String des) {
                                     getBookDes(des);
                                   }),
-                                  _entryField('Price', 'Enter Price',
-                                      (String price) {
-                                    getPrice(int.parse(price));
-                                  }),
                                   _entryField('Amount', 'Enter Amount',
                                       (String amount) {
                                     getAmount(int.parse(amount));
                                   }),
-                                  Padding(
-                                      padding: const EdgeInsets.only(top: 40),
-                                      child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          child: SizedBox(
-                                            height: 250,
-                                            width: double.infinity,
-                                            child: Column(
-                                              children: [
-                                                Expanded(
-                                                  child: Container(
-                                                      width: 300,
-                                                      decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(20),
-                                                          border: Border.all(
-                                                              color: LightColor
-                                                                  .grey)),
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(10),
-                                                        child: Center(
-                                                          child: Column(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: [
-                                                              Expanded(
-                                                                child: imageFile ==
-                                                                        null
-                                                                    ? const Center(
-                                                                        child: Text(
-                                                                            'No image selected'),
-                                                                      )
-                                                                    : Image.file(
-                                                                        imageFile!),
-                                                              ),
-                                                              Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceEvenly,
-                                                                children: [
-                                                                  ElevatedButton(
-                                                                      onPressed:
-                                                                          () {
-                                                                        pickedImage();
-                                                                      },
-                                                                      child: const Text(
-                                                                          'Select Image')),
-                                                                  ElevatedButton(
-                                                                      onPressed:
-                                                                          () {},
-                                                                      child: const Text(
-                                                                          'Upload Image'))
-                                                                ],
-                                                              )
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      )),
-                                                ),
-                                              ],
-                                            ),
-                                          )))
+                                  _entryField('Image', 'Enter Image URL',
+                                      (String url) {
+                                    getUrl(url);
+                                  }),
+                                  // Padding(
+                                  //     padding: const EdgeInsets.only(top: 40),
+                                  //     child: ClipRRect(
+                                  //         borderRadius:
+                                  //             BorderRadius.circular(10),
+                                  //         child: SizedBox(
+                                  //           height: 250,
+                                  //           width: double.infinity,
+                                  //           child: Column(
+                                  //             children: [
+                                  //               Expanded(
+                                  //                 child: Container(
+                                  //                     width: 300,
+                                  //                     decoration: BoxDecoration(
+                                  //                         borderRadius:
+                                  //                             BorderRadius
+                                  //                                 .circular(20),
+                                  //                         border: Border.all(
+                                  //                             color: LightColor
+                                  //                                 .grey)),
+                                  //                     child: Padding(
+                                  //                       padding:
+                                  //                           const EdgeInsets
+                                  //                               .all(10),
+                                  //                       child: Center(
+                                  //                         child: Column(
+                                  //                           mainAxisAlignment:
+                                  //                               MainAxisAlignment
+                                  //                                   .spaceBetween,
+                                  //                           children: [
+                                  //                             Expanded(
+                                  //                               child: imageFile ==
+                                  //                                       null
+                                  //                                   ? const Center(
+                                  //                                       child: Text(
+                                  //                                           'No image selected'),
+                                  //                                     )
+                                  //                                   : Image.file(
+                                  //                                       imageFile!),
+                                  //                             ),
+                                  //                             Row(
+                                  //                               mainAxisAlignment:
+                                  //                                   MainAxisAlignment
+                                  //                                       .spaceEvenly,
+                                  //                               children: [
+                                  //                                 ElevatedButton(
+                                  //                                     onPressed:
+                                  //                                         () {
+                                  //                                       pickedImage();
+                                  //                                     },
+                                  //                                     child: const Text(
+                                  //                                         'Select Image')),
+                                  //                                 ElevatedButton(
+                                  //                                     onPressed:
+                                  //                                         () {},
+                                  //                                     child: const Text(
+                                  //                                         'Upload Image'))
+                                  //                               ],
+                                  //                             )
+                                  //                           ],
+                                  //                         ),
+                                  //                       ),
+                                  //                     )),
+                                  //               ),
+                                  //             ],
+                                  //           ),
+                                  //         )))
                                 ],
                               ),
                             ),
@@ -201,7 +198,7 @@ class _AddBookState extends State<AddBook> {
                                     const EdgeInsets.all(10.0)),
                               ),
                               onPressed: () {
-                                add();
+                                addBook();
                               },
                               child: const Text('Confirm'),
                             ),

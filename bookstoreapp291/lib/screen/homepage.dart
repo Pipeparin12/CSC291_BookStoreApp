@@ -1,14 +1,17 @@
 import 'dart:developer';
 
+import 'package:bookstoreapp291/model/book.dart';
 import 'package:bookstoreapp291/screen/bookmark.dart';
 import 'package:bookstoreapp291/screen/cart/cart_screen.dart';
 import 'package:bookstoreapp291/screen/detail_book.dart';
 import 'package:bookstoreapp291/screen/profile/profile_screen.dart';
+import 'package:bookstoreapp291/service/api/book.dart';
 import 'package:bookstoreapp291/theme/light_color.dart';
 import 'package:bookstoreapp291/theme/theme.dart';
 import 'package:bookstoreapp291/widget/bookCard.dart';
 import 'package:bookstoreapp291/widget/extentions.dart';
 import 'package:bookstoreapp291/widget/sellerNavbar.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -25,6 +28,33 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<MainScreen> {
+  List<Book> listBook = [];
+  String name = '';
+
+  Future<void> getAllBook() async {
+    try {
+      var result = await BookApi.getAllBook();
+      print(result);
+      if (result != null) {
+        print('result');
+        List<Book> temp = [];
+        for (var e in result.data) {
+          print('for');
+          temp.add(Book.fromJson(e));
+        }
+        setState(() {
+          listBook = temp;
+          // print('temp');
+          // print(temp);
+          // print('listbook');
+          // print(listBook);
+        });
+      }
+    } on DioError catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,6 +79,87 @@ class _MyWidgetState extends State<MainScreen> {
             },
           )
         ],
+      ),
+      body: SingleChildScrollView(
+        child: SizedBox(
+          height: 600,
+          child: Column(
+            children: <Widget>[
+              Padding(padding: EdgeInsets.only(top: 30)),
+              Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: TextFormField(
+                  readOnly: true,
+                  decoration: InputDecoration(
+                      fillColor: LightColor.lightGrey.withAlpha(100),
+                      hintText: "Search",
+                      hintStyle: TextStyle(fontSize: 12),
+                      contentPadding:
+                          EdgeInsets.only(left: 5, right: 5, bottom: 0, top: 5),
+                      prefixIcon: Icon(Icons.search, color: Colors.black54),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)))),
+                  onTap: () => Navigator.push(
+                      context, CupertinoPageRoute(builder: (_) => Search())),
+                ),
+              ),
+              Padding(
+                  padding: EdgeInsets.only(
+                top: 30,
+              )),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 0.02),
+                child: SectionTitle(title: 'Best Seller', press: () {}),
+              ),
+              Expanded(
+                  child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: GridView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: listBook.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2, childAspectRatio: 1),
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    BookDetail(listBook[index]))),
+                        child: Card(
+                          elevation: 3,
+                          child: Column(
+                            children: [
+                              AspectRatio(
+                                aspectRatio: 2,
+                                child: Container(
+                                    color: LightColor.lightGrey,
+                                    child: Image(
+                                      image: NetworkImage(
+                                          listBook[index].bookImage),
+                                      fit: BoxFit.contain,
+                                    )),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 20, bottom: 10),
+                                child: Text(
+                                  listBook[index].bookName,
+                                  style: GoogleFonts.abel(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Text(listBook[index].bookAmount.toString()),
+                            ],
+                          ),
+                        ),
+                      );
+                    }),
+              ))
+            ],
+          ),
+        ),
       ),
     );
   }

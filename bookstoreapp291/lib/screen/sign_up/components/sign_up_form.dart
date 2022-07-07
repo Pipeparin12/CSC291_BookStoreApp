@@ -42,7 +42,6 @@ class _SignUpFormState extends State<SignUpForm> {
     }
   }
 
-  User user = User('', '');
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -70,9 +69,6 @@ class _SignUpFormState extends State<SignUpForm> {
     return TextFormField(
       controller: passwordController,
       obscureText: true,
-      onChanged: (value) {
-        user.password = value;
-      },
       validator: (password) {
         if (password == null) {
           return 'Please enter a password';
@@ -114,9 +110,6 @@ class _SignUpFormState extends State<SignUpForm> {
   TextFormField buildEmailFormField() {
     return TextFormField(
       controller: emailController,
-      onChanged: (value) {
-        user.email = value;
-      },
       validator: (email) {
         var emailReg = RegExp(
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");

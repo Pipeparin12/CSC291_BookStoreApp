@@ -34,6 +34,8 @@ class _SignFormState extends State<SignForm> {
       try {
         var result =
             await UserApi.signIn(emailController.text, passwordController.text);
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => BottomNavBar()));
       } on DioError catch (e) {
         setState(() {
           isLoading = false;

@@ -50,6 +50,7 @@ class _MyWidgetState extends State<MainScreen> {
           )
         ],
       ),
+      body: ,
     );
   }
 }

@@ -15,4 +15,12 @@ userRoute.post("/signin", async (req, res) => {
 	return responseHandler(res, await login(email, password));
 });
 
+userRoute.post("/add-to-cart", async (req, res) => {
+	try{
+		// let newCart = await Cart.findOne({})
+	}catch(err){
+
+	}
+});
+
 export default userRoute;

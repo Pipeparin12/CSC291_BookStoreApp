@@ -1,7 +1,7 @@
 import mongoose, { Mongoose }  from "mongoose"
 import { ObjectId, Types } from "mongoose"
 
-export const cartSchema = new mongoose.Schema({
+export const bookmarkSchema = new mongoose.Schema({
     owner: {
         type: Types.ObjectId,
         required: true,
@@ -12,14 +12,9 @@ export const cartSchema = new mongoose.Schema({
             type: Types.ObjectId,
             ref: 'Book'
         },
-        amountInCart: {
-            type: Number,
-            required: true,
-            min: 1
-        },
     }],
 },{
     timestamps: true
 })
 
-export default mongoose.model('Cart',cartSchema);
+export default mongoose.model('Bookmark',bookmarkSchema);

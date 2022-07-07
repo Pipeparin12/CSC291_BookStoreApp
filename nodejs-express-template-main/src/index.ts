@@ -21,7 +21,9 @@ import morgan from "morgan";
 import { logger } from "@/utils/serviceLog";
 import path from "path";
 import fs from "fs";
-import bookRoute from "@/routes/book";
+import cartRoute from "./routes/cart";
+import bookmarkRoute from "./routes/bookmark";
+
 
 /** Instantiate Application */
 const app = express();
@@ -75,7 +77,8 @@ app.use(
 /** Routes */
 app.use('/auth', authRoute) // -> /auth/book/sdfsdf
 app.use('/book', bookRoute)
-
+app.use('/cart', cartRoute)
+app.use('/bookmark', bookmarkRoute)
 // for testing only
 app.get("/", async (req, res) => {
 	return res.send("It works! 😃");

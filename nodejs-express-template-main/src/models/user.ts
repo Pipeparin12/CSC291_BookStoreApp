@@ -1,5 +1,5 @@
 // const umongoose = require('mongoose')
-import mongoose from 'mongoose'
+import mongoose, { Types } from 'mongoose'
 // const uSchema = umongoose.Schema
 
 export const userSchema = new mongoose.Schema({
@@ -11,6 +11,6 @@ export const userSchema = new mongoose.Schema({
         type: String,
         require: true,
     },
-})
+});
 
 export default mongoose.model('User',userSchema);

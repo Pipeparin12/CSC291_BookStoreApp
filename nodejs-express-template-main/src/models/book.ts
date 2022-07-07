@@ -11,10 +11,6 @@ export const bookSchema = new mongoose.Schema({
         type: String,
         require: true,
     },
-    bookPrice:{
-        type: Number,
-        require: true,
-    },
     bookAmount:{
         type: Number,
         require: true

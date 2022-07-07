@@ -1,3 +1,4 @@
+import 'package:bookstoreapp291/components/have_account_text.dart';
 import 'package:flutter/material.dart';
 import 'package:bookstoreapp291/components/socal_card.dart';
 import 'package:bookstoreapp291/constants.dart';
@@ -29,6 +30,7 @@ class Body extends StatelessWidget {
                 SignUpForm(),
                 SizedBox(height: SizeConfig.screenHeight * 0.08),
                 SizedBox(height: getProportionateScreenHeight(20)),
+                HaveAccountText(),
                 Text(
                   'By continuing your confirm that you agree \nwith our Term and Condition',
                   textAlign: TextAlign.center,

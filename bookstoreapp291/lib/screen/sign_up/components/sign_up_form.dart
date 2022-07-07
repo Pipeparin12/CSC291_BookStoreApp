@@ -1,5 +1,7 @@
 import 'package:bookstoreapp291/screen/sign_in/sign_in_screen.dart';
+import 'package:bookstoreapp291/service/api/user.dart';
 import 'package:bookstoreapp291/widget/bottomNavBar.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:bookstoreapp291/components/custom_surfix_icon.dart';
 import 'package:bookstoreapp291/components/default_button.dart';
@@ -17,23 +19,27 @@ class SignUpForm extends StatefulWidget {
 
 class _SignUpFormState extends State<SignUpForm> {
   final _formKey = GlobalKey<FormState>();
+  bool isloading = false;
   bool remember = false;
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final cpasswordController = TextEditingController();
 
-  Future save() async {
-    var res = await http.post(Uri.parse('http://10.0.2.2:8080/signup'),
-        headers: <String, String>{
-          'Context-Type': 'application/json;charSet=UTF-8'
-        },
-        body: <String, String>{
-          'email': user.email,
-          'password': user.password
+  void signUpHandler() async {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        isloading = true;
+      });
+      try {
+        var result =
+            await UserApi.signUp(emailController.text, passwordController.text);
+      } on DioError catch (e) {
+        setState(() {
+          isloading = false;
         });
-    print(res.body);
-    Navigator.push(
-        context, new MaterialPageRoute(builder: (context) => SignInScreen()));
+        print(e);
+      }
+    }
   }
 
   User user = User('', '');
@@ -51,7 +57,7 @@ class _SignUpFormState extends State<SignUpForm> {
           SizedBox(height: getProportionateScreenHeight(30)),
           DefaultButton(
             text: "Continue",
-            press: save,
+            press: signUpHandler,
             onPressed: () => Navigator.push(context,
                 MaterialPageRoute(builder: (context) => SignInScreen())),
           ),

@@ -46,5 +46,16 @@ storageRoute.get('/avatars/:user_id', (req, res) => {
     }
 });
 
+storageRoute.get("/books/:book_id", (req, res) => {
+	try {
+		const fileStream = fs.createReadStream(
+			`./uploads/books/${req.params.book_id}`
+		);
+		return fileStream.pipe(res);
+	} catch (err) {
+		return res.status(404);
+	}
+});
+
 
 export default storageRoute;

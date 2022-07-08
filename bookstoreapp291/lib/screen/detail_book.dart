@@ -1,5 +1,6 @@
 import 'package:bookstoreapp291/service/api/book.dart';
 import 'package:bookstoreapp291/service/api/cart.dart';
+import 'package:bookstoreapp291/service/dio.dart';
 import 'package:bookstoreapp291/theme/light_color.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -113,10 +114,10 @@ class _BookDetailState extends State<BookDetail> {
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * .6,
                 decoration: BoxDecoration(
-                    // image: DecorationImage(
-                    //     image: NetworkImage(listBook['bookImage']),
-                    //     fit: BoxFit.contain)
-                    ),
+                    image: DecorationImage(
+                        image: NetworkImage(
+                            DioInstance.getImage(listBook['bookImage'])),
+                        fit: BoxFit.contain)),
               ),
               Align(
                 alignment: Alignment.bottomCenter,

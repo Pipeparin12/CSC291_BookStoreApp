@@ -1,35 +1,67 @@
 import express from "express";
+import multer from "multer";
 import Book, { bookSchema } from '../models/book';
 const bookRoute = express.Router();
 
-bookRoute.post('/add', async (req,res)=> {
-    const book_name = req.body.bookName;
-    const book_des = req.body.bookDescription;
-    const book_amount = req.body.bookAmount;
-    const book_image = req.body.bookImage;
-    console.log(req.user)
+const storage = multer.diskStorage({
+	destination: function (req, file, cb) {
+		cb(null, "./uploads/books");
+	},
+	filename: function (req, file, cb) {
+        const fileName = `${(req as any).bookId}.jpg`;
+        console.log(`Uploading...`, fileName);
+		cb(null,fileName);
+	},
+});
+
+const upload = multer({ storage });
+
+
+async function createBook(req, res, next){
     const user_id = req.user.user_id;
     try {
-        await Book.create({
+        const newBook = await Book.create({
             'owner': user_id,
-            'bookName': book_name,
-            'bookDescription': book_des,
-            'bookAmount': book_amount,
-            'bookImage': book_image,
-        })
-            //Send it back to flutter
-            return res.json({
-                success: true,
-                message: 'Create book product success'
-            })
-
+            'bookName': "",
+            'bookDescription': "",
+            'bookAmount': 0,
+            'bookImage': "",
+        });
+        req.bookId = newBook._id;
+        next();
     } catch (err) {
         return res.json({
             success: false,
             message: err
         })
     }
-})
+};
+
+bookRoute.post('/add', createBook , upload.single('file'), async (req,res) => {
+    const book_name = req.body.bookName;
+	const book_des = req.body.bookDescription;
+	const book_amount = req.body.bookAmount;
+	const book_image = req.body.bookImage;
+	const user_id = req.user.user_id;
+    const bookId = (req as any).bookId;
+
+    const newBook = await Book.updateOne(
+		{ owner: user_id, _id: bookId },
+		{
+			bookName: book_name,
+			bookDescription: book_des,
+			bookAmount: book_amount,
+			bookImage: `/books/${bookId}.jpg`,
+		}
+	);
+
+    return res.json({
+        success: true,
+        message: "Already added book!",
+        newBook
+    })
+});
+
 bookRoute.get('/all-book', async (req, res) => {
     try{
         const book = await Book.find();

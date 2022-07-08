@@ -9,8 +9,10 @@ import 'package:bookstoreapp291/sizedConfig.dart';
 import 'package:bookstoreapp291/theme/light_color.dart';
 import 'package:bookstoreapp291/widget/sellerCard.dart';
 import 'package:bookstoreapp291/widget/sellerNavbar.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:form_field_validator/form_field_validator.dart';
@@ -36,8 +38,17 @@ class _AddBookState extends State<AddBook> {
 
   void addBook() async {
     try {
-      var result =
-          await BookApi.addBook(bookName, bookDes, bookAmount, imageUrl);
+      final formData = FormData.fromMap({
+        "file": await MultipartFile.fromFile(
+          imageFile!.path,
+          filename: "fileName.jpg",
+          contentType: MediaType("image", "jpg"),
+        ),
+        "bookName": bookName,
+        "bookDescription": bookDes,
+        "bookAmount": bookAmount,
+      });
+      var result = await BookApi.addBook(formData);
     } catch (e) {}
   }
 
@@ -57,14 +68,14 @@ class _AddBookState extends State<AddBook> {
     imageUrl = url;
   }
 
-  Future pickedImage() async {
+  void pickedImage() async {
     final pick = await imagePicker.pickImage(source: ImageSource.gallery);
 
     setState(() {
       if (pick != null) {
         imageFile = File(pick.path);
       } else {
-        return null;
+        imageFile = null;
       }
     });
   }
@@ -109,10 +120,10 @@ class _AddBookState extends State<AddBook> {
                                       (String amount) {
                                     getAmount(int.parse(amount));
                                   }),
-                                  _entryField('Image', 'Enter Image URL',
-                                      (String url) {
-                                    getUrl(url);
-                                  }),
+                                  // _entryField('Image', 'Enter Image URL',
+                                  //     (String url) {
+                                  //   getUrl(url);
+                                  // }),
                                   Padding(
                                       padding: const EdgeInsets.only(top: 40),
                                       child: ClipRRect(
@@ -165,11 +176,6 @@ class _AddBookState extends State<AddBook> {
                                                                       },
                                                                       child: const Text(
                                                                           'Select Image')),
-                                                                  ElevatedButton(
-                                                                      onPressed:
-                                                                          () {},
-                                                                      child: const Text(
-                                                                          'Upload Image'))
                                                                 ],
                                                               )
                                                             ],

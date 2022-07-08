@@ -107,6 +107,7 @@ bookRoute.get("/user/yourbook",async (req,res) => {
             const book = await Book.find({owner: user_id}).exec();
             console.log(book);
             return res.json({
+                book,
                 success: true,
                 message: 'Get your book successfully'
             })

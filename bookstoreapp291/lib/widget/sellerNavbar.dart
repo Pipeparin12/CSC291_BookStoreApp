@@ -17,8 +17,8 @@ class _SellerNavBar extends State<SellerNavBar> {
   ScrollController scrollController = ScrollController();
   PageController pageController = PageController();
   List<Widget> pageList = <Widget>[
-    SellerCentre(),
     AddBook(),
+    SellerCentre(),
     ProfileScreen(),
   ];
   @override
@@ -38,12 +38,12 @@ class _SellerNavBar extends State<SellerNavBar> {
         backgroundColor: Colors.grey,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Seller Centre',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.add_circle_outline),
             label: 'Add Book',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Donate Centre',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_outlined),

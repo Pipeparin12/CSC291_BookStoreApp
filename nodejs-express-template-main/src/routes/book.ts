@@ -3,10 +3,20 @@ import Book, { bookSchema } from '../models/book';
 const bookRoute = express.Router();
 
 bookRoute.post('/add', async (req,res)=> {
-    const book = new Book(req.body);
-    console.log(book)
+    const book_name = req.body.bookName;
+    const book_des = req.body.bookDescription;
+    const book_amount = req.body.bookAmount;
+    const book_image = req.body.bookImage;
+    console.log(req.user)
+    const user_id = req.user.user_id;
     try {
-        const savedBook = await book.save()
+        await Book.create({
+            'owner': user_id,
+            'bookName': book_name,
+            'bookDescription': book_des,
+            'bookAmount': book_amount,
+            'bookImage': book_image,
+        })
             //Send it back to flutter
             return res.json({
                 success: true,
@@ -23,6 +33,7 @@ bookRoute.post('/add', async (req,res)=> {
 bookRoute.get('/all-book', async (req, res) => {
     try{
         const book = await Book.find();
+        console.log(book)
         return res.json({
             book,
             success: true,
@@ -85,5 +96,25 @@ bookRoute.delete('/:id',async (req, res) => {
             message: err
         })
     }
+})
+
+bookRoute.get("/user/yourbook",async (req,res) => {
+    try {
+        console.log('1');
+        const user_id = req.user.user_id;
+        console.log(user_id);
+        
+            const book = await Book.find({owner: user_id}).exec();
+            console.log(book);
+            return res.json({
+                success: true,
+                message: 'Get your book successfully'
+            })
+        } catch (err) {
+            return res.json({
+                success: false,
+                message: err
+            })
+        }
 })
 export default bookRoute;

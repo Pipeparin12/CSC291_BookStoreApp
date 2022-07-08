@@ -7,6 +7,7 @@ import 'package:flutter/src/widgets/framework.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({Key? key}) : super(key: key);
+  static const routeName = "/home";
 
   @override
   State<BottomNavBar> createState() => _BottomNavBarState();

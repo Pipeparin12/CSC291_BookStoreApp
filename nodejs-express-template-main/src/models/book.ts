@@ -1,8 +1,13 @@
 // const bmongoose = require('mongoose')
-import mongoose from 'mongoose'
+import mongoose, { Types } from 'mongoose'
 // const bSchema = bmongoose.Schema
 
 export const bookSchema = new mongoose.Schema({
+    owner: {
+        type: Types.ObjectId,
+        required: true,
+        ref: 'User'
+    },
     bookName:{
         type: String, 
         require: true,

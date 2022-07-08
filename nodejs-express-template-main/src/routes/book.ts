@@ -33,6 +33,7 @@ bookRoute.post('/add', async (req,res)=> {
 bookRoute.get('/all-book', async (req, res) => {
     try{
         const book = await Book.find();
+        console.log(book)
         return res.json({
             book,
             success: true,
@@ -96,5 +97,25 @@ bookRoute.delete('/:id',async (req, res) => {
             message: err
         })
     }
+})
+
+bookRoute.get("/user/yourbook",async (req,res) => {
+    try {
+        console.log('1');
+        const user_id = req.user.user_id;
+        console.log(user_id);
+        
+            const book = await Book.find({owner: user_id}).exec();
+            console.log(book);
+            return res.json({
+                success: true,
+                message: 'Get your book successfully'
+            })
+        } catch (err) {
+            return res.json({
+                success: false,
+                message: err
+            })
+        }
 })
 export default bookRoute;

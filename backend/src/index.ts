@@ -81,7 +81,7 @@ app.use('/cart', cartRoute)
 app.use('/bookmark', bookmarkRoute)
 // for testing only
 app.get("/", async (req, res) => {
-	return res.send("It works! 😃");
+	return res.send("It works NOW! 😃");
 });
 
 /** Start a server */

@@ -7,20 +7,18 @@ export const cartSchema = new mongoose.Schema({
         required: true,
         ref: 'User'
     },
-    books: [{
-        bookId: {
-            type: Types.ObjectId,
-            ref: 'Book'
-        },
-        bookName:{
-            type: String, 
-        },
-        amountInCart: {
-            type: Number,
-            required: true,
-            min: 1
-        },
-    }],
+    bookId: {
+        type: Types.ObjectId,
+        ref: 'Book'
+    },
+    bookName:{
+        type: String, 
+    },
+    amountInCart: {
+        type: Number,
+        required: true,
+        min: 1
+    },
 },{
     timestamps: true
 })

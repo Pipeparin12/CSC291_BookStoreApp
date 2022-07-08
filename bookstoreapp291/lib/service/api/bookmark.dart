@@ -21,4 +21,12 @@ class BookmarkApi {
       "bookAmount": bookAmount,
     });
   }
+
+  static Future<dynamic> deleteBookmark(String bookId) async {
+    DioInstance.dio.options.headers["authorization"] =
+        "Bearer " + SharePreference.prefs.getString("token").toString();
+    final response =
+        await DioInstance.dio.delete('/bookmark/unbookmark/$bookId');
+    return response;
+  }
 }

@@ -18,7 +18,7 @@ class BookmarkPage extends StatefulWidget {
 }
 
 class _BookmarkPageState extends State<BookmarkPage> {
-  var listBook = [];
+  var bookmark = [];
   bool isLoading = true;
 
   Future<void> getYourBook() async {
@@ -26,9 +26,18 @@ class _BookmarkPageState extends State<BookmarkPage> {
       var result = await BookmarkApi.getBookmark();
       print(result.data);
       setState(() {
-        listBook = result.data['book'].toList();
+        bookmark = result.data['bookmarks'].toList();
       });
-      print(listBook);
+      print(bookmark);
+    } on DioError catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> deleteBookmark(String bookmarkId) async {
+    try {
+      var result = await BookmarkApi.deleteBookmark(bookmarkId);
+      getYourBook();
     } on DioError catch (e) {
       print(e);
     }
@@ -56,7 +65,7 @@ class _BookmarkPageState extends State<BookmarkPage> {
             Padding(padding: EdgeInsets.all(10)),
             Expanded(
               child: ListView.builder(
-                  itemCount: listBook.length,
+                  itemCount: bookmark.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
                         padding:
@@ -74,7 +83,7 @@ class _BookmarkPageState extends State<BookmarkPage> {
                                   padding: EdgeInsets.all(5.0),
                                   // child: Image(
                                   //     image: NetworkImage(
-                                  //         listBook[index]['bookImage']))
+                                  //         bookmark[index]['bookImage']))
                                 ),
                                 Expanded(
                                   child: Container(
@@ -83,18 +92,24 @@ class _BookmarkPageState extends State<BookmarkPage> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: <Widget>[
-                                        Text(listBook[index]['bookName'],
+                                        Text(
+                                            bookmark[index]['book']['bookName'],
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold)),
                                         Text("Amount: " +
-                                            listBook[index]['bookAmount']
+                                            bookmark[index]['book']
+                                                    ['bookAmount']
                                                 .toString()),
                                       ],
                                     ),
                                   ),
                                 ),
                                 IconButton(
-                                    onPressed: () {}, icon: Icon(Icons.delete))
+                                    onPressed: () {
+                                      deleteBookmark(bookmark[index]['_id']);
+
+                                    },
+                                    icon: Icon(Icons.delete))
                               ]),
                         ));
                   }),

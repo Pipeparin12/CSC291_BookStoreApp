@@ -1,23 +1,34 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
+import 'dart:io';
 
-// class Books {
-//   static const NAME = "name";
-//   static const DES = "des";
-//   static const PRICE = "price";
-//   static const AMOUNT = "amount";
+class Book {
+  final String id;
+  final String bookName;
+  final String bookDescription;
+  final int bookAmount;
+  final String bookImage;
 
-//   String _name;
-//   String _des;
-//   int _price;
-//   int _amount;
+  Book.set(
+      {required this.id,
+      required this.bookName,
+      required this.bookDescription,
+      required this.bookAmount,
+      required this.bookImage});
 
-//   String get name => _name;
-//   String get des => _des;
-//   int get price => _price;
-//   int get amount => _amount;
+  factory Book.fromJson(Map<String, dynamic> json) {
+    return Book.set(
+        id: json['_id'],
+        bookName: json['bookName'],
+        bookDescription: json['bookDescription'],
+        bookAmount: json['bookAmount'],
+        bookImage: json['bookImage']);
+  }
 
-//   Books.fromSnnapshot(DocumentSnapshot snapshot) {
-//     _name = snapshot.data[NAME];
-//   }
-// }
+  Map<String, dynamic> toJson() {
+    return {
+      'bookName': bookName,
+      'bookDescription': bookDescription,
+      'bookAmount': bookAmount,
+      'bookImage': bookImage
+    };
+  }
+}

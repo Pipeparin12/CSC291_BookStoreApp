@@ -1,3 +1,4 @@
+import 'package:bookstoreapp291/theme/light_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -23,6 +24,7 @@ class CustomSurffixIcon extends StatelessWidget {
       child: SvgPicture.asset(
         svgIcon,
         height: getProportionateScreenWidth(18),
+        color: LightColor.darkgrey,
       ),
     );
   }

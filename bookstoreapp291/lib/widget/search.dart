@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../screen/detail_book.dart';
@@ -29,56 +28,7 @@ class _SearchState extends State<Search> {
                 },
               ),
               Expanded(
-                child: Container(
-                  child: StreamBuilder(
-                      stream: FirebaseFirestore.instance
-                          .collection("books")
-                          .where("bookName", isEqualTo: inputText)
-                          .snapshots(),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<QuerySnapshot> snapshot) {
-                        if (snapshot.hasError) {
-                          return Center(
-                            child: Text("Something went wrong"),
-                          );
-                        }
-
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return Center(
-                            child: Text("Loading"),
-                          );
-                        }
-
-                        return ListView(
-                          children: snapshot.data!.docs
-                              .map((DocumentSnapshot document) {
-                            Map<String, dynamic> data =
-                                document.data() as Map<String, dynamic>;
-                            return Card(
-                              elevation: 5,
-                              child: ListTile(
-                                title: Text(data['bookName']),
-                                leading: Image(
-                                    image: NetworkImage(data['bookImage'])),
-                                onTap: () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (_) => BookDetail({
-                                              "bookName": document["bookName"],
-                                              "bookDes": document["bookDes"],
-                                              "bookPrice":
-                                                  document["bookPrice"],
-                                              "bookAmount":
-                                                  document["bookAmount"],
-                                              "bookImage": document["bookImage"]
-                                            }))),
-                              ),
-                            );
-                          }).toList(),
-                        );
-                      }),
-                ),
+                child: Container(child: Text('Search')),
               ),
             ],
           ),

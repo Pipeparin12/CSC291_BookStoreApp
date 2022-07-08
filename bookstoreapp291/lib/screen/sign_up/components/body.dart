@@ -1,3 +1,4 @@
+import 'package:bookstoreapp291/components/have_account_text.dart';
 import 'package:flutter/material.dart';
 import 'package:bookstoreapp291/components/socal_card.dart';
 import 'package:bookstoreapp291/constants.dart';
@@ -13,8 +14,9 @@ class Body extends StatelessWidget {
       child: SizedBox(
         width: double.infinity,
         child: Padding(
-          padding:
-              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+          padding: EdgeInsets.symmetric(
+              horizontal: getProportionateScreenWidth(20),
+              vertical: getProportionateScreenHeight(60)),
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -28,6 +30,7 @@ class Body extends StatelessWidget {
                 SignUpForm(),
                 SizedBox(height: SizeConfig.screenHeight * 0.08),
                 SizedBox(height: getProportionateScreenHeight(20)),
+                HaveAccountText(),
                 Text(
                   'By continuing your confirm that you agree \nwith our Term and Condition',
                   textAlign: TextAlign.center,

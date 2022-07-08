@@ -20,76 +20,26 @@ class ProfilePic extends StatefulWidget {
 }
 
 class _ProfilePicState extends State<ProfilePic> {
-  File? Images;
+  String? imageUrl;
+  File? imageFile;
+  final imagePicker = ImagePicker();
 
-  Future pickImage() async {
-    try {
-      final Images = await ImagePicker().pickImage(source: ImageSource.gallery);
+  Future pickedImage() async {
+    final pick = await imagePicker.pickImage(source: ImageSource.gallery);
 
-      if (Images == null) return;
-
-      final imageTemp = File(Images.path);
-
-      setState(() => this.Images = imageTemp);
-    } on PlatformException catch (e) {
-      print('Failed to pick image: $e');
-    }
-  }
-
-  Future pickImageC() async {
-    try {
-      final Images = await ImagePicker().pickImage(source: ImageSource.camera);
-
-      if (Images == null) return;
-
-      final imagePermanent = await saveImagePermanently(Images.path);
-      setState(() => this.Images = imagePermanent);
-    } on PlatformException catch (e) {
-      print('Failed to pick image: $e');
-    }
-  }
-
-  Future<File> saveImagePermanently(String imagePath) async {
-    final directory = await getApplicationDocumentsDirectory();
-    final name = basename(imagePath);
-    final Images = File('${directory.path}/$name');
-
-    return File(imagePath).copy(Images.path);
+    setState(() {
+      if (pick != null) {
+        imageFile = File(pick.path);
+      } else {
+        return null;
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 115,
-      width: 115,
-      child: Stack(
-        fit: StackFit.expand,
-        clipBehavior: Clip.none,
-        children: [
-          Images != null
-              ? ClipOval(child: Image.file(Images!, fit: BoxFit.cover))
-              : FlutterLogo(),
-          Positioned(
-            right: -16,
-            bottom: 0,
-            child: SizedBox(
-                height: 46,
-                width: 46,
-                child: InkWell(
-                    onTap: () {
-                      showModalBottomSheet(
-                        context: context,
-                        builder: ((Builder) => BottomSheet()),
-                      );
-                    },
-                    child: Icon(
-                      Icons.camera_alt,
-                      color: LightColor.grey,
-                      size: 28.0,
-                    ))),
-          )
-        ],
-      ),
+    return Scaffold(
+      appBar: AppBar(),
     );
   }
 
@@ -113,19 +63,13 @@ class _ProfilePicState extends State<ProfilePic> {
           ),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
             FlatButton.icon(
-              icon: Icon(Icons.camera),
-              onPressed: () {
-                pickImageC();
-              },
-              label: Text("Camera"),
-            ),
-            FlatButton.icon(
               icon: Icon(Icons.image),
               onPressed: () {
-                pickImage();
+                pickedImage();
               },
               label: Text("Gallery"),
             ),
+            ElevatedButton(onPressed: () {}, child: Text('upload'))
           ])
         ],
       ),

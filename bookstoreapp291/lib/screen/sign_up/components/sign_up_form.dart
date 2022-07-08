@@ -1,12 +1,13 @@
-import 'package:bookstoreapp291/screen/login_success/login_success_screen.dart';
+import 'package:bookstoreapp291/screen/sign_in/sign_in_screen.dart';
+import 'package:bookstoreapp291/service/api/user.dart';
 import 'package:bookstoreapp291/widget/bottomNavBar.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:bookstoreapp291/components/custom_surfix_icon.dart';
 import 'package:bookstoreapp291/components/default_button.dart';
 import 'package:bookstoreapp291/components/from_error.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:bookstoreapp291/screen/complete_profile/complete_profile_screen.dart';
+import 'package:http/http.dart' as http;
+import 'package:bookstoreapp291/model/user.dart';
 
 import '../../../constants.dart';
 import '../../../sizedConfig.dart';
@@ -16,47 +17,33 @@ class SignUpForm extends StatefulWidget {
   _SignUpFormState createState() => _SignUpFormState();
 }
 
-String email = '';
-String password = '';
-String cpassword = '';
-
 class _SignUpFormState extends State<SignUpForm> {
   final _formKey = GlobalKey<FormState>();
+  bool isloading = false;
   bool remember = false;
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final cpasswordController = TextEditingController();
 
-  @override
-  Widget build(BuildContext context) {
-    Future signUp() async {
-      if (_formKey.currentState!.validate()) {
-        try {
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
-              email: emailController.text.trim(),
-              password: passwordController.text.trim());
-
-          await FirebaseFirestore.instance.collection("User").add({
-            "UserId": emailController.text.trim(),
-            "NameId": FirebaseFirestore.instance.collection("User").id,
-            "firstName": "Job",
-            "lastName": "Steve",
-            "addressName": "Around Me",
-            "emailName": emailController.text.trim(),
-            "phoneNum": "191",
-          });
-
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return BottomNavBar();
-          }));
-        } on FirebaseAuthException catch (e) {
-          print(e);
-        }
-      } else {
-        print('invalid email or password');
+  void signUpHandler() async {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        isloading = true;
+      });
+      try {
+        var result =
+            await UserApi.signUp(emailController.text, passwordController.text);
+      } on DioError catch (e) {
+        setState(() {
+          isloading = false;
+        });
+        print(e);
       }
     }
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Form(
       key: _formKey,
       child: Column(
@@ -69,9 +56,9 @@ class _SignUpFormState extends State<SignUpForm> {
           SizedBox(height: getProportionateScreenHeight(30)),
           DefaultButton(
             text: "Continue",
-            press: signUp,
+            press: signUpHandler,
             onPressed: () => Navigator.push(context,
-                MaterialPageRoute(builder: (context) => LoginSuccessScreen())),
+                MaterialPageRoute(builder: (context) => SignInScreen())),
           ),
         ],
       ),

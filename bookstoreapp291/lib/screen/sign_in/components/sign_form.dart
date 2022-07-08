@@ -1,13 +1,16 @@
 import 'package:bookstoreapp291/screen/seller_page.dart';
+import 'package:bookstoreapp291/service/api/user.dart';
+import 'package:bookstoreapp291/service/dio.dart';
+import 'package:bookstoreapp291/service/share_preference.dart';
 import 'package:bookstoreapp291/widget/bottomNavBar.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:bookstoreapp291/components/custom_surfix_icon.dart';
 import 'package:bookstoreapp291/components/from_error.dart';
+import 'package:http/http.dart' as http;
+import 'package:bookstoreapp291/model/user.dart';
 
 import 'package:bookstoreapp291/screen/forgot_password/forgot_password_screen.dart';
-import 'package:bookstoreapp291/screen/login_success/login_success_screen.dart';
 
 import '../../../components/default_button.dart';
 import '../../../constants.dart';
@@ -20,13 +23,35 @@ class SignForm extends StatefulWidget {
 
 class _SignFormState extends State<SignForm> {
   final _formKey = GlobalKey<FormState>();
-  late final String _email;
-  late final String _password;
-  final auth = FirebaseAuth.instance;
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  bool? isLoading = false;
   bool? remember = false;
 
+  void signInHandler() async {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        isLoading = true;
+      });
+      try {
+        var result =
+            await UserApi.signIn(emailController.text, passwordController.text);
+        print(result.data['token']);
+        SharePreference.prefs.setString("token", result.data['token']);
+        DioInstance.dio.options.headers["Authorization"] =
+            "Bearer ${result.data}";
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => BottomNavBar()));
+      } on DioError catch (e) {
+        setState(() {
+          isLoading = false;
+        });
+        print(e);
+      }
+    }
+  }
+
+  User user = User('', '');
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -39,16 +64,6 @@ class _SignFormState extends State<SignForm> {
           SizedBox(height: getProportionateScreenHeight(30)),
           Row(
             children: [
-              Checkbox(
-                value: remember,
-                activeColor: kPrimaryColor,
-                onChanged: (value) {
-                  setState(() {
-                    remember = value;
-                  });
-                },
-              ),
-              Text("Remember me"),
               Spacer(),
               GestureDetector(
                 onTap: () => Navigator.push(
@@ -65,41 +80,21 @@ class _SignFormState extends State<SignForm> {
           SizedBox(height: getProportionateScreenHeight(20)),
           ElevatedButton.icon(
             style: ElevatedButton.styleFrom(
-              minimumSize: Size.fromHeight(20),
+              minimumSize: Size.fromHeight(60),
             ),
             icon: Icon(
               Icons.lock_open,
-              size: 45,
+              size: 30,
             ),
             label: Text(
               'Sign In',
+              style: TextStyle(fontSize: 24),
             ),
-            onPressed: SignIn,
+            onPressed: signInHandler,
           ),
         ],
       ),
     );
-  }
-
-  Future SignIn() async {
-    if (_formKey.currentState!.validate()) {
-      try {
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
-            email: emailController.text.trim(),
-            password: passwordController.text.trim());
-
-        emailController.clear();
-        passwordController.clear();
-
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return BottomNavBar();
-        }));
-      } on FirebaseAuthException catch (e) {
-        print(e);
-      }
-    } else {
-      print('invalid username or password');
-    }
   }
 
   TextFormField buildPasswordFormField() {

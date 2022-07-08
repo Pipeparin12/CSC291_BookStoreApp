@@ -1,19 +1,11 @@
-import 'dart:developer';
-
-import 'package:bookstoreapp291/model/product.dart';
-import 'package:bookstoreapp291/screen/bookmark.dart';
+import 'package:bookstoreapp291/model/book.dart';
 import 'package:bookstoreapp291/screen/cart/cart_screen.dart';
 import 'package:bookstoreapp291/screen/detail_book.dart';
-import 'package:bookstoreapp291/screen/profile/profile_screen.dart';
+import 'package:bookstoreapp291/service/api/book.dart';
 import 'package:bookstoreapp291/theme/light_color.dart';
-import 'package:bookstoreapp291/theme/theme.dart';
-import 'package:bookstoreapp291/widget/bookCard.dart';
-import 'package:bookstoreapp291/widget/extentions.dart';
 import 'package:bookstoreapp291/widget/sellerNavbar.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:bookstoreapp291/widget/section_title.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/cupertino.dart';
@@ -27,37 +19,37 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<MainScreen> {
-  List _books = [];
-  var _firestoreInstace = FirebaseFirestore.instance;
+  var listBook = [];
+  String name = '';
 
-  bookCard() async {
-    QuerySnapshot qn = await _firestoreInstace.collection('books').get();
-    setState(() {
-      inspect(qn.docs);
-      for (int i = 0; i < qn.docs.length; i++) {
-        _books.add({
-          "bookName": qn.docs[i]["bookName"],
-          "bookDes": qn.docs[i]["bookDes"],
-          "bookPrice": qn.docs[i]["bookPrice"],
-          "bookAmount": qn.docs[i]["bookAmount"],
-          "bookImage": qn.docs[i]["bookImage"]
-        });
-      }
-    });
+  Future<void> getAllBook() async {
+    try {
+      var result = await BookApi.getAllBook();
+      setState(() {
+        listBook = result.data['book'].toList();
+      });
+      print(listBook);
+    } on DioError catch (e) {
+      print(e);
+    }
+  }
 
-    return qn.docs;
+  void showDetail(String id) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => BookDetail(id: id)));
   }
 
   @override
   void initState() {
-    bookCard();
+    getAllBook();
     super.initState();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Book Store'),
+        title: Text('BookAround'),
         centerTitle: true,
         backgroundColor: Colors.grey,
         leading: IconButton(
@@ -114,15 +106,14 @@ class _MyWidgetState extends State<MainScreen> {
                 padding: const EdgeInsets.all(20),
                 child: GridView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: _books.length,
+                    itemCount: listBook.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2, childAspectRatio: 1),
-                    itemBuilder: (_, index) {
+                    itemBuilder: (context, index) {
                       return GestureDetector(
-                        onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => BookDetail(_books[index]))),
+                        onTap: () {
+                          showDetail(listBook[index]['_id']);
+                        },
                         child: Card(
                           elevation: 3,
                           child: Column(
@@ -130,24 +121,25 @@ class _MyWidgetState extends State<MainScreen> {
                               AspectRatio(
                                 aspectRatio: 2,
                                 child: Container(
-                                    color: LightColor.lightGrey,
-                                    child: Image(
-                                      image: NetworkImage(
-                                          _books[index]['bookImage']),
-                                      fit: BoxFit.contain,
-                                    )),
+                                  color: LightColor.lightGrey,
+                                  // child: Image(
+                                  //   image: NetworkImage(
+                                  //       listBook[index]['bookImage']),
+                                  //   fit: BoxFit.contain,
+                                  // )
+                                ),
                               ),
                               Padding(
                                 padding:
                                     const EdgeInsets.only(top: 20, bottom: 10),
                                 child: Text(
-                                  _books[index]["bookName"],
+                                  listBook[index]['bookName'],
                                   style: GoogleFonts.abel(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold),
                                 ),
                               ),
-                              Text(_books[index]["bookPrice"].toString()),
+                              Text(listBook[index]['bookAmount'].toString()),
                             ],
                           ),
                         ),

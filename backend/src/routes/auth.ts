@@ -1,6 +1,7 @@
 import express from "express";
 // eslint-disable-next-line new-cap
 import User, { userSchema } from '../models/user';
+import Profile from '../models/profile';
 import jwt from 'jsonwebtoken';
 // const User = require('../models/user')
 const authRoute = express.Router();
@@ -20,7 +21,18 @@ authRoute.post('/signup', async (req,res)=>{
                     password:req.body.password
                 });
             // Save into a database.
-            await newUser.save();
+            newUser = await newUser.save();
+
+            // Create new profile along with a user.
+            await Profile.create({
+				user: newUser._id,
+				firstName: "NoFirstName",
+				lastName: "NoLastName",
+				phone: "000-000-0000",
+				address: "NoAddress",
+				email: newUser.email,
+				imageUrl: `https://avatars.dicebear.com/api/adventurer-neutral/${Date.now()}.svg`,
+			}).catch(err => console.log(err));
 
             // Send it back to flutter
             return res.json({
@@ -42,38 +54,7 @@ authRoute.post('/signup', async (req,res)=>{
             message: err
         });
     }
-    
-    // User.findOne({email:req.body.email},(err,user)=>{
-    //     if(err){
-    //         console.log(err)
-    //         res.json(err)
-    //     }else{
-    //         if(user==null){
-    //             user = new User({
-    //                 email:req.body.email,
-    //                 password:req.body.password
-    //             })
-    //             user.save()
-    //             .then((err)=>{
-    //                 if(err){
-    //                     console.log(err)
-    //                     res.json(err)
-    //                 }else{
-    //                     console.log(user)
-    //                     res.json(user)
-    //                 }
-                    
-    //             })
-    //         }else{
-
-    //         res.json({
-    //             message:'email is not avilable'
-    //         })   
-    //         }
-    //     }
-    // })
-    
-})
+});
 
 authRoute.post('/signin',async (req,res)=>{
     try{
@@ -113,10 +94,73 @@ authRoute.post('/signin',async (req,res)=>{
 //D   DELETE /book/:id   
 
 
+authRoute.get("/me", async (req, res) => {
+    try{
+        if(req.user == null) return res.json({
+            success: false,
+            message: "Authentication error!"
+        });
+
+        const user_id = req.user?.user_id;
+
+        const profile = await Profile.findOne({ user: user_id });
+
+        if(profile){
+            console.log(`Found profile: `, profile);
+            return res.json({
+                success: true,
+                message: "Logged In successfully!",
+                profile
+            });
+        }
+
+        return res.json({
+            success: false,
+            message: "Profile not found!"
+        });
+    }catch(err){
+        return res.json({
+            success: false,
+            message: err
+        });
+    }
+});
+
+authRoute.patch("/me", async (req, res) => {
+    try {
+        const { firstName, lastName, email, phone, address } = req.body;
+        if (req.user == null) return res.json({
+            success: false,
+            message: "Authentication error!"
+        });
+
+        const user_id = req.user?.user_id;
+
+        await Profile.updateOne({ user: user_id }, {
+            firstName,
+            lastName,
+            email,
+            phone,
+            address
+        });
+
+        return res.json({
+            success: true,
+            message: "Updated profile!"
+        });
+
+    } catch (err) {
+        return res.json({
+            success: false,
+            message: err
+        });
+    }
+});
 
 authRoute.get("/", (req, res) => {
 	// return res.send(`Auth route ${nanoid(64)}`);
 	return res.json(req.user);
 });
+
 
 export default authRoute;

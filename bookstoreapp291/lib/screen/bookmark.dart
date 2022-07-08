@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:bookstoreapp291/service/dio.dart';
 import 'package:bookstoreapp291/theme/light_color.dart';
 import 'package:bookstoreapp291/widget/bookCard.dart';
 import 'package:dio/dio.dart';
@@ -80,11 +81,11 @@ class _BookmarkPageState extends State<BookmarkPage> {
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: <Widget>[
                                 Padding(
-                                  padding: EdgeInsets.all(5.0),
-                                  // child: Image(
-                                  //     image: NetworkImage(
-                                  //         bookmark[index]['bookImage']))
-                                ),
+                                    padding: EdgeInsets.all(5.0),
+                                    child: Image(
+                                        image: NetworkImage(
+                                            DioInstance.getImage(bookmark[index]
+                                                ['bookImage'])))),
                                 Expanded(
                                   child: Container(
                                     padding: EdgeInsets.all(5),
@@ -107,7 +108,6 @@ class _BookmarkPageState extends State<BookmarkPage> {
                                 IconButton(
                                     onPressed: () {
                                       deleteBookmark(bookmark[index]['_id']);
-
                                     },
                                     icon: Icon(Icons.delete))
                               ]),

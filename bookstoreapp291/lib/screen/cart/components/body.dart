@@ -1,3 +1,4 @@
+import 'package:bookstoreapp291/service/dio.dart';
 import 'package:bookstoreapp291/widget/bookCard.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -76,11 +77,11 @@ class _BodyState extends State<Body> {
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: <Widget>[
                                 Padding(
-                                  padding: EdgeInsets.all(5.0),
-                                  // child: Image(
-                                  //     image: NetworkImage(
-                                  //         cart[index]['bookImage']))
-                                ),
+                                    padding: EdgeInsets.all(5.0),
+                                    child: Image(
+                                        image: NetworkImage(
+                                            DioInstance.getImage(
+                                                cart[index]['bookImage'])))),
                                 Expanded(
                                   child: Container(
                                     padding: EdgeInsets.all(5),

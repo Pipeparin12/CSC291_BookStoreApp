@@ -14,7 +14,7 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  var listBook = [];
+  var cart = [];
   bool isLoading = true;
 
   Future<void> getYourBook() async {
@@ -22,9 +22,18 @@ class _BodyState extends State<Body> {
       var result = await CartApi.getCart();
       print(result.data);
       setState(() {
-        listBook = result.data['cart'].toList();
+        cart = result.data['carts'].toList();
       });
-      print(listBook);
+      print(cart);
+    } on DioError catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> deleteCart(String cartId) async {
+    try {
+      var result = await CartApi.deleteCart(cartId);
+      getYourBook();
     } on DioError catch (e) {
       print(e);
     }
@@ -52,7 +61,7 @@ class _BodyState extends State<Body> {
             Padding(padding: EdgeInsets.all(10)),
             Expanded(
               child: ListView.builder(
-                  itemCount: listBook.length,
+                  itemCount: cart.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
                         padding:
@@ -70,7 +79,7 @@ class _BodyState extends State<Body> {
                                   padding: EdgeInsets.all(5.0),
                                   // child: Image(
                                   //     image: NetworkImage(
-                                  //         listBook[index]['bookImage']))
+                                  //         cart[index]['bookImage']))
                                 ),
                                 Expanded(
                                   child: Container(
@@ -79,21 +88,21 @@ class _BodyState extends State<Body> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: <Widget>[
-                                        Text(
-                                            listBook[index]['books'][0]
-                                                ['bookName'],
+                                        Text(cart[index]['bookName'],
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold)),
                                         Text("In cart: " +
-                                            listBook[index]['books'][0]
-                                                    ['amountInCart']
+                                            cart[index]['amountInCart']
                                                 .toString()),
                                       ],
                                     ),
                                   ),
                                 ),
                                 IconButton(
-                                    onPressed: () {}, icon: Icon(Icons.delete))
+                                    onPressed: () {
+                                      deleteCart(cart[index]['_id']);
+                                    },
+                                    icon: Icon(Icons.delete))
                               ]),
                         ));
                   }),

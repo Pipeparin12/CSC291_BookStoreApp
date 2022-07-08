@@ -7,12 +7,12 @@ export const bookmarkSchema = new mongoose.Schema({
         required: true,
         ref: 'User'
     },
-    books: [{
-        bookId: {
-            type: Types.ObjectId,
-            ref: 'Book'
-        },
-    }],
+
+    bookId: {
+        type: Types.ObjectId,
+        ref: 'Book'
+    },
+
 },{
     timestamps: true
 })

@@ -20,4 +20,11 @@ class CartApi {
       "amountInCart": amountInCart,
     });
   }
+
+  static Future<dynamic> deleteCart(String bookId) async {
+    DioInstance.dio.options.headers["authorization"] =
+        "Bearer " + SharePreference.prefs.getString("token").toString();
+    final response = await DioInstance.dio.delete('/cart/remove/$bookId');
+    return response;
+  }
 }

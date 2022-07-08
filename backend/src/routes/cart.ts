@@ -14,7 +14,9 @@ cartRoute.post('/add-cart/:id', async (req,res) => {
         const name = req.body.bookName;
         await Cart.create({
             'owner': user_id,
-            'books': {"bookId":book_id, "amountInCart":amount, "bookName":name}
+            "bookId":book_id, 
+            "amountInCart":amount, 
+            "bookName":name
         });        
         return res.json({
             success: true,
@@ -34,19 +36,38 @@ cartRoute.get('/get-cart', async (req,res) => {
         const name = await req.body.bookName;
         const amount = await req.body.amountInCart;     
         const cart = await Cart.find({ 'owner': user}).exec();
-        const book = await Book.find({_id: {$in: cart.map((e) => e.books[0]['bookId'])}}).exec();
+        const book = await Book.find({_id: {$in: cart.map((e) => e.bookId)}}).exec();
+
+        let serializedCart = JSON.parse(JSON.stringify(cart));
+        let serializedBook = JSON.parse(JSON.stringify(book));
+
+        const carts = serializedCart.map(bm => ({ ...bm, book: serializedBook.find(b => b._id === bm.bookId)}));
         console.log(book);
         return res.json({
-            cart,
-            book,
+            carts,
             success: true,
-            message: 'Get bookmark successfully!'
+            message: 'Get cart successfully!'
         });
     } catch (err) {
         return res.json({
             success: false,
             message: err
         });
+    }
+})
+
+cartRoute.delete('/remove/:id', async (req,res) => {
+    try {
+        const cart = await Cart.findByIdAndDelete(req.params.id);
+        return res.json({
+            success: true,
+            message: 'Delete cart successfully'
+        })
+    } catch (err) {
+        return res.json({
+            success: false,
+            message: err
+        })
     }
 })
 

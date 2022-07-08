@@ -1,8 +1,11 @@
 import 'package:bookstoreapp291/service/api/book.dart';
+import 'package:bookstoreapp291/service/api/cart.dart';
 import 'package:bookstoreapp291/theme/light_color.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../service/api/bookmark.dart';
 
 class BookDetail extends StatefulWidget {
   String? id;
@@ -46,6 +49,20 @@ class _BookDetailState extends State<BookDetail> {
     }
   }
 
+  void addToCart() async {
+    try {
+      var result = await CartApi.addToCart(listBook['bookName'], counter,
+          listBook['bookImage'], listBook['_id']);
+    } catch (e) {}
+  }
+
+  void addToBookmark() async {
+    try {
+      var result = await BookmarkApi.addToBookmark(listBook['bookName'],
+          listBook['bookAmount'], listBook['bookImage'], listBook['_id']);
+    } catch (e) {}
+  }
+
   @override
   void initState() {
     getBook().then((_) => Future.delayed(new Duration(seconds: 1), () {
@@ -70,7 +87,9 @@ class _BookDetailState extends State<BookDetail> {
             child: CircleAvatar(
               backgroundColor: LightColor.darkgrey,
               child: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    addToBookmark();
+                  },
                   icon: Icon(
                     Icons.bookmark_border,
                     color: Colors.white,
@@ -218,7 +237,9 @@ class _BookDetailState extends State<BookDetail> {
                                     borderRadius: BorderRadius.circular(10)),
                                 child: Text('Add to cart'),
                               ),
-                              onTap: () {},
+                              onTap: () {
+                                addToCart();
+                              },
                             ),
                           ],
                         ),

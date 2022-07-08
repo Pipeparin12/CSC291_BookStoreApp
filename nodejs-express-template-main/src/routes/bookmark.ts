@@ -4,7 +4,7 @@ import Book, { bookSchema } from '../models/book';
 import { User } from "@/database/models";
 const bookmarkRoute = express.Router();
 
-bookmarkRoute.post('/add/:id', async (req,res) => {
+bookmarkRoute.post('/add-bookmark/:id', async (req,res) => {
     const user_id = req.user.user_id;
     
     try {
@@ -22,6 +22,25 @@ bookmarkRoute.post('/add/:id', async (req,res) => {
             success: false,
             message: err
         })
+    }
+})
+
+bookmarkRoute.get('/get-bookmark', async (req,res) => {
+    try {
+        const user = await req.user.user_id;       
+        const bookmark = await Bookmark.find({ 'owner': user}).exec();
+        const book = await Book.find({_id: {$in: bookmark.map((e) => e.books[0]['bookId'])}}).exec();
+        console.log(book);
+        return res.json({
+            book,
+            success: true,
+            message: 'Get bookmark successfully!'
+        });
+    } catch (err) {
+        return res.json({
+            success: false,
+            message: err
+        });
     }
 })
 

@@ -17,9 +17,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
   int _selectedIndex = 0;
   PageController pageController = PageController();
   List<Widget> pageList = <Widget>[
+    MainScreen(),
     BookmarkPage(),
     ProfileScreen(),
-    MainScreen(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -38,12 +38,12 @@ class _BottomNavBarState extends State<BottomNavBar> {
         backgroundColor: Colors.grey,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.bookmark_border),
-            label: 'Bookmark',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Homepage',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.bookmark_border),
+            label: 'Bookmark',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_outlined),

@@ -34,6 +34,7 @@ class _BookDetailState extends State<BookDetail> {
 
   Future<void> getBook() async {
     try {
+      print(widget.id);
       var result = await BookApi.getBook(widget.id!);
       setState(() {
         listBook = Map<String, dynamic>.from(result.data['book']);

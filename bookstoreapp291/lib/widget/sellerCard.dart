@@ -14,7 +14,7 @@ TextEditingController bookAmountController = TextEditingController();
 late String bookId;
 
 @override
-Widget sellerCard(String sellerId) {
+Widget sellerCard() {
   return Container(
       padding: EdgeInsets.only(right: 20, left: 20, bottom: 10),
       height: 120,
@@ -37,7 +37,6 @@ Widget sellerCard(String sellerId) {
                     children: <Widget>[
                       Text('', style: TextStyle(fontWeight: FontWeight.bold)),
                       Text("Amount: " + ''),
-                      Text("Price: " + ''),
                     ],
                   ),
                 ),

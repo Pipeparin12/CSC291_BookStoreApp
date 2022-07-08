@@ -50,7 +50,6 @@ bookRoute.get('/all-book', async (req, res) => {
 bookRoute.get('/:id', async (req, res) => {
     try{
         const book = await Book.findById(req.params.id);
-
         return res.json({
             book,
             success: true,

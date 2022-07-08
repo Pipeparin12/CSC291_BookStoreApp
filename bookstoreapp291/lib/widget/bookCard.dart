@@ -9,9 +9,20 @@ import 'package:bookstoreapp291/theme/light_color.dart';
 
 import '../screen/detail_book.dart';
 
-@override
-Widget bookCard(String collectionName) {
-  return Container(
+class bookCard extends StatefulWidget {
+  const bookCard({Key? key}) : super(key: key);
+
+  @override
+  State<bookCard> createState() => _bookCardState();
+}
+
+class _bookCardState extends State<bookCard> {
+  getData() async {
+    
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Container(
     padding: EdgeInsets.only(right: 20, left: 20, bottom: 10),
     height: 120,
     child: Container(
@@ -42,4 +53,6 @@ Widget bookCard(String collectionName) {
       ),
     ),
   );
+  }
 }
+

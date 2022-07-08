@@ -113,73 +113,73 @@ class _AddBookState extends State<AddBook> {
                                       (String url) {
                                     getUrl(url);
                                   }),
-                                  // Padding(
-                                  //     padding: const EdgeInsets.only(top: 40),
-                                  //     child: ClipRRect(
-                                  //         borderRadius:
-                                  //             BorderRadius.circular(10),
-                                  //         child: SizedBox(
-                                  //           height: 250,
-                                  //           width: double.infinity,
-                                  //           child: Column(
-                                  //             children: [
-                                  //               Expanded(
-                                  //                 child: Container(
-                                  //                     width: 300,
-                                  //                     decoration: BoxDecoration(
-                                  //                         borderRadius:
-                                  //                             BorderRadius
-                                  //                                 .circular(20),
-                                  //                         border: Border.all(
-                                  //                             color: LightColor
-                                  //                                 .grey)),
-                                  //                     child: Padding(
-                                  //                       padding:
-                                  //                           const EdgeInsets
-                                  //                               .all(10),
-                                  //                       child: Center(
-                                  //                         child: Column(
-                                  //                           mainAxisAlignment:
-                                  //                               MainAxisAlignment
-                                  //                                   .spaceBetween,
-                                  //                           children: [
-                                  //                             Expanded(
-                                  //                               child: imageFile ==
-                                  //                                       null
-                                  //                                   ? const Center(
-                                  //                                       child: Text(
-                                  //                                           'No image selected'),
-                                  //                                     )
-                                  //                                   : Image.file(
-                                  //                                       imageFile!),
-                                  //                             ),
-                                  //                             Row(
-                                  //                               mainAxisAlignment:
-                                  //                                   MainAxisAlignment
-                                  //                                       .spaceEvenly,
-                                  //                               children: [
-                                  //                                 ElevatedButton(
-                                  //                                     onPressed:
-                                  //                                         () {
-                                  //                                       pickedImage();
-                                  //                                     },
-                                  //                                     child: const Text(
-                                  //                                         'Select Image')),
-                                  //                                 ElevatedButton(
-                                  //                                     onPressed:
-                                  //                                         () {},
-                                  //                                     child: const Text(
-                                  //                                         'Upload Image'))
-                                  //                               ],
-                                  //                             )
-                                  //                           ],
-                                  //                         ),
-                                  //                       ),
-                                  //                     )),
-                                  //               ),
-                                  //             ],
-                                  //           ),
-                                  //         )))
+                                  Padding(
+                                      padding: const EdgeInsets.only(top: 40),
+                                      child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: SizedBox(
+                                            height: 250,
+                                            width: double.infinity,
+                                            child: Column(
+                                              children: [
+                                                Expanded(
+                                                  child: Container(
+                                                      width: 300,
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(20),
+                                                          border: Border.all(
+                                                              color: LightColor
+                                                                  .grey)),
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(10),
+                                                        child: Center(
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              Expanded(
+                                                                child: imageFile ==
+                                                                        null
+                                                                    ? const Center(
+                                                                        child: Text(
+                                                                            'No image selected'),
+                                                                      )
+                                                                    : Image.file(
+                                                                        imageFile!),
+                                                              ),
+                                                              Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceEvenly,
+                                                                children: [
+                                                                  ElevatedButton(
+                                                                      onPressed:
+                                                                          () {
+                                                                        pickedImage();
+                                                                      },
+                                                                      child: const Text(
+                                                                          'Select Image')),
+                                                                  ElevatedButton(
+                                                                      onPressed:
+                                                                          () {},
+                                                                      child: const Text(
+                                                                          'Upload Image'))
+                                                                ],
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      )),
+                                                ),
+                                              ],
+                                            ),
+                                          )))
                                 ],
                               ),
                             ),

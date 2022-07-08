@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:bookstoreapp291/theme/light_color.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
@@ -69,6 +69,34 @@ class _ProfilePicState extends State<ProfilePic> {
     });
   }
 
+  void uploadImage(BuildContext context) async {
+    print("Uploading... " + imageFile!.path);
+    final token = SharePreference.prefs.getString("token");
+    final formData = FormData.fromMap({
+      "file": await MultipartFile.fromFile(
+        imageFile!.path,
+        filename: "fileName.jpg",
+        contentType: MediaType("image", "jpg"),
+      ),
+    });
+
+    final response = await DioInstance.dio.post(
+      "/storage/",
+      data: formData,
+      options: Options(
+        headers: {
+          "Authorization": "Bearer $token",
+        },
+      ),
+    );
+
+    if (response.data["success"]) {
+      fetchProfile();
+    }
+
+    print(response.data);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -90,28 +118,33 @@ class _ProfilePicState extends State<ProfilePic> {
               userProfile.imageUrl != ''
                   ? ClipOval(
                       child: Image(
-                        image: NetworkImage(userProfile.imageUrl),
+                        image: NetworkImage(
+                          DioInstance.getImage(userProfile.imageUrl),
+                        ), // /ava
+                        fit: BoxFit.cover,
                       ),
                     )
                   : const FlutterLogo(),
               Positioned(
-                right: 100,
+                right: 0,
                 bottom: 0,
                 child: SizedBox(
-                    height: 46,
-                    width: 46,
-                    child: InkWell(
-                        onTap: () {
-                          showModalBottomSheet(
-                            context: context,
-                            builder: ((Builder) => BottomSheet()),
-                          );
-                        },
-                        child: Icon(
-                          Icons.camera_alt,
-                          color: LightColor.grey,
-                          size: 28.0,
-                        ))),
+                  height: 46,
+                  width: 46,
+                  child: IconButton(
+                    onPressed: () {
+                      showModalBottomSheet(
+                        context: context,
+                        builder: ((Builder) => BottomSheet(context)),
+                      );
+                    },
+                    icon: const Icon(
+                      Icons.camera_alt,
+                      color: LightColor.grey,
+                      size: 28.0,
+                    ),
+                  ),
+                ),
               )
             ],
           ),
@@ -120,33 +153,37 @@ class _ProfilePicState extends State<ProfilePic> {
     ));
   }
 
-  Widget BottomSheet() {
+  Widget BottomSheet(BuildContext context) {
     return Container(
       height: 100.0,
-      margin: EdgeInsets.symmetric(
+      margin: const EdgeInsets.symmetric(
         horizontal: 20,
         vertical: 20,
       ),
       child: Column(
         children: <Widget>[
-          Text(
+          const Text(
             "Choose Profile photo",
             style: TextStyle(
               fontSize: 20.0,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-            FlatButton.icon(
-              icon: Icon(Icons.image),
+            TextButton.icon(
+              icon: const Icon(Icons.image),
               onPressed: () {
                 pickedImage();
               },
-              label: Text("Gallery"),
+              label: const Text("Gallery"),
             ),
-            ElevatedButton(onPressed: () {}, child: Text('upload'))
+            ElevatedButton(
+                onPressed: () {
+                  uploadImage(context);
+                },
+                child: const Text('upload'))
           ])
         ],
       ),

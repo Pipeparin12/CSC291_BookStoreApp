@@ -35,15 +35,14 @@ class BookApi {
     return response;
   }
 
-  static Future<dynamic> updateBook(String bookId, String bookName,
-      String bookDes, int bookAmount, String imageUrl) async {
+  static Future<dynamic> updateBook(
+      String bookId, String bookName, String bookDes, int bookAmount) async {
     DioInstance.dio.options.headers["authorization"] =
         "Bearer " + SharePreference.prefs.getString("token").toString();
     final response = await DioInstance.dio.patch('/book/$bookId', data: {
       "bookName": bookName,
       "bookDescription": bookDes,
       "bookAmount": bookAmount,
-      "bookImage": imageUrl
     });
     return response;
   }

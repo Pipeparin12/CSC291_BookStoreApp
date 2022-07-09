@@ -100,7 +100,7 @@ class _MyWidgetState extends State<MainScreen> {
               )),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 0.02),
-                child: SectionTitle(title: 'Best Seller', press: () {}),
+                child: SectionTitle(title: 'Popular', press: () {}),
               ),
               Expanded(
                   child: Padding(

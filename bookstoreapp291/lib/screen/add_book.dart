@@ -85,7 +85,7 @@ class _AddBookState extends State<AddBook> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: const Text('Add book for sale'),
+          title: const Text('Add book for donate'),
           centerTitle: true,
           backgroundColor: Colors.grey,
         ),

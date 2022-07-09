@@ -85,7 +85,7 @@ class _BookmarkPageState extends State<BookmarkPage> {
                                     child: Image(
                                         image: NetworkImage(
                                             DioInstance.getImage(bookmark[index]
-                                                ['bookImage'])))),
+                                                ['book']['bookImage'])))),
                                 Expanded(
                                   child: Container(
                                     padding: EdgeInsets.all(5),

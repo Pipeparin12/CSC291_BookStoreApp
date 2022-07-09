@@ -80,8 +80,8 @@ class _BodyState extends State<Body> {
                                     padding: EdgeInsets.all(5.0),
                                     child: Image(
                                         image: NetworkImage(
-                                            DioInstance.getImage(
-                                                cart[index]['bookImage'])))),
+                                            DioInstance.getImage(cart[index]
+                                                ['book']['bookImage'])))),
                                 Expanded(
                                   child: Container(
                                     padding: EdgeInsets.all(5),

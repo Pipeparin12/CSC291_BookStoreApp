@@ -150,4 +150,20 @@ bookRoute.get("/user/yourbook",async (req,res) => {
             })
         }
 })
+
+bookRoute.get('/search/:key',async (req, res) => {
+    try {
+        let result = await Book.find({
+            "$or": [{
+                bookName: {$regex: req.params.key}
+            }]
+        })
+        res.send(result);
+    } catch (err) {
+        return res.json({
+            success: false,
+            message: err
+        })
+    }
+})
 export default bookRoute;

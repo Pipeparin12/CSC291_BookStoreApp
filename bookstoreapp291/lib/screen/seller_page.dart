@@ -108,11 +108,11 @@ class _SellerCentreState extends State<SellerCentre> {
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: <Widget>[
                                 Padding(
-                                  padding: EdgeInsets.all(5.0),
-                                  // child: Image(
-                                  //     image: NetworkImage(
-                                  //         listBook[index]['bookImage']))
-                                ),
+                                    padding: EdgeInsets.all(5.0),
+                                    child: Image(
+                                        image: NetworkImage(
+                                            DioInstance.getImage(listBook[index]
+                                                ['bookImage'])))),
                                 Expanded(
                                   child: Container(
                                     padding: EdgeInsets.all(5),

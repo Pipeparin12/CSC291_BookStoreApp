@@ -9,8 +9,12 @@ class Search extends StatefulWidget {
   State<Search> createState() => _SearchState();
 }
 
+Future<void> searchBook() async {
+  
+}
+
 class _SearchState extends State<Search> {
-  var inputText = "";
+  String inputText = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(

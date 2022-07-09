@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:bookstoreapp291/service/dio.dart';
 import 'package:bookstoreapp291/widget/bottomNavBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -21,14 +22,6 @@ class CheckoutsCard extends StatefulWidget {
 
 class CheckoutsCardState extends State<CheckoutsCard> {
   String method = "None";
-  String? imageUrl;
-  File? imageFile;
-  final imagePicker = ImagePicker();
-  int itemInCart = 0;
-  int amount = 0;
-  int book = 0;
-
-  Future<void> updateAmount() async {}
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,7 @@
 import 'package:bookstoreapp291/screen/add_book.dart';
 import 'package:bookstoreapp291/service/dio.dart';
 import 'package:bookstoreapp291/service/share_preference.dart';
+import 'package:dio/dio.dart';
 
 class CartApi {
   static Future<dynamic> getCart() async {
@@ -19,6 +20,12 @@ class CartApi {
       "bookImage": bookImage,
       "amountInCart": amountInCart,
     });
+  }
+
+  static Future<dynamic> checkOut(String bookId, int amountInCart) async {
+    DioInstance.dio.options.headers["authorization"] =
+        "Bearer " + SharePreference.prefs.getString("token").toString();
+    final reponse = await DioInstance.dio.patch('/cart/checkout');
   }
 
   static Future<dynamic> deleteCart(String bookId) async {

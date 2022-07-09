@@ -2,6 +2,7 @@ import express from "express";
 import Cart, { cartSchema } from '../models/cart';
 import Book, { bookSchema } from '../models/book';
 import { User } from "@/database/models";
+import book from "../models/book";
 const cartRoute = express.Router();
 
 cartRoute.post('/add-cart/:id', async (req,res) => {
@@ -12,6 +13,7 @@ cartRoute.post('/add-cart/:id', async (req,res) => {
     try {
         const book_id = req.params.id;
         const name = req.body.bookName;
+        
         await Cart.create({
             'owner': user_id,
             "bookId":book_id, 
@@ -21,6 +23,26 @@ cartRoute.post('/add-cart/:id', async (req,res) => {
         return res.json({
             success: true,
             message: 'Create cart success'
+        })
+    } catch (err) {
+        return res.json({
+            success: false,
+            message: err
+        })
+    }
+})
+
+cartRoute.patch('/checkout', async (req, res) => {
+    const amount = req.body.amountInCart;
+    const book_id = req.body.bookId;
+    const thisBook = await Book.findById(book_id);
+
+    try {
+        const updatedAmount = await Book.updateOne({ _id : book_id }, { $set : { bookAmount : thisBook.bookAmount-amount }})
+        return res.json({
+            updatedAmount,
+            success: true,
+            message: 'Check out successfully!'
         })
     } catch (err) {
         return res.json({

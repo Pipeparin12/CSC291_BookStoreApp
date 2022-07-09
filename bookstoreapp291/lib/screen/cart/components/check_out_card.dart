@@ -17,7 +17,7 @@ class CheckoutCard extends StatefulWidget {
 }
 
 class _CheckoutCardState extends State<CheckoutCard> {
-  var listBook = [];
+  var cart = [];
   bool isLoading = true;
 
   Future<void> getYourBook() async {
@@ -25,10 +25,16 @@ class _CheckoutCardState extends State<CheckoutCard> {
       var result = await CartApi.getCart();
       print(result.data);
       setState(() {
-        listBook = result.data['cart'].toList();
+        cart = result.data['carts'].toList();
       });
-      print(listBook);
+      print(cart);
     } on DioError catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> checkOut() async {
+    try {} on DioError catch (e) {
       print(e);
     }
   }
@@ -71,19 +77,16 @@ class _CheckoutCardState extends State<CheckoutCard> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(
-                  width: getProportionateScreenWidth(310),
-                  child: DefaultButton(
-                    text: "Check Out",
-                    press: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => CheckoutScreen()),
-                    ),
-                    onPressed: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CheckoutScreen())),
-                  ),
-                ),
+                    width: getProportionateScreenWidth(310),
+                    child: ElevatedButton(
+                        child: Text("Check Out"),
+                        onPressed: () {
+                          checkOut();
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CheckoutScreen()));
+                        })),
               ],
             ),
           ],

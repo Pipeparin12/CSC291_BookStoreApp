@@ -57,7 +57,7 @@ class BookApi {
   static Future<dynamic> searchBook(String bookName) async {
     DioInstance.dio.options.headers["authorization"] =
         "Bearer " + SharePreference.prefs.getString("token").toString();
-    final response = await DioInstance.dio.get("/search/$bookName");
+    final response = await DioInstance.dio.get("/book/search/$bookName");
     return response;
   }
 }

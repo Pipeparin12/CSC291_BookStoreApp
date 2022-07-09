@@ -169,6 +169,7 @@ class _BodyState extends State<Body> {
                               for (int i = 0; i < cart.length; i++) {
                                 checkOut(
                                     cart[i]['bookId'], cart[i]['amountInCart']);
+                                deleteCart(cart[i]['_id']);
                               }
                               Navigator.push(
                                   context,

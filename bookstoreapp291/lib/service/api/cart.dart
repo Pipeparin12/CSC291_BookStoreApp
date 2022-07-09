@@ -25,7 +25,8 @@ class CartApi {
   static Future<dynamic> checkOut(String bookId, int amountInCart) async {
     DioInstance.dio.options.headers["authorization"] =
         "Bearer " + SharePreference.prefs.getString("token").toString();
-    final reponse = await DioInstance.dio.patch('/cart/checkout');
+    final reponse = await DioInstance.dio.patch('/cart/checkout',
+        data: {"bookId": bookId, "amountInCart": amountInCart});
   }
 
   static Future<dynamic> deleteCart(String bookId) async {

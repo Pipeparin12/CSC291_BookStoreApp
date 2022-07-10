@@ -108,11 +108,11 @@ class _SellerCentreState extends State<SellerCentre> {
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: <Widget>[
                                 Padding(
-                                  padding: EdgeInsets.all(5.0),
-                                  // child: Image(
-                                  //     image: NetworkImage(
-                                  //         listBook[index]['bookImage']))
-                                ),
+                                    padding: EdgeInsets.all(5.0),
+                                    child: Image(
+                                        image: NetworkImage(
+                                            DioInstance.getImage(listBook[index]
+                                                ['bookImage'])))),
                                 Expanded(
                                   child: Container(
                                     padding: EdgeInsets.all(5),
@@ -120,9 +120,12 @@ class _SellerCentreState extends State<SellerCentre> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: <Widget>[
-                                        Text(listBook[index]['bookName'],
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold)),
+                                        Text(
+                                          listBook[index]['bookName'],
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                          textAlign: TextAlign.center,
+                                        ),
                                         Text("Amount: " +
                                             listBook[index]['bookAmount']
                                                 .toString()),

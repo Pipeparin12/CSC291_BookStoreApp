@@ -11,8 +11,8 @@ bookmarkRoute.post('/add-bookmark/:id', async (req,res) => {
         const book_id = req.params.id;
         await Bookmark.create({
             'owner': user_id,
-            'books': {"bookId":book_id}
-        });        
+            'bookId': book_id
+        });
         return res.json({
             success: true,
             message: 'Create book product success'
@@ -29,10 +29,15 @@ bookmarkRoute.get('/get-bookmark', async (req,res) => {
     try {
         const user = await req.user.user_id;       
         const bookmark = await Bookmark.find({ 'owner': user}).exec();
-        const book = await Book.find({_id: {$in: bookmark.map((e) => e.books[0]['bookId'])}}).exec();
-        console.log(book);
+        const book = await Book.find({_id: {$in: bookmark.map((e) => e.bookId)}}).exec();
+
+        let serializedBookmark = JSON.parse(JSON.stringify(bookmark));
+        let serializedBook = JSON.parse(JSON.stringify(book));
+
+        // console.log(JSON.stringify(book), JSON.stringify(bookmark))
+        const bookmarks = serializedBookmark.map(bm => ({ ...bm, book: serializedBook.find(b => b._id === bm.bookId)}));
         return res.json({
-            book,
+            bookmarks,
             success: true,
             message: 'Get bookmark successfully!'
         });
@@ -41,6 +46,22 @@ bookmarkRoute.get('/get-bookmark', async (req,res) => {
             success: false,
             message: err
         });
+    }
+})
+
+bookmarkRoute.delete('/unbookmark/:id', async (req,res) => {
+    try {
+        const bookmark = await Bookmark.findByIdAndDelete(req.params.id);
+        console.log(bookmark);
+        return res.json({
+            success: true,
+            message: 'Delete bookmark successfully'
+        })
+    } catch (err) {
+        return res.json({
+            success: false,
+            message: err
+        })
     }
 })
 

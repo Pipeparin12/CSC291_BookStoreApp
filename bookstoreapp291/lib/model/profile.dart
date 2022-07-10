@@ -1,36 +1,36 @@
 class Profile {
-  late String firstName;
-  late String lastName;
-  late String addressName;
-  late String emailName;
-  late String phoneNum;
-  late String payment;
+  String firstName;
+  String lastName;
+  String address;
+  String email;
+  String phone;
+  String imageUrl;
 
   Profile({
     required this.firstName,
     required this.lastName,
-    required this.addressName,
-    required this.emailName,
-    required this.phoneNum,
-    required this.payment,
+    required this.address,
+    required this.email,
+    required this.phone,
+    required this.imageUrl,
   });
 
   static Profile fromJson(dynamic json) {
     return Profile(
         firstName: json["firstName"],
         lastName: json["lastName"],
-        addressName: json["addressName"],
-        emailName: json["emailName"],
-        phoneNum: json["phoneNum"],
-        payment: json["payment"]);
+        address: json["address"],
+        email: json["email"],
+        phone: json["phone"],
+        imageUrl: json["imageUrl"]);
   }
 
   static List<String> keys = [
     "firstName",
     "lastName",
-    "addressName",
-    "emailName",
-    "phoneNum",
-    "payment"
+    "address",
+    "email",
+    "phone",
+    "imageUrl"
   ];
 }

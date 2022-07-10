@@ -6,16 +6,6 @@ class CheckoutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-      title: Column(
-        children: [
-          Text(
-            "Your Bill",
-            style: TextStyle(color: Colors.black),
-          ),
-        ],
-      ),
-    ),
       body: CheckoutsCard(),
     );
   }

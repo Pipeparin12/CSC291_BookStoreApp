@@ -10,6 +10,7 @@ import cookieParser from "cookie-parser";
 /** Routes */
 import authRoute from "@/routes/auth";
 import bookRoute from "@/routes/book";
+import storageRoute from '@/routes/storage';
 
 /** Misc */
 import config from "./config";
@@ -79,6 +80,7 @@ app.use('/auth', authRoute) // -> /auth/book/sdfsdf
 app.use('/book', bookRoute)
 app.use('/cart', cartRoute)
 app.use('/bookmark', bookmarkRoute)
+app.use('/storage', storageRoute);
 // for testing only
 app.get("/", async (req, res) => {
 	return res.send("It works RIGHT NOW! 😃");

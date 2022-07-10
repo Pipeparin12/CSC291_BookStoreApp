@@ -2,6 +2,7 @@ import 'package:bookstoreapp291/model/book.dart';
 import 'package:bookstoreapp291/screen/cart/cart_screen.dart';
 import 'package:bookstoreapp291/screen/detail_book.dart';
 import 'package:bookstoreapp291/service/api/book.dart';
+import 'package:bookstoreapp291/service/dio.dart';
 import 'package:bookstoreapp291/theme/light_color.dart';
 import 'package:bookstoreapp291/widget/sellerNavbar.dart';
 import 'package:dio/dio.dart';
@@ -99,7 +100,7 @@ class _MyWidgetState extends State<MainScreen> {
               )),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 0.02),
-                child: SectionTitle(title: 'Best Seller', press: () {}),
+                child: SectionTitle(title: 'Popular', press: () {}),
               ),
               Expanded(
                   child: Padding(
@@ -121,13 +122,12 @@ class _MyWidgetState extends State<MainScreen> {
                               AspectRatio(
                                 aspectRatio: 2,
                                 child: Container(
-                                  color: LightColor.lightGrey,
-                                  // child: Image(
-                                  //   image: NetworkImage(
-                                  //       listBook[index]['bookImage']),
-                                  //   fit: BoxFit.contain,
-                                  // )
-                                ),
+                                    color: LightColor.lightGrey,
+                                    child: Image(
+                                      image: NetworkImage(DioInstance.getImage(
+                                          listBook[index]['bookImage'])),
+                                      fit: BoxFit.contain,
+                                    )),
                               ),
                               Padding(
                                 padding:
@@ -137,6 +137,7 @@ class _MyWidgetState extends State<MainScreen> {
                                   style: GoogleFonts.abel(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.center,
                                 ),
                               ),
                               Text(listBook[index]['bookAmount'].toString()),

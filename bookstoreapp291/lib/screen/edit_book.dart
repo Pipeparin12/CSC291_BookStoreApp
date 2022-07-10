@@ -28,17 +28,46 @@ class EditBook extends StatefulWidget {
 
 class _EditBookState extends State<EditBook> {
   final _formKey = GlobalKey<FormState>();
+  var book;
   late String bookName;
   late String bookDes;
   late int bookAmount;
   late String imageUrl;
   final scrollController = ScrollController();
+  final bookNameController = TextEditingController();
+  final bookDesController = TextEditingController();
+  final amountController = TextEditingController();
+
+  Future<void> getBook() async {
+    try {
+      print(widget.id);
+      var result = await BookApi.getBook(widget.id!);
+      setState(() {
+        book = Map<String, dynamic>.from(result.data['book']);
+        print(book);
+        print(book['bookName']);
+      });
+      print(widget.id);
+
+      if (result.data["success"]) {
+        Book newBook = Book.fromJson(result.data["book"]);
+        setState(() {
+          setState(() {
+            bookNameController.text = newBook.bookName;
+            bookDesController.text = newBook.bookDescription;
+          });
+        });
+      }
+    } on DioError catch (e) {
+      print(e);
+    }
+  }
 
   Future<void> UpdateBook() async {
     try {
       print(widget.id);
-      var result = await BookApi.updateBook(
-          widget.id!, bookName, bookDes, bookAmount, imageUrl);
+      var result =
+          await BookApi.updateBook(widget.id!, bookName, bookDes, bookAmount);
       setState(() {
         print('Update successfully');
       });
@@ -61,6 +90,12 @@ class _EditBookState extends State<EditBook> {
 
   getUrl(String url) {
     imageUrl = url;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getBook();
   }
 
   @override
@@ -93,20 +128,16 @@ class _EditBookState extends State<EditBook> {
                                   _entryField('Name', 'Enter Book Name',
                                       (String name) {
                                     getBookName(name);
-                                  }),
+                                  }, bookNameController),
                                   _entryField(
                                       'Description', 'Enter Description',
                                       (String des) {
                                     getBookDes(des);
-                                  }),
+                                  }, bookDesController),
                                   _entryField('Amount', 'Enter Amount',
                                       (String amount) {
                                     getAmount(int.parse(amount));
-                                  }),
-                                  _entryField('Image', 'Enter Image URL',
-                                      (String url) {
-                                    getUrl(url);
-                                  }),
+                                  }, amountController),
                                 ],
                               ),
                             ),
@@ -142,7 +173,8 @@ class _EditBookState extends State<EditBook> {
   }
 }
 
-Widget _entryField(String title, String hintText, Function(String) onChanged) {
+Widget _entryField(String title, String hintText, Function(String) onChanged,
+    TextEditingController controller) {
   return Container(
     margin: const EdgeInsets.only(left: 30, right: 30, top: 15),
     child: Column(
@@ -151,6 +183,7 @@ Widget _entryField(String title, String hintText, Function(String) onChanged) {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
+            controller: controller,
             obscureText: false,
             validator: (val) {
               if (val == null || val.isEmpty) {

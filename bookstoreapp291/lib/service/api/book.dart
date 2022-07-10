@@ -1,18 +1,15 @@
 import 'package:bookstoreapp291/model/book.dart';
 import 'package:bookstoreapp291/service/dio.dart';
 import 'package:bookstoreapp291/service/share_preference.dart';
+import 'package:dio/dio.dart';
 
 class BookApi {
   static Future<dynamic> addBook(
-      String bookName, String bookDes, int bookAmount, String bookImage) async {
+      // String bookName, String bookDes, int bookAmount, String bookImage,
+      FormData formData) async {
     DioInstance.dio.options.headers["authorization"] =
         "Bearer " + SharePreference.prefs.getString("token").toString();
-    var response = await DioInstance.dio.post("/book/add", data: {
-      "bookName": bookName,
-      "bookDescription": bookDes,
-      "bookAmount": bookAmount,
-      "bookImage": bookImage
-    });
+    var response = await DioInstance.dio.post("/book/add", data: formData);
   }
 
   static Future<dynamic> getAllBook() async {
@@ -38,15 +35,14 @@ class BookApi {
     return response;
   }
 
-  static Future<dynamic> updateBook(String bookId, String bookName,
-      String bookDes, int bookAmount, String imageUrl) async {
+  static Future<dynamic> updateBook(
+      String bookId, String bookName, String bookDes, int bookAmount) async {
     DioInstance.dio.options.headers["authorization"] =
         "Bearer " + SharePreference.prefs.getString("token").toString();
     final response = await DioInstance.dio.patch('/book/$bookId', data: {
       "bookName": bookName,
       "bookDescription": bookDes,
       "bookAmount": bookAmount,
-      "bookImage": imageUrl
     });
     return response;
   }
@@ -55,6 +51,13 @@ class BookApi {
     DioInstance.dio.options.headers["authorization"] =
         "Bearer " + SharePreference.prefs.getString("token").toString();
     final response = await DioInstance.dio.delete('/book/$bookId');
+    return response;
+  }
+
+  static Future<dynamic> searchBook(String bookName) async {
+    DioInstance.dio.options.headers["authorization"] =
+        "Bearer " + SharePreference.prefs.getString("token").toString();
+    final response = await DioInstance.dio.get("/book/search/$bookName");
     return response;
   }
 }

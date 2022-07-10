@@ -1,5 +1,7 @@
 import 'dart:io';
+import 'dart:ui';
 
+import 'package:bookstoreapp291/service/dio.dart';
 import 'package:bookstoreapp291/widget/bottomNavBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -20,33 +22,72 @@ class CheckoutsCard extends StatefulWidget {
 
 class CheckoutsCardState extends State<CheckoutsCard> {
   String method = "None";
-  String? imageUrl;
-  File? imageFile;
-  final imagePicker = ImagePicker();
-  int itemInCart = 0;
-  int amount = 0;
-  int book = 0;
-
-  Future<void> updateAmount() async {}
-
-  Future pickedImage() async {
-    final pick = await imagePicker.pickImage(source: ImageSource.gallery);
-
-    setState(() {
-      if (pick != null) {
-        imageFile = File(pick.path);
-      } else {
-        return null;
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('CheckOutScreeen'),
+        title: Text(
+          'Checkout',
+          style: GoogleFonts.kanit(),
+        ),
+        centerTitle: true,
       ),
+      body: Column(children: [
+        Container(
+          height: 300,
+          width: 400,
+          alignment: Alignment.center,
+          child: Text(
+            'Thanks!',
+            style: GoogleFonts.kanit(fontSize: 30, color: Colors.white),
+          ),
+          color: LightColor.darkgrey,
+        ),
+        Container(
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Container(
+                    child: Icon(
+                  Icons.check,
+                  size: 100,
+                )),
+                Container(
+                  child: Text(
+                    'Thank you for choosing us.',
+                    style: GoogleFonts.kanit(
+                        fontSize: 18, color: LightColor.darkgrey),
+                  ),
+                ),
+                Container(
+                  child: Text(
+                    'Your order will be shipping around 2-4 days',
+                    style:
+                        GoogleFonts.kanit(fontSize: 12, color: LightColor.grey),
+                  ),
+                ),
+                SizedBox(
+                  height: 50,
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => BottomNavBar()));
+                    },
+                    child: Text(
+                      'Go to Homepage',
+                      style: GoogleFonts.kanit(),
+                    ))
+              ],
+            ),
+          ),
+        )
+      ]),
     );
   }
 }

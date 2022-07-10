@@ -10,8 +10,6 @@ import 'package:bookstoreapp291/components/from_error.dart';
 import 'package:http/http.dart' as http;
 import 'package:bookstoreapp291/model/user.dart';
 
-import 'package:bookstoreapp291/screen/forgot_password/forgot_password_screen.dart';
-
 import '../../../components/default_button.dart';
 import '../../../constants.dart';
 import '../../../sizedConfig.dart';
@@ -62,21 +60,6 @@ class _SignFormState extends State<SignForm> {
           SizedBox(height: getProportionateScreenHeight(30)),
           buildPasswordFormField(),
           SizedBox(height: getProportionateScreenHeight(30)),
-          Row(
-            children: [
-              Spacer(),
-              GestureDetector(
-                onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ForgotPasswordScreen())),
-                child: Text(
-                  "Forgot Password",
-                  style: TextStyle(decoration: TextDecoration.underline),
-                ),
-              )
-            ],
-          ),
           SizedBox(height: getProportionateScreenHeight(20)),
           ElevatedButton.icon(
             style: ElevatedButton.styleFrom(

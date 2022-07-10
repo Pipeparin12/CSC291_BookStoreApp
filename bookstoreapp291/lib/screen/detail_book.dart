@@ -122,7 +122,7 @@ class _BookDetailState extends State<BookDetail> {
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
-                  height: MediaQuery.of(context).size.height * .4,
+                  height: MediaQuery.of(context).size.height * .45,
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                     color: LightColor.lightGrey,

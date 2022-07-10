@@ -137,6 +137,7 @@ class _MyWidgetState extends State<MainScreen> {
                                   style: GoogleFonts.abel(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.center,
                                 ),
                               ),
                               Text(listBook[index]['bookAmount'].toString()),

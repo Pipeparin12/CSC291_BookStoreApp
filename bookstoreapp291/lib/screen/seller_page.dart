@@ -120,9 +120,12 @@ class _SellerCentreState extends State<SellerCentre> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: <Widget>[
-                                        Text(listBook[index]['bookName'],
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold)),
+                                        Text(
+                                          listBook[index]['bookName'],
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                          textAlign: TextAlign.center,
+                                        ),
                                         Text("Amount: " +
                                             listBook[index]['bookAmount']
                                                 .toString()),

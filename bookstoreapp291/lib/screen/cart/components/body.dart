@@ -104,10 +104,13 @@ class _BodyState extends State<Body> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceEvenly,
                                             children: <Widget>[
-                                              Text(cart[index]['bookName'],
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold)),
+                                              Text(
+                                                cart[index]['bookName'],
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                                textAlign: TextAlign.center,
+                                              ),
                                               Text("In cart: " +
                                                   cart[index]['amountInCart']
                                                       .toString()),

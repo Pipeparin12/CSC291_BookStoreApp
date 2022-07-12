@@ -1,6 +1,7 @@
 import 'package:bookstoreapp291/model/profile.dart';
 import 'package:bookstoreapp291/service/dio.dart';
 import 'package:bookstoreapp291/theme/light_color.dart';
+import 'package:bookstoreapp291/widget/bottomNavBar.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -74,7 +75,8 @@ class _AddProfileState extends State<AddProfile> {
 
       if (response.data["success"]) {
         // Push to profile page
-        Navigator.pushNamed(context, "/profile");
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => BottomNavBar()));
       }
     } catch (e) {
       print(e);
@@ -111,28 +113,6 @@ class _AddProfileState extends State<AddProfile> {
 
     print(response.data);
   }
-
-  // void fetchProfile() async {
-  // FirebaseFirestore.instance
-  //     .collection("User")
-  //     .where("UserId", isEqualTo: FirebaseAuth.instance.currentUser!.email)
-  //     .get()
-  //     .then((snapshot) {
-  //   final documents = snapshot.docs;
-  //   if (documents != null) {
-  //     Profile userProfile = Profile.fromJson(documents[0] as dynamic);
-  //     print(userProfile.email);
-  //     NameId = documents[0].id;
-  //     setState(() {
-  //       firstNameController.text = userProfile.firstName;
-  //       lastNameController.text = userProfile.lastName;
-  //       phoneNumController.text = userProfile.phone;
-  //       emailNameController.text = userProfile.email;
-  //       addressNameController.text = userProfile.address;
-  //     });
-  //   }
-  // });
-  // }
 
   @override
   void initState() {
